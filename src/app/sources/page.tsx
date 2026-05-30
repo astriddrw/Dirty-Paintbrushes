@@ -1,0 +1,88 @@
+import { createClient } from "@/lib/supabase/server"
+import { Navigation } from "@/components/navigation"
+import { Footer } from "@/components/footer"
+import { ExternalLink } from "lucide-react"
+import { TIER_GROUP_LABELS, TIER_DESCRIPTIONS } from "@/lib/data"
+import type { RssSource } from "@/lib/types"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Sources | Dirty Paintbrushes",
+  description:
+    "We aggregate content from trusted publications, government agencies, and research institutions covering art market financial crime.",
+}
+
+const tierOrder = ["tier1", "tier2", "tier3", "tier4"] as const
+
+export default async function SourcesPage() {
+  const supabase = createClient()
+  const { data } = await supabase
+    .from("rss_sources")
+    .select("*")
+    .eq("active", true)
+    .order("name")
+
+  const sources: RssSource[] = (data ?? []) as RssSource[]
+
+  const groupedSources = tierOrder.reduce((acc, tier) => {
+    acc[tier] = sources.filter((s) => s.tier === tier)
+    return acc
+  }, {} as Record<string, RssSource[]>)
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
+
+      <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-4 font-serif">
+            Sources
+          </h1>
+          <p className="text-lg text-muted-foreground mb-12 max-w-2xl leading-relaxed">
+            We aggregate content from trusted publications, government agencies,
+            and research institutions covering art market financial crime.
+          </p>
+
+          {/* Sources by Tier */}
+          <div className="flex flex-col gap-12">
+            {tierOrder.map((tier) => {
+              const tierSources = groupedSources[tier] ?? []
+              if (tierSources.length === 0) return null
+              return (
+                <section key={tier}>
+                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-primary mb-6">
+                    {TIER_GROUP_LABELS[tier]}
+                  </h2>
+                  <div className="flex flex-col gap-4">
+                    {tierSources.map((source) => (
+                      <a
+                        key={source.id}
+                        href={source.feed_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
+                      >
+                        <div>
+                          <h3 className="text-base font-medium text-foreground group-hover:text-primary transition-colors">
+                            {source.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {TIER_DESCRIPTIONS[source.tier]}
+                          </p>
+                        </div>
+                        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              )
+            })}
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  )
+}

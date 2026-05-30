@@ -1,0 +1,86 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { Menu, X } from "lucide-react"
+import { useState } from "react"
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/feed", label: "Feed" },
+  { href: "/sources", label: "Sources" },
+  { href: "/about", label: "About" },
+]
+
+export function Navigation() {
+  const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  return (
+    <header className="sticky top-0 z-50 bg-background border-b border-border">
+      <nav className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 lg:h-16">
+          {/* Logo/Branding */}
+          <Link href="/" className="font-serif text-sm lg:text-base font-normal tracking-tight hover:opacity-70 transition-opacity">
+            Dirty Paintbrushes
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {navLinks.slice(1).map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "text-sm font-normal transition-colors hover:text-foreground",
+                  pathname === link.href
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 -mr-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-5 w-5 text-foreground" />
+            ) : (
+              <Menu className="h-5 w-5 text-foreground" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-border">
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "text-sm font-normal transition-colors",
+                    pathname === link.href
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+    </header>
+  )
+}

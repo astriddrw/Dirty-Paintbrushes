@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(npm run:*)",
+      "Bash(echo \"Dev server PID: $!\")",
+      "Bash(curl:*)",
+      "Bash(kill 6211)"
+    ]
+  }
+}
