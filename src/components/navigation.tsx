@@ -18,11 +18,14 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <header className="sticky top-0 z-50 bg-background border-b border-border border-t-2 border-t-primary">
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 lg:h-16">
-          {/* Logo/Branding */}
-          <Link href="/" className="font-serif text-sm lg:text-base font-normal tracking-tight hover:opacity-70 transition-opacity">
+          {/* Logo — navy, serif, masthead feel */}
+          <Link
+            href="/"
+            className="font-serif text-sm lg:text-base font-normal tracking-tight text-primary hover:opacity-70 transition-opacity"
+          >
             Dirty Paintbrushes
           </Link>
 
@@ -33,10 +36,10 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm font-normal transition-colors hover:text-foreground",
+                  "text-sm font-normal transition-colors",
                   pathname === link.href
-                    ? "text-foreground"
-                    : "text-muted-foreground"
+                    ? "text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {link.label}
@@ -70,7 +73,7 @@ export function Navigation() {
                   className={cn(
                     "text-sm font-normal transition-colors",
                     pathname === link.href
-                      ? "text-foreground"
+                      ? "text-primary font-medium"
                       : "text-muted-foreground"
                   )}
                 >
