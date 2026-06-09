@@ -16,8 +16,11 @@ function formatCommentDate(ds: string): string {
   });
 }
 
+const COOLDOWN_MS = 30_000; // 30 seconds between submissions
+
 export default function CommentSection({ articleId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [lastSubmitted, setLastSubmitted] = useState<number | null>(null);
   const [displayName, setDisplayName] = useState("");
   const [body, setBody] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -37,6 +40,14 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!displayName.trim() || !body.trim()) return;
+
+    // Client-side cooldown
+    if (lastSubmitted && Date.now() - lastSubmitted < COOLDOWN_MS) {
+      const secs = Math.ceil((COOLDOWN_MS - (Date.now() - lastSubmitted)) / 1000);
+      setError(`Please wait ${secs}s before posting again.`);
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -52,6 +63,7 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
     } else if (data) {
       setComments((prev) => [...prev, data as Comment]);
       setBody("");
+      setLastSubmitted(Date.now());
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 3000);
     }

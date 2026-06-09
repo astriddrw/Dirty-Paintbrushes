@@ -45,8 +45,11 @@ export function SavedContent() {
         <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-4 font-serif">
           Saved Articles
         </h1>
-        <p className="text-lg text-muted-foreground mb-12">
+        <p className="text-lg text-muted-foreground mb-4">
           Your bookmarked articles for easy reference.
+        </p>
+        <p className="text-xs text-muted-foreground mb-12 border border-border px-4 py-2.5 inline-block">
+          Saved articles are stored in your browser. They won&apos;t sync across devices.
         </p>
 
         {/* Articles List */}
