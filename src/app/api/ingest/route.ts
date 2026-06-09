@@ -36,7 +36,7 @@ const BROAD_SOURCES = [
 
 // Regulatory source names → auto-tag as Regulation article type
 const REGULATORY_SOURCES = ["fatf", "hmrc", "ofac", "fincen", "ofsi", "financial crimes enforcement"];
-const LAW_FIRM_SOURCES = ["norton rose", "complyadvanage", "financial crime academy"];
+const LAW_FIRM_SOURCES = ["norton rose", "complyadvanTage", "financial crime academy"];
 
 // ─── Helper functions ───────────────────────────────────────────────────────
 
