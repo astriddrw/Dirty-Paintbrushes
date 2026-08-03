@@ -12,29 +12,34 @@ export default async function AdminDashboardPage() {
   const supabase = createAdminClient();
 
   const [
-    { count: published },
-    { count: reviewQueue },
-    { count: sources },
-    { count: cases },
+    { data: publishedRows },
+    { data: reviewQueueRows },
+    { data: sourceRows },
+    { data: caseRows },
     { data: recent },
   ] = await Promise.all([
-    supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "published"),
-    supabase.from("articles").select("*", { count: "exact", head: true }).eq("status", "review_queue"),
-    supabase.from("rss_sources").select("*", { count: "exact", head: true }).eq("active", true),
-    supabase.from("cases").select("*", { count: "exact", head: true }),
+    supabase.from("articles").select("id").eq("status", "published"),
+    supabase.from("articles").select("id").eq("status", "review_queue"),
+    supabase.from("rss_sources").select("id").eq("active", true),
+    supabase.from("cases").select("id"),
     supabase.from("articles").select("title, source_name, published_date, status, created_at").order("created_at", { ascending: false }).limit(8),
   ]);
 
+  const published = publishedRows?.length ?? 0;
+  const reviewQueue = reviewQueueRows?.length ?? 0;
+  const sources = sourceRows?.length ?? 0;
+  const cases = caseRows?.length ?? 0;
+
   const stats = [
-    { label: "Published",    value: published ?? 0,   href: "/feed" },
-    { label: "Review Queue", value: reviewQueue ?? 0,  href: "/admin/review" },
-    { label: "Active Sources", value: sources ?? 0,   href: "/sources" },
-    { label: "Cases",        value: cases ?? 0,        href: "/admin/cases" },
+    { label: "Published",    value: published,   href: "/feed" },
+    { label: "Review Queue", value: reviewQueue,  href: "/admin/review" },
+    { label: "Active Sources", value: sources,   href: "/sources" },
+    { label: "Cases",        value: cases,        href: "/admin/cases" },
   ];
 
   const quickLinks = [
     { href: "/admin/submit",  label: "Submit Article",   desc: "Manually add an article" },
-    { href: "/admin/review",  label: "Review Queue",     desc: `${reviewQueue ?? 0} awaiting review` },
+    { href: "/admin/review",  label: "Review Queue",     desc: `${reviewQueue} awaiting review` },
     { href: "/admin/cases",   label: "Manage Cases",     desc: "Create and edit case files" },
   ];
 
