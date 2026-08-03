@@ -14,6 +14,7 @@ export default function ReviewQueuePage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const fetchQueue = useCallback(async () => {
     setLoading(true);
@@ -27,11 +28,18 @@ export default function ReviewQueuePage() {
 
   const act = async (id: string, status: "published" | "dismissed") => {
     setActing(id);
-    await fetch("/api/admin/review", {
+    setActionError(null);
+    const res = await fetch("/api/admin/review", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, status }),
     });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setActionError(body.error ?? `Failed to update (HTTP ${res.status})`);
+      setActing(null);
+      return;
+    }
     setArticles((prev) => prev.filter((a) => a.id !== id));
     setActing(null);
   };
@@ -44,6 +52,12 @@ export default function ReviewQueuePage() {
           {loading ? "Loading…" : `${articles.length} article${articles.length !== 1 ? "s" : ""} awaiting review`}
         </p>
       </div>
+
+      {actionError && (
+        <div className="mb-6 border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          {actionError}
+        </div>
+      )}
 
       {!loading && articles.length === 0 && (
         <div className="border border-border p-12 text-center">
