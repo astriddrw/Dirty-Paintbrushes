@@ -35,7 +35,7 @@ export function ArticleRow({ article, index }: ArticleRowProps) {
   return (
     <div className="group flex items-start gap-4 lg:gap-6 py-5 lg:py-6 border-b border-border hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-sm">
       {/* Number */}
-      <span className="text-sm font-medium text-muted-foreground w-6 lg:w-8 flex-shrink-0 pt-0.5">
+      <span className="text-sm font-medium text-ochre w-6 lg:w-8 flex-shrink-0 pt-0.5">
         {String(index + 1).padStart(2, "0")}
       </span>
 
@@ -43,7 +43,7 @@ export function ArticleRow({ article, index }: ArticleRowProps) {
       <div className="flex-1 min-w-0">
         <Link
           href={`/articles/${article.id}`}
-          className="block text-base lg:text-lg font-serif font-medium text-foreground leading-snug mb-2 lg:mb-3 text-pretty hover:text-primary transition-colors"
+          className="block text-lg lg:text-xl font-serif font-medium text-foreground leading-snug mb-2 lg:mb-3 text-pretty hover:text-primary transition-colors"
         >
           {article.title}
         </Link>
@@ -52,7 +52,7 @@ export function ArticleRow({ article, index }: ArticleRowProps) {
           {/* Crime Type Tag */}
           {primaryCrimeType && (
             <span className={cn(
-              "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium",
+              "inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium",
               crimeColors.bg,
               crimeColors.text
             )}>
@@ -63,7 +63,7 @@ export function ArticleRow({ article, index }: ArticleRowProps) {
           {/* Article Type Tag */}
           {article.article_type && articleColors && (
             <span className={cn(
-              "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium",
+              "inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium",
               articleColors.bg,
               articleColors.text
             )}>

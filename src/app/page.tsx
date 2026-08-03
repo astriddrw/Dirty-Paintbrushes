@@ -18,12 +18,12 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Hero Section - Centered, Editorial */}
-        <section className="px-6 lg:px-8 py-32 lg:py-64 flex items-center justify-center min-h-[70vh]">
+        <section className="px-6 lg:px-8 py-32 lg:py-64 flex items-center justify-center min-h-[70vh] bg-[#2B4593]">
           <div className="max-w-2xl mx-auto text-center">
             <div className="space-y-8">
               {/* Main Headline */}
               <h1
-                className={`text-5xl sm:text-6xl lg:text-7xl font-serif font-normal leading-tight transition-all duration-1000 ${
+                className={`text-5xl sm:text-6xl lg:text-7xl font-serif italic font-normal leading-tight text-[#E6E2C5] transition-all duration-1000 ${
                   heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
                 style={{ transitionDelay: '100ms' }}
@@ -33,7 +33,7 @@ export default function HomePage() {
 
               {/* Subheading */}
               <p
-                className={`text-lg lg:text-xl leading-relaxed text-muted-foreground transition-all duration-1000 ${
+                className={`text-lg lg:text-xl leading-relaxed text-[#E6E2C5] transition-all duration-1000 ${
                   heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
                 style={{ transitionDelay: '300ms' }}
@@ -41,22 +41,22 @@ export default function HomePage() {
                 The tracker for financial crime in the art world. Fraud, money laundering, terror financing, sanctions. All in one place, up to date.
               </p>
 
-              {/* CTA */}
+              {/* CTA — text-link style, no button chrome */}
               <div
-                className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 ${
+                className={`flex flex-row gap-8 justify-center items-center transition-all duration-1000 ${
                   heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
                 style={{ transitionDelay: '500ms' }}
               >
                 <Link
                   href="/feed"
-                  className="px-8 py-3 bg-foreground text-background font-serif hover:opacity-80 transition-opacity"
+                  className="font-serif italic text-lg text-ochre underline decoration-1 decoration-ochre underline-offset-4 hover:opacity-80 transition-opacity"
                 >
                   Explore Feed
                 </Link>
                 <Link
                   href="/saved"
-                  className="px-8 py-3 border border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors font-serif"
+                  className="font-serif italic text-lg text-[#E6E2C5] underline decoration-1 decoration-[#E6E2C5]/50 underline-offset-4 hover:opacity-80 transition-opacity"
                 >
                   Saved Articles
                 </Link>
@@ -66,7 +66,7 @@ export default function HomePage() {
         </section>
 
         {/* About Section - Editorial Content */}
-        <section className="px-6 lg:px-8 py-24 lg:py-32 border-t border-border bg-card">
+        <section className="px-6 lg:px-8 py-24 lg:py-32 border-t border-border bg-[#E6E2C5]">
           <div className="max-w-2xl mx-auto">
             <div className="space-y-6 text-base leading-relaxed text-foreground">
               <h2 className="text-3xl font-serif font-normal mb-6">Why Dirty Paintbrushes?</h2>
@@ -100,16 +100,16 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-8 lg:gap-12">
               <Link
                 href="/feed"
-                className="group border border-border p-6 hover:border-foreground hover:bg-secondary transition-all"
+                className="group border border-ochre p-6 hover:bg-secondary transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline">Browse Feed</h3>
+                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-ochre">Browse Feed</h3>
                 <p className="text-sm text-muted-foreground">Real-time aggregated reporting on art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
-                className="group border border-border p-6 hover:border-foreground hover:bg-secondary transition-all"
+                className="group border border-ochre p-6 hover:bg-secondary transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline">Sources</h3>
+                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-ochre">Sources</h3>
                 <p className="text-sm text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
               </Link>
             </div>

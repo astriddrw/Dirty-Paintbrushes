@@ -42,7 +42,7 @@ export function SavedContent() {
     <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-4 font-serif">
+        <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
           Saved Articles
         </h1>
         <p className="text-lg text-muted-foreground mb-4">

@@ -125,3 +125,20 @@ CREATE POLICY "Authenticated users can manage comments"
 
 -- ── 4. ADD article_type COLUMN IF MISSING ─────────────────────────────────
 ALTER TABLE articles ADD COLUMN IF NOT EXISTS article_type text;
+
+
+-- ── 5. ANONYMOUS FEEDBACK ─────────────────────────────────────────────────
+-- Fully anonymous — no display_name, no user_id, no public read policy.
+-- Only visible via the Supabase dashboard / service-role queries.
+CREATE TABLE IF NOT EXISTS feedback (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  message text NOT NULL,
+  created_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public can submit feedback" ON feedback;
+CREATE POLICY "Public can submit feedback"
+  ON feedback FOR INSERT
+  WITH CHECK (true);

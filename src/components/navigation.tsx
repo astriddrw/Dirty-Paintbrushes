@@ -18,13 +18,13 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border border-t-2 border-t-primary">
+    <header className="sticky top-0 z-50 bg-background border-b border-border">
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 lg:h-16">
-          {/* Logo — navy, serif, masthead feel */}
+          {/* Logo — Instrument Serif italic, indigo */}
           <Link
             href="/"
-            className="font-serif text-sm lg:text-base font-normal tracking-tight text-primary hover:opacity-70 transition-opacity"
+            className="font-serif italic text-sm lg:text-base font-normal tracking-tight text-indigo hover:opacity-70 transition-opacity"
           >
             Dirty Paintbrushes
           </Link>
@@ -36,9 +36,9 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-sm font-normal transition-colors",
+                  "font-nav text-sm font-normal transition-colors",
                   pathname === link.href
-                    ? "text-primary font-medium"
+                    ? "text-foreground font-medium underline decoration-2 decoration-indigo underline-offset-4"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -71,9 +71,9 @@ export function Navigation() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "text-sm font-normal transition-colors",
+                    "font-nav text-sm font-normal transition-colors",
                     pathname === link.href
-                      ? "text-primary font-medium"
+                      ? "text-foreground font-medium underline decoration-2 decoration-indigo underline-offset-4"
                       : "text-muted-foreground"
                   )}
                 >

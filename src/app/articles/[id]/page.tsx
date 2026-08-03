@@ -86,20 +86,20 @@ export default async function ArticlePage({ params }: Props) {
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-8 pb-8 border-b border-border">
                 {crimeLabel && crimeColors && (
-                  <span className={cn("inline-flex items-center px-2 py-0.5 text-xs font-medium", crimeColors.bg, crimeColors.text)}>
+                  <span className={cn("inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium", crimeColors.bg, crimeColors.text)}>
                     {crimeLabel}
                   </span>
                 )}
                 {typeLabel && (
-                  <span className="inline-flex items-center px-2 py-0.5 bg-secondary text-secondary-foreground text-xs font-medium">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-[2px] bg-indigo-pale text-indigo text-xs font-medium">
                     {typeLabel}
                   </span>
                 )}
                 {article.crime_types?.slice(1).map((ct) => {
-                  const col = crimeTypeColors[ct] ?? { bg: "bg-secondary", text: "text-muted-foreground" };
+                  const col = crimeTypeColors[ct] ?? { bg: "bg-indigo-pale", text: "text-indigo" };
                   const lbl = crimeTypeLabels[ct] ?? ct.replace(/_/g, " ");
                   return (
-                    <span key={ct} className={cn("inline-flex items-center px-2 py-0.5 text-xs font-medium", col.bg, col.text)}>
+                    <span key={ct} className={cn("inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium", col.bg, col.text)}>
                       {lbl}
                     </span>
                   );

@@ -37,7 +37,7 @@ export default async function SourcesPage() {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-4 font-serif">
+          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
             Sources
           </h1>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl leading-relaxed">
@@ -52,7 +52,7 @@ export default async function SourcesPage() {
               if (tierSources.length === 0) return null
               return (
                 <section key={tier}>
-                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-primary mb-6">
+                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-ochre mb-6">
                     {TIER_GROUP_LABELS[tier]}
                   </h2>
                   <div className="flex flex-col gap-4">
@@ -72,7 +72,7 @@ export default async function SourcesPage() {
                             {TIER_DESCRIPTIONS[source.tier]}
                           </p>
                         </div>
-                        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
+                        <ExternalLink className="h-4 w-4 text-indigo hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
                       </a>
                     ))}
                   </div>

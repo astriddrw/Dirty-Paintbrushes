@@ -7,7 +7,7 @@
 
 :root {
   /* ── Palette: FT-meets-broadsheet ─────────────────────────────── */
-  --background: #FAFAF8;        /* barely off-white — not cream, not beige */
+  --background: #E6E2C5;        /* parchment — shared across every page */
   --foreground: #1A1A1A;        /* deep ink black */
   --card: #FFFFFF;
   --card-foreground: #1A1A1A;
@@ -15,6 +15,10 @@
   --popover-foreground: #1A1A1A;
   --primary: #1E3A5F;           /* muted navy — links, interactive, labels */
   --primary-foreground: #FAFAF8;
+  --heading: #334EAC;           /* page headings (Sources, About, Dashboard, etc.) */
+  --indigo: #2B4593;            /* logo, active-nav underline, pills, external-link icons */
+  --indigo-pale: #DCE1F0;       /* pill backgrounds */
+  --ochre: #C99A3B;             /* the one warm accent — used sparingly */
   --secondary: #F2F0EC;         /* warm neutral for hover states */
   --secondary-foreground: #1A1A1A;
   --muted: #E8E6E3;             /* warm grey — pill backgrounds, dividers */
@@ -44,6 +48,7 @@
   --muted-foreground: #A0A0A0;
   --accent: #8BA8C8;
   --accent-foreground: #1A1A1A;
+  --heading: #7C93D9;           /* lightened Planetary for dark backgrounds */
   --destructive: #ef4444;
   --destructive-foreground: #1A1A1A;
   --border: #363636;
@@ -53,6 +58,10 @@
 
 @theme inline {
   --font-serif: var(--font-serif, Georgia, serif);
+  --font-body: var(--font-body, "DM Sans", sans-serif);
+  --font-nav: var(--font-nav, "Noto Sans", sans-serif);
+  --font-brand: var(--font-brand, serif);
+  --font-sans: var(--font-body, "DM Sans", ui-sans-serif, sans-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -61,6 +70,10 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-heading: var(--heading);
+  --color-indigo: var(--indigo);
+  --color-indigo-pale: var(--indigo-pale);
+  --color-ochre: var(--ochre);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);

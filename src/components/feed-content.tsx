@@ -110,13 +110,13 @@ export function FeedContent({ articles }: FeedContentProps) {
     searchQuery || selectedCrimeTypes.size > 0 || selectedArticleTypes.size > 0
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-card">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-12 font-serif">
+          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-12 font-serif">
             Latest News
           </h1>
 
@@ -154,10 +154,10 @@ export function FeedContent({ articles }: FeedContentProps) {
                   key={type}
                   onClick={() => toggleCrimeType(type)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+                    "px-3 py-1.5 rounded-[2px] text-xs font-medium transition-colors",
                     selectedCrimeTypes.has(type)
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                      ? "bg-indigo text-indigo-pale"
+                      : "bg-indigo-pale text-indigo hover:opacity-80"
                   )}
                 >
                   {crimeTypeLabels[type]}
@@ -175,10 +175,10 @@ export function FeedContent({ articles }: FeedContentProps) {
                   key={type}
                   onClick={() => toggleArticleType(type)}
                   className={cn(
-                    "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+                    "px-3 py-1.5 rounded-[2px] text-xs font-medium transition-colors",
                     selectedArticleTypes.has(type)
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                      ? "bg-indigo text-indigo-pale"
+                      : "bg-indigo-pale text-indigo hover:opacity-80"
                   )}
                 >
                   {articleTypeLabels[type]}

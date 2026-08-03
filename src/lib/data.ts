@@ -1,5 +1,4 @@
 // Label and color maps keyed by DB column values (crime_types[], article_type)
-// Crime type colors: newspaper-ink palette — desaturated, like ink on newsprint
 
 export const crimeTypeLabels: Record<string, string> = {
   fraud:             "Fraud & Forgery",
@@ -14,34 +13,29 @@ export const crimeTypeLabels: Record<string, string> = {
   looting:           "Looting",
 }
 
+// One unified pill style — indigo text on pale indigo — for every tag.
+const pillStyle = { bg: "bg-indigo-pale", text: "text-indigo" }
+
 export const crimeTypeColors: Record<string, { bg: string; text: string }> = {
-  // Dusty red — crimes against objects/provenance
-  fraud:             { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
-  forgery:           { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
-  looting:           { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
-
-  // Slate blue — financial/sanctions (matches navy accent)
-  money_laundering:  { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
-  sanctions_evasion: { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
-
-  // Olive — security/terrorism/trafficking
-  terror_financing:  { bg: "bg-[#ECEEE8]", text: "text-[#3B4A28]" },
-  trafficking:       { bg: "bg-[#ECEEE8]", text: "text-[#3B4A28]" },
-
-  // Dark amber/tobacco — white-collar crime
-  tax_evasion:       { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
-  corruption:        { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
-  bribery:           { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
+  fraud: pillStyle,
+  forgery: pillStyle,
+  money_laundering: pillStyle,
+  sanctions_evasion: pillStyle,
+  terror_financing: pillStyle,
+  tax_evasion: pillStyle,
+  trafficking: pillStyle,
+  bribery: pillStyle,
+  corruption: pillStyle,
+  looting: pillStyle,
 }
 
-// Article type tags — restrained warm grey, like a newspaper section label
 export const articleTypeColors: Record<string, { bg: string; text: string }> = {
-  news:          { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
-  opinion:       { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
-  regulation:    { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
-  investigation: { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
-  ruling:        { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
-  analysis:      { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
+  news: pillStyle,
+  opinion: pillStyle,
+  regulation: pillStyle,
+  investigation: pillStyle,
+  ruling: pillStyle,
+  analysis: pillStyle,
 }
 
 export const articleTypeLabels: Record<string, string> = {

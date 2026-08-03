@@ -1,20 +1,21 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
+import { FeedbackBox } from "@/components/FeedbackBox"
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#C99A3B]">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground mb-12 font-serif">
+          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-[#E6E2C5] mb-12 font-serif">
             Why Dirty Paintbrushes?
           </h1>
 
           {/* Content */}
-          <div className="space-y-6 text-base leading-relaxed text-foreground">
+          <div className="space-y-6 text-base leading-relaxed text-[#E6E2C5]">
             <p>
               The art market is a sector that has long been overlooked from a regulatory perspective. It is highly opaque and inherently cross-border, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.
             </p>
@@ -35,6 +36,8 @@ export default function AboutPage() {
               This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.
             </p>
           </div>
+
+          <FeedbackBox />
         </div>
       </main>
 
