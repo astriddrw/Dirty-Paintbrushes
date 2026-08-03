@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react"
 import { TIER_GROUP_LABELS, TIER_DESCRIPTIONS } from "@/lib/data"
 import type { RssSource } from "@/lib/types"
 import type { Metadata } from "next"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Sources | Dirty Paintbrushes",
@@ -78,6 +79,16 @@ export default async function SourcesPage() {
                 </section>
               )
             })}
+          </div>
+
+          {/* Quiet admin entry point — not meant to be a public CTA */}
+          <div className="mt-16 flex justify-center">
+            <Link
+              href="/admin"
+              className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+            >
+              Admin
+            </Link>
           </div>
         </div>
       </main>
