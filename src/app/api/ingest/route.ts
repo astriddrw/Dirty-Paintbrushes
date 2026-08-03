@@ -144,7 +144,9 @@ export async function GET(request: NextRequest) {
       candidates.push({ item, cleanUrl, title, summary });
     }
 
-    const status = source.tier === "tier1" ? "published" : "review_queue";
+    // Every new article waits for manual approval in /admin/review, regardless
+    // of source tier — tier1 sources are no longer auto-published.
+    const status = "review_queue";
 
     const toInsert = candidates.map((candidate) => {
       const classification = classifyArticle({

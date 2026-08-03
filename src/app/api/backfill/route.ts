@@ -34,6 +34,7 @@ type ArticleRow = {
   summary: string | null;
   source_name: string;
   url: string;
+  status: string;
 };
 
 async function fetchAllArticles(
@@ -46,7 +47,7 @@ async function fetchAllArticles(
   while (true) {
     const { data, error } = await supabase
       .from("articles")
-      .select("id, title, summary, source_name, url")
+      .select("id, title, summary, source_name, url, status")
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
     if (error) throw new Error(error.message);
@@ -60,41 +61,24 @@ async function fetchAllArticles(
 }
 
 // mode=audit  — dry run: report articles that fail the current relevance
-//               filter. Does NOT delete anything.
-// mode=retag  — re-run the LLM classifier on existing articles and persist
+//               filter. Does NOT change anything.
+// mode=flag   — moves articles that fail the relevance filter into
+//               review_queue (only if currently published/review_queue) so
+//               they surface in /admin/review for manual approve/dismiss.
+//               Never deletes; dismiss just hides an article, it stays in
+//               the database and is reversible.
+// mode=retag  — re-run the classifier on existing articles and persist
 //               crime_types / article_type. Does NOT touch status or content.
 // mode=delete — the only mode that removes rows, and only for the exact
 //               `ids` passed in the request body (never re-derived here).
 
 export async function POST(request: NextRequest) {
   if (!(await isAuthorized(request))) {
-    // TEMPORARY diagnostic — never exposes the secret itself, just whether
-    // it's present at runtime and its length, to debug an env var mismatch.
-    // Remove once CRON_SECRET is confirmed working end-to-end.
-    const cronSecret = process.env.CRON_SECRET;
-    const authHeader = request.headers.get("authorization");
-    const customEnvKeys = Object.keys(process.env).filter((k) =>
-      ["CRON_SECRET", "SUPABASE_SERVICE_ROLE_KEY", "NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"].includes(k)
-    );
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-        debug: {
-          cronSecretPresent: !!cronSecret,
-          cronSecretLength: cronSecret?.length ?? 0,
-          authHeaderPresent: !!authHeader,
-          authHeaderLength: authHeader?.length ?? 0,
-          expectedEnvKeysFound: customEnvKeys,
-          vercelEnv: process.env.VERCEL_ENV ?? null,
-          vercelUrl: process.env.VERCEL_URL ?? null,
-        },
-      },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = await request.json().catch(() => ({}));
-  const mode = body.mode as "audit" | "retag" | "delete" | undefined;
+  const mode = body.mode as "audit" | "flag" | "retag" | "delete" | undefined;
 
   if (mode === "delete") {
     const ids = Array.isArray(body.ids) ? (body.ids as string[]) : [];
@@ -141,6 +125,33 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  if (mode === "flag") {
+    const supabase = createAdminClient();
+    const articles = await fetchAllArticles(supabase);
+
+    const toFlag = articles.filter(
+      (article) =>
+        (article.status === "published" || article.status === "review_queue") &&
+        !checkRelevance(article.title, article.summary ?? "").relevant
+    );
+
+    const stats = { total: articles.length, flagged: 0, errors: [] as string[] };
+
+    for (const article of toFlag) {
+      const { error } = await supabase
+        .from("articles")
+        .update({ status: "review_queue" })
+        .eq("id", article.id);
+      if (error) {
+        stats.errors.push(`${article.id}: ${error.message}`);
+      } else {
+        stats.flagged++;
+      }
+    }
+
+    return NextResponse.json({ ok: true, ...stats });
+  }
+
   if (mode === "retag") {
     const supabase = createAdminClient();
     const articles = await fetchAllArticles(supabase);
@@ -171,7 +182,7 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json(
-    { error: "Body must include mode: 'audit' | 'retag' | 'delete'" },
+    { error: "Body must include mode: 'audit' | 'flag' | 'retag' | 'delete'" },
     { status: 400 }
   );
 }
