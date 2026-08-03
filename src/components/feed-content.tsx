@@ -156,7 +156,7 @@ export function FeedContent({ articles }: FeedContentProps) {
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                     selectedCrimeTypes.has(type)
-                      ? "bg-foreground text-background"
+                      ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground hover:bg-muted/80"
                   )}
                 >
@@ -177,7 +177,7 @@ export function FeedContent({ articles }: FeedContentProps) {
                   className={cn(
                     "px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                     selectedArticleTypes.has(type)
-                      ? "bg-foreground text-background"
+                      ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground hover:bg-muted/80"
                   )}
                 >

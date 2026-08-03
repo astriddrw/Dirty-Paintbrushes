@@ -1,5 +1,5 @@
 // Label and color maps keyed by DB column values (crime_types[], article_type)
-// Colors match V0's crimeTypeColors/articleTypeColors exactly
+// Crime type colors: newspaper-ink palette — desaturated, like ink on newsprint
 
 export const crimeTypeLabels: Record<string, string> = {
   fraud:             "Fraud & Forgery",
@@ -15,26 +15,33 @@ export const crimeTypeLabels: Record<string, string> = {
 }
 
 export const crimeTypeColors: Record<string, { bg: string; text: string }> = {
-  fraud:             { bg: "bg-red-50",    text: "text-red-700" },
-  forgery:           { bg: "bg-red-50",    text: "text-red-700" },
-  money_laundering:  { bg: "bg-blue-50",   text: "text-blue-700" },
-  sanctions_evasion: { bg: "bg-amber-50",  text: "text-amber-700" },
-  terror_financing:  { bg: "bg-teal-50",   text: "text-teal-700" },
-  tax_evasion:       { bg: "bg-amber-50",  text: "text-amber-700" },
-  trafficking:       { bg: "bg-orange-50", text: "text-orange-700" },
-  bribery:           { bg: "bg-orange-50", text: "text-orange-700" },
-  corruption:        { bg: "bg-orange-50", text: "text-orange-700" },
-  looting:           { bg: "bg-red-50",    text: "text-red-700" },
+  // Dusty red — crimes against objects/provenance
+  fraud:             { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
+  forgery:           { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
+  looting:           { bg: "bg-[#F5EEEE]", text: "text-[#8B3A3A]" },
+
+  // Slate blue — financial/sanctions (matches navy accent)
+  money_laundering:  { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
+  sanctions_evasion: { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
+
+  // Olive — security/terrorism/trafficking
+  terror_financing:  { bg: "bg-[#ECEEE8]", text: "text-[#3B4A28]" },
+  trafficking:       { bg: "bg-[#ECEEE8]", text: "text-[#3B4A28]" },
+
+  // Dark amber/tobacco — white-collar crime
+  tax_evasion:       { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
+  corruption:        { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
+  bribery:           { bg: "bg-[#F5F0E6]", text: "text-[#6B4A18]" },
 }
 
-// V0 uses neutral-100/neutral-700 for all article types
+// Article type tags — restrained warm grey, like a newspaper section label
 export const articleTypeColors: Record<string, { bg: string; text: string }> = {
-  news:          { bg: "bg-neutral-100", text: "text-neutral-700" },
-  opinion:       { bg: "bg-neutral-100", text: "text-neutral-700" },
-  regulation:    { bg: "bg-neutral-100", text: "text-neutral-700" },
-  investigation: { bg: "bg-neutral-100", text: "text-neutral-700" },
-  ruling:        { bg: "bg-neutral-100", text: "text-neutral-700" },
-  analysis:      { bg: "bg-neutral-100", text: "text-neutral-700" },
+  news:          { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
+  opinion:       { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
+  regulation:    { bg: "bg-[#EDF0F5]", text: "text-[#1E3A5F]" },
+  investigation: { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
+  ruling:        { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
+  analysis:      { bg: "bg-[#F2F0EC]", text: "text-[#5C5C5C]" },
 }
 
 export const articleTypeLabels: Record<string, string> = {
