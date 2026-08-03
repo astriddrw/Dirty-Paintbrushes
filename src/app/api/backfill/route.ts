@@ -68,7 +68,23 @@ async function fetchAllArticles(
 
 export async function POST(request: NextRequest) {
   if (!(await isAuthorized(request))) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // TEMPORARY diagnostic — never exposes the secret itself, just whether
+    // it's present at runtime and its length, to debug an env var mismatch.
+    // Remove once CRON_SECRET is confirmed working end-to-end.
+    const cronSecret = process.env.CRON_SECRET;
+    const authHeader = request.headers.get("authorization");
+    return NextResponse.json(
+      {
+        error: "Unauthorized",
+        debug: {
+          cronSecretPresent: !!cronSecret,
+          cronSecretLength: cronSecret?.length ?? 0,
+          authHeaderPresent: !!authHeader,
+          authHeaderLength: authHeader?.length ?? 0,
+        },
+      },
+      { status: 401 }
+    );
   }
 
   const body = await request.json().catch(() => ({}));
