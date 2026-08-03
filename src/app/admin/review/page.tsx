@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { Check, X, ExternalLink } from "lucide-react";
 import type { Article } from "@/lib/types";
 
@@ -18,12 +17,8 @@ export default function ReviewQueuePage() {
 
   const fetchQueue = useCallback(async () => {
     setLoading(true);
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("articles")
-      .select("*")
-      .eq("status", "review_queue")
-      .order("published_date", { ascending: false });
+    const res = await fetch("/api/admin/review");
+    const { articles: data } = await res.json();
     setArticles((data ?? []) as Article[]);
     setLoading(false);
   }, []);
@@ -32,8 +27,11 @@ export default function ReviewQueuePage() {
 
   const act = async (id: string, status: "published" | "dismissed") => {
     setActing(id);
-    const supabase = createClient();
-    await supabase.from("articles").update({ status }).eq("id", id);
+    await fetch("/api/admin/review", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
     setArticles((prev) => prev.filter((a) => a.id !== id));
     setActing(null);
   };
