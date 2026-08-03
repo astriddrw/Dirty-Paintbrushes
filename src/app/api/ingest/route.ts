@@ -3,52 +3,10 @@ import Parser from "rss-parser";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import he from "he";
-
-// ─── Keyword filter lists ───────────────────────────────────────────────────
-
-const GROUP_A = [
-  "art", "artwork", "painting", "sculpture", "antiquities", "cultural property",
-  "artefact", "artifact", "gallery", "auction", "collector", "dealer", "museum",
-  "freeport", "free port", "nft", "digital art", "provenance", "art market",
-  "art world", "art trade", "art dealer", "auction house", "christie's", "sotheby's",
-  "phillips", "bonhams", "art fair",
-];
-
-const GROUP_B = [
-  "money laundering", "laundering", "fraud", "forgery", "sanctions",
-  "terror financing", "terrorist financing", "tax evasion", "tax fraud",
-  "bribery", "corruption", "illicit", "trafficking", "smuggling", "looting",
-  "stolen", "seized", "forfeiture", "confiscated", "indicted", "indictment",
-  "convicted", "sentenced", "shell company", "beneficial owner", "due diligence",
-  "aml", "kyc", "proceeds of crime", "fatf", "ofac", "ofsi", "fincen", "hmrc", "nca",
-];
-
-const TITLE_EXCLUDE = [
-  "exhibition review", "gallery opening", "studio visit", "art class",
-  "art supplies", "tutorial", "collection highlight", "retrospective",
-];
-
-// Sources that publish too broadly — must pass keyword filter
-const BROAD_SOURCES = [
-  "icij", "occrp", "transparency international", "basel institute",
-  "center for art law", "fatf",
-];
-
-// Regulatory source names → auto-tag as Regulation article type
-const REGULATORY_SOURCES = ["fatf", "hmrc", "ofac", "fincen", "ofsi", "financial crimes enforcement"];
-const LAW_FIRM_SOURCES = ["norton rose", "complyadvanTage", "financial crime academy"];
+import { classifyArticle } from "@/lib/tagging";
+import { checkRelevance } from "@/lib/relevance-filter";
 
 // ─── Helper functions ───────────────────────────────────────────────────────
-
-function matchesGroup(text: string, terms: string[]): boolean {
-  const lower = text.toLowerCase();
-  return terms.some((t) => lower.includes(t));
-}
-
-function shouldExcludeTitle(title: string): boolean {
-  const lower = title.toLowerCase();
-  return TITLE_EXCLUDE.some((phrase) => lower.includes(phrase));
-}
 
 function decodeHtml(raw: string): string {
   if (!raw) return raw;
@@ -74,41 +32,12 @@ function cleanGoogleUrl(url: string): string {
   }
 }
 
-function detectArticleType(
-  title: string,
-  summary: string,
-  sourceName: string
-): string {
-  const text = `${title} ${summary}`.toLowerCase();
-  const src = sourceName.toLowerCase();
-
-  if (REGULATORY_SOURCES.some((s) => src.includes(s))) return "regulation";
-  if (LAW_FIRM_SOURCES.some((s) => src.includes(s))) return "analysis";
-
-  if (/ruling|sentenced|verdict|\bcourt\b|judge|convicted/.test(text)) return "ruling";
-  if (/investigation|probe|inquiry|revealed|uncovered/.test(text)) return "investigation";
-  if (/\bopinion\b|commentary|editorial|op-ed/.test(text)) return "opinion";
-  if (/regulation|regulatory|compliance|directive|guidance/.test(text)) return "regulation";
-
-  return "news";
-}
-
-function detectCrimeTypes(title: string, summary: string): string[] {
-  const text = `${title} ${summary}`.toLowerCase();
-  const types: string[] = [];
-
-  if (/launder|money.?launder/.test(text)) types.push("money_laundering");
-  if (/\bfraud\b|forgery|counterfeit|\bfake\b/.test(text)) types.push("fraud");
-  if (/sanction/.test(text)) types.push("sanctions_evasion");
-  if (/terror|terrorist financing/.test(text)) types.push("terror_financing");
-  if (/tax.?evasion|tax.?fraud/.test(text)) types.push("tax_evasion");
-  if (/trafficking|smuggling|looting|looted/.test(text)) types.push("trafficking");
-  if (/corruption|bribery|\bbribe\b/.test(text)) {
-    if (/corruption/.test(text)) types.push("corruption");
-    if (/bribery|\bbribe\b/.test(text)) types.push("bribery");
-  }
-
-  return types;
+function parsePublishedDate(item: { pubDate?: string; isoDate?: string }): string | null {
+  const raw = item.isoDate ?? item.pubDate;
+  if (!raw) return null;
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toISOString();
 }
 
 // ─── Auth check ─────────────────────────────────────────────────────────────
@@ -178,11 +107,6 @@ export async function GET(request: NextRequest) {
     const { source, feed } = result.value;
     const items = feed.items.slice(0, 25);
 
-    // Determine if this source behaves like a broad source (needs keyword filter)
-    const sourceLower = source.name.toLowerCase();
-    const isBroadSource = BROAD_SOURCES.some((s) => sourceLower.includes(s));
-    const effectiveTier = isBroadSource ? "tier2" : source.tier;
-
     // Batch dedup — clean Google URLs first, then check
     const rawUrls = items.map((i) => i.link).filter(Boolean) as string[];
     const cleanedUrlMap = new Map(rawUrls.map((u) => [u, cleanGoogleUrl(u)]));
@@ -194,7 +118,8 @@ export async function GET(request: NextRequest) {
       .in("url", cleanedUrls);
     const existingUrls = new Set(existing?.map((a) => a.url) ?? []);
 
-    const toInsert: object[] = [];
+    // Candidates that pass the admission filter — classified concurrently below.
+    const candidates: { item: (typeof items)[number]; cleanUrl: string; title: string; summary: string }[] = [];
 
     for (const item of items) {
       if (!item.link || !item.title) continue;
@@ -206,40 +131,37 @@ export async function GET(request: NextRequest) {
       const title = he.decode(item.title.trim());
       const rawSnippet = item.contentSnippet ?? item.content ?? item.summary ?? "";
       const summary = extractSummary(rawSnippet);
-      const rawText = `${title} ${rawSnippet}`.toLowerCase();
 
-      let status: string;
+      // Applies to every source regardless of tier — a "trusted" tier1 source
+      // publishing an off-topic or non-article page is still rejected.
+      if (!checkRelevance(title, rawSnippet).relevant) { stats.skipped++; continue; }
 
-      if (effectiveTier === "tier1") {
-        status = "published";
-      } else {
-        if (shouldExcludeTitle(title)) { stats.skipped++; continue; }
-        const matchA = matchesGroup(rawText, GROUP_A);
-        const matchB = matchesGroup(rawText, GROUP_B);
-        if (matchA && matchB) { status = "published"; }
-        else if (matchA || matchB) { status = "review_queue"; }
-        else { stats.skipped++; continue; }
-      }
+      candidates.push({ item, cleanUrl, title, summary });
+    }
 
-      const article_type = detectArticleType(title, summary, source.name);
-      const crime_types = detectCrimeTypes(title, summary);
+    const status = source.tier === "tier1" ? "published" : "review_queue";
 
-      toInsert.push({
-        url: cleanUrl,
-        title,
+    const toInsert = candidates.map((candidate) => {
+      const classification = classifyArticle({
+        sourceName: source.name,
+        title: candidate.title,
+        summary: candidate.summary || null,
+      });
+
+      return {
+        url: candidate.cleanUrl,
+        title: candidate.title,
         source_name: source.name,
         source_tier: source.tier,
-        published_date: item.pubDate
-          ? new Date(item.pubDate).toISOString()
-          : new Date().toISOString(),
-        summary: summary || null,
+        published_date: parsePublishedDate(candidate.item),
+        summary: candidate.summary || null,
         status,
-        article_type,
-        crime_types,
+        article_type: classification.article_type,
+        crime_types: classification.crime_types,
         regions: [],
         entity_types: [],
-      });
-    }
+      };
+    });
 
     if (toInsert.length > 0) {
       const { error: insertError } = await supabase
