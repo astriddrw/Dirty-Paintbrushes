@@ -115,12 +115,19 @@ export async function POST(request: NextRequest) {
         source_name: article.source_name,
         url: article.url,
         reason: check.reason,
+        status: article.status,
       }));
+
+    const statusCounts = junk.reduce<Record<string, number>>((acc, j) => {
+      acc[j.status] = (acc[j.status] ?? 0) + 1;
+      return acc;
+    }, {});
 
     return NextResponse.json({
       ok: true,
       total: articles.length,
       junkCount: junk.length,
+      junkByStatus: statusCounts,
       junk,
     });
   }

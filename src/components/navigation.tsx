@@ -36,7 +36,7 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "font-nav text-sm font-normal transition-colors",
+                  "font-nav uppercase text-sm font-normal transition-colors",
                   pathname === link.href
                     ? "text-foreground font-medium underline decoration-2 decoration-indigo underline-offset-4"
                     : "text-muted-foreground hover:text-foreground"

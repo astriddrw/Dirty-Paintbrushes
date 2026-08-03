@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, DM_Sans, Noto_Sans } from 'next/font/google'
+import { Instrument_Serif, Roboto, Noto_Sans } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 
@@ -10,8 +10,9 @@ const instrumentSerif = Instrument_Serif({
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const roboto = Roboto({
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
   variable: '--font-body',
   display: 'swap',
 })
@@ -39,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${dmSans.variable} ${notoSans.variable} ${berky.variable} bg-background`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} bg-background`}>
       <body className="antialiased">
         {children}
       </body>
