@@ -6,6 +6,11 @@ import he from "he";
 import { classifyArticle } from "@/lib/tagging";
 import { checkRelevance } from "@/lib/relevance-filter";
 
+// isAuthorized() reads request.cookies, which opts this route out of static
+// rendering — declare it dynamic explicitly rather than relying on Next's
+// (unreliable, in this version) automatic bailout.
+export const dynamic = "force-dynamic";
+
 // ─── Helper functions ───────────────────────────────────────────────────────
 
 function decodeHtml(raw: string): string {

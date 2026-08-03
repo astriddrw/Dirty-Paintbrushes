@@ -4,6 +4,11 @@ import { createServerClient } from "@supabase/ssr";
 import { checkRelevance } from "@/lib/relevance-filter";
 import { classifyArticle } from "@/lib/tagging";
 
+// isAuthorized() reads request.cookies, which opts this route out of static
+// rendering — declare it dynamic explicitly rather than relying on Next's
+// (unreliable, in this version) automatic bailout.
+export const dynamic = "force-dynamic";
+
 // ─── Auth check (same pattern as /api/ingest and /api/cleanup) ──────────────
 
 async function isAuthorized(request: NextRequest): Promise<boolean> {

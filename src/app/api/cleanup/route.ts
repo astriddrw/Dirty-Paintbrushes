@@ -3,6 +3,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import he from "he";
 
+// isAuthorized() reads request.cookies, which opts this route out of static
+// rendering — declare it dynamic explicitly rather than relying on Next's
+// (unreliable, in this version) automatic bailout.
+export const dynamic = "force-dynamic";
+
 // Keywords indicating articles are NOT about art market financial crime
 const IRRELEVANT_PATTERNS = [
   "cancer", "chemotherapy", "drug trial", "oncology",
