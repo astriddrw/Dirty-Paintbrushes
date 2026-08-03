@@ -73,6 +73,9 @@ export async function POST(request: NextRequest) {
     // Remove once CRON_SECRET is confirmed working end-to-end.
     const cronSecret = process.env.CRON_SECRET;
     const authHeader = request.headers.get("authorization");
+    const customEnvKeys = Object.keys(process.env).filter((k) =>
+      ["CRON_SECRET", "SUPABASE_SERVICE_ROLE_KEY", "NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"].includes(k)
+    );
     return NextResponse.json(
       {
         error: "Unauthorized",
@@ -81,6 +84,9 @@ export async function POST(request: NextRequest) {
           cronSecretLength: cronSecret?.length ?? 0,
           authHeaderPresent: !!authHeader,
           authHeaderLength: authHeader?.length ?? 0,
+          expectedEnvKeysFound: customEnvKeys,
+          vercelEnv: process.env.VERCEL_ENV ?? null,
+          vercelUrl: process.env.VERCEL_URL ?? null,
         },
       },
       { status: 401 }
