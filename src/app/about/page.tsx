@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { FeedbackBox } from "@/components/FeedbackBox"
+import { FadeInHeading } from "@/components/FadeInHeading"
 
 export default function AboutPage() {
   return (
@@ -10,9 +11,9 @@ export default function AboutPage() {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-[#E6E2C5] mb-12 font-serif">
+          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-[#E6E2C5] mb-12 font-serif">
             Why Dirty Paintbrushes?
-          </h1>
+          </FadeInHeading>
 
           {/* Content */}
           <div className="space-y-6 text-base leading-relaxed text-[#E6E2C5]">

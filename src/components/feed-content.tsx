@@ -4,6 +4,7 @@ import { useState, useMemo } from "react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArticleRow } from "@/components/article-row"
+import { FadeInHeading } from "@/components/FadeInHeading"
 import { Search, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { crimeTypeLabels, articleTypeLabels } from "@/lib/data"
@@ -116,9 +117,9 @@ export function FeedContent({ articles }: FeedContentProps) {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-12 font-serif">
+          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-12 font-serif">
             Latest News
-          </h1>
+          </FadeInHeading>
 
           {/* Search and Sort */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -129,13 +130,13 @@ export function FeedContent({ articles }: FeedContentProps) {
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
               />
             </div>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="px-4 py-2.5 bg-background border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              className="px-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
@@ -146,7 +147,7 @@ export function FeedContent({ articles }: FeedContentProps) {
           <div className="flex flex-col gap-4 mb-8">
             {/* Crime Type Filters */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide mr-2">
+              <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
                 Crime Type
               </span>
               {crimeFilterTypes.map((type) => (
@@ -154,10 +155,10 @@ export function FeedContent({ articles }: FeedContentProps) {
                   key={type}
                   onClick={() => toggleCrimeType(type)}
                   className={cn(
-                    "px-3 py-1.5 rounded-[2px] text-xs font-medium transition-colors",
+                    "px-1 py-1 italic text-xs font-medium text-indigo underline decoration-1 underline-offset-4 transition-all",
                     selectedCrimeTypes.has(type)
-                      ? "bg-indigo text-indigo-pale"
-                      : "bg-indigo-pale text-indigo hover:opacity-80"
+                      ? "decoration-indigo"
+                      : "decoration-transparent hover:decoration-indigo"
                   )}
                 >
                   {crimeTypeLabels[type]}
@@ -167,7 +168,7 @@ export function FeedContent({ articles }: FeedContentProps) {
 
             {/* Article Type Filters */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide mr-2">
+              <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
                 Article Type
               </span>
               {articleFilterTypes.map((type) => (
@@ -175,10 +176,10 @@ export function FeedContent({ articles }: FeedContentProps) {
                   key={type}
                   onClick={() => toggleArticleType(type)}
                   className={cn(
-                    "px-3 py-1.5 rounded-[2px] text-xs font-medium transition-colors",
+                    "px-1 py-1 italic text-xs font-medium text-ochre underline decoration-1 underline-offset-4 transition-all",
                     selectedArticleTypes.has(type)
-                      ? "bg-indigo text-indigo-pale"
-                      : "bg-indigo-pale text-indigo hover:opacity-80"
+                      ? "decoration-ochre"
+                      : "decoration-transparent hover:decoration-ochre"
                   )}
                 >
                   {articleTypeLabels[type]}
@@ -201,8 +202,8 @@ export function FeedContent({ articles }: FeedContentProps) {
           {/* Articles List */}
           <div className="border-t border-border">
             {filteredArticles.length > 0 ? (
-              filteredArticles.map((article, index) => (
-                <ArticleRow key={article.id} article={article} index={index} />
+              filteredArticles.map((article) => (
+                <ArticleRow key={article.id} article={article} />
               ))
             ) : (
               <div className="py-16 text-center">

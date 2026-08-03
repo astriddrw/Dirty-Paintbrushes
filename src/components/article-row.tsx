@@ -3,13 +3,12 @@
 import Link from "next/link"
 import { Bookmark, ExternalLink } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { crimeTypeLabels, crimeTypeColors, articleTypeLabels, articleTypeColors } from "@/lib/data"
+import { crimeTypeLabels, articleTypeLabels } from "@/lib/data"
 import { useBookmarks } from "@/lib/bookmarks-context"
 import type { Article } from "@/lib/types"
 
 interface ArticleRowProps {
   article: Article
-  index: number
 }
 
 const formatDate = (dateString: string) => {
@@ -21,24 +20,14 @@ const formatDate = (dateString: string) => {
   })
 }
 
-export function ArticleRow({ article, index }: ArticleRowProps) {
+export function ArticleRow({ article }: ArticleRowProps) {
   const { isBookmarked, toggleBookmark } = useBookmarks()
   const bookmarked = isBookmarked(article.id)
 
-  // Map DB fields to V0's expected shape
   const primaryCrimeType = article.crime_types?.[0] ?? ""
-  const crimeColors = crimeTypeColors[primaryCrimeType] ?? { bg: "bg-neutral-100", text: "text-neutral-700" }
-  const articleColors = article.article_type
-    ? (articleTypeColors[article.article_type] ?? { bg: "bg-neutral-100", text: "text-neutral-700" })
-    : null
 
   return (
     <div className="group flex items-start gap-4 lg:gap-6 py-5 lg:py-6 border-b border-border hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-sm">
-      {/* Number */}
-      <span className="text-sm font-medium text-ochre w-6 lg:w-8 flex-shrink-0 pt-0.5">
-        {String(index + 1).padStart(2, "0")}
-      </span>
-
       {/* Content */}
       <div className="flex-1 min-w-0">
         <Link
@@ -51,22 +40,14 @@ export function ArticleRow({ article, index }: ArticleRowProps) {
         <div className="flex flex-wrap items-center gap-2 lg:gap-3">
           {/* Crime Type Tag */}
           {primaryCrimeType && (
-            <span className={cn(
-              "inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium",
-              crimeColors.bg,
-              crimeColors.text
-            )}>
+            <span className="italic text-xs font-medium text-indigo">
               {crimeTypeLabels[primaryCrimeType] ?? primaryCrimeType.replace(/_/g, " ")}
             </span>
           )}
 
           {/* Article Type Tag */}
-          {article.article_type && articleColors && (
-            <span className={cn(
-              "inline-flex items-center px-2 py-0.5 rounded-[2px] text-xs font-medium",
-              articleColors.bg,
-              articleColors.text
-            )}>
+          {article.article_type && (
+            <span className="italic text-xs font-medium text-ochre">
               {articleTypeLabels[article.article_type] ?? article.article_type}
             </span>
           )}

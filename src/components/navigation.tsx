@@ -24,7 +24,7 @@ export function Navigation() {
           {/* Logo — Instrument Serif italic, indigo */}
           <Link
             href="/"
-            className="font-serif italic text-sm lg:text-base font-normal tracking-tight text-indigo hover:opacity-70 transition-opacity"
+            className="font-serif italic text-base lg:text-lg font-normal tracking-tight text-indigo hover:opacity-70 transition-opacity"
           >
             Dirty Paintbrushes
           </Link>
@@ -36,10 +36,10 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "font-nav uppercase text-sm font-normal transition-colors",
+                  "font-nav uppercase text-[15px] font-normal text-foreground transition-colors",
                   pathname === link.href
-                    ? "text-foreground font-medium underline decoration-2 decoration-indigo underline-offset-4"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "font-medium underline decoration-2 decoration-indigo underline-offset-4"
+                    : "hover:opacity-70"
                 )}
               >
                 {link.label}

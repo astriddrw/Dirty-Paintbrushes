@@ -6,6 +6,7 @@ import { TIER_GROUP_LABELS, TIER_DESCRIPTIONS } from "@/lib/data"
 import type { RssSource } from "@/lib/types"
 import type { Metadata } from "next"
 import Link from "next/link"
+import { FadeInHeading } from "@/components/FadeInHeading"
 
 export const metadata: Metadata = {
   title: "Sources | Dirty Paintbrushes",
@@ -37,10 +38,10 @@ export default async function SourcesPage() {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
+          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
             Sources
-          </h1>
-          <p className="text-lg text-muted-foreground mb-12 max-w-2xl leading-relaxed">
+          </FadeInHeading>
+          <p className="text-lg text-foreground mb-12 max-w-2xl leading-relaxed">
             We aggregate content from trusted publications, government agencies,
             and research institutions covering art market financial crime.
           </p>

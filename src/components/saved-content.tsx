@@ -3,6 +3,7 @@
 import { useMemo, useState, useEffect } from "react"
 import Link from "next/link"
 import { ArticleRow } from "@/components/article-row"
+import { FadeInHeading } from "@/components/FadeInHeading"
 import { useBookmarks } from "@/lib/bookmarks-context"
 import { createClient } from "@/lib/supabase/client"
 import { Bookmark, ArrowRight } from "lucide-react"
@@ -42,9 +43,9 @@ export function SavedContent() {
     <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <h1 className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
+        <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
           Saved Articles
-        </h1>
+        </FadeInHeading>
         <p className="text-lg text-muted-foreground mb-4">
           Your bookmarked articles for easy reference.
         </p>
@@ -60,8 +61,8 @@ export function SavedContent() {
         ) : savedArticles.length > 0 ? (
           <>
             <div className="border-t border-border">
-              {savedArticles.map((article, index) => (
-                <ArticleRow key={article.id} article={article} index={index} />
+              {savedArticles.map((article) => (
+                <ArticleRow key={article.id} article={article} />
               ))}
             </div>
             <p className="mt-8 text-sm text-muted-foreground">
