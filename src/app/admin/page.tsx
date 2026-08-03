@@ -3,6 +3,11 @@ import { IngestButton } from "@/components/ingest-button";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
+// Queries live data with the service-role client on every request — Next
+// otherwise tries to prerender this at build time, when that env var isn't
+// necessarily available, and fails the whole build.
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const supabase = createAdminClient();
 
