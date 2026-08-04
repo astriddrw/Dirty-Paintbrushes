@@ -16,6 +16,8 @@ export function tierBadge(tier: SourceTier): { label: string; className: string 
       return { label: "Tier 3", className: "bg-secondary text-muted-foreground border border-border" };
     case "tier4":
       return { label: "Tier 4", className: "bg-secondary text-muted-foreground border border-border" };
+    case "tier5":
+      return { label: "Tier 5", className: "bg-secondary text-muted-foreground border border-border" };
     case "manual":
       return { label: "Manual", className: "bg-purple-100 text-purple-700 border border-purple-200" };
   }

@@ -1,4 +1,4 @@
-export type SourceTier = "tier1" | "tier2" | "tier3" | "tier4" | "manual";
+export type SourceTier = "tier1" | "tier2" | "tier3" | "tier4" | "tier5" | "manual";
 export type ArticleStatus = "published" | "review_queue" | "draft" | "dismissed";
 export type CaseStatus = "ongoing" | "resolved" | "under_investigation";
 

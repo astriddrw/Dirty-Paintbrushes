@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "We aggregate content from trusted publications, government agencies, and research institutions covering art market financial crime.",
 }
 
-const tierOrder = ["tier1", "tier2", "tier3", "tier4"] as const
+const tierOrder = ["tier1", "tier2", "tier3", "tier5", "tier4"] as const
 
 export default async function SourcesPage() {
   const supabase = createClient()
@@ -32,7 +32,7 @@ export default async function SourcesPage() {
   }, {} as Record<string, RssSource[]>)
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-light-blue">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
@@ -41,7 +41,7 @@ export default async function SourcesPage() {
           <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
             Sources
           </FadeInHeading>
-          <p className="text-lg text-foreground mb-12 max-w-2xl leading-relaxed">
+          <p className="text-lg text-indigo mb-12 max-w-2xl leading-relaxed">
             We aggregate content from trusted publications, government agencies,
             and research institutions covering art market financial crime.
           </p>
@@ -53,9 +53,12 @@ export default async function SourcesPage() {
               if (tierSources.length === 0) return null
               return (
                 <section key={tier}>
-                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-ochre mb-6">
+                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-ochre mb-1">
                     {TIER_GROUP_LABELS[tier]}
                   </h2>
+                  <p className="text-sm text-indigo mb-6">
+                    {TIER_DESCRIPTIONS[tier]}
+                  </p>
                   <div className="flex flex-col gap-4">
                     {tierSources.map((source) => (
                       <a
@@ -65,14 +68,9 @@ export default async function SourcesPage() {
                         rel="noopener noreferrer"
                         className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
                       >
-                        <div>
-                          <h3 className="text-base font-medium text-foreground group-hover:text-primary transition-colors">
-                            {source.name}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {TIER_DESCRIPTIONS[source.tier]}
-                          </p>
-                        </div>
+                        <h3 className="text-base font-medium text-indigo group-hover:opacity-70 transition-opacity">
+                          {source.name}
+                        </h3>
                         <ExternalLink className="h-4 w-4 text-indigo hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
                       </a>
                     ))}

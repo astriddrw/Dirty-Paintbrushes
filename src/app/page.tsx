@@ -1,69 +1,55 @@
-'use client'
-
 import Link from "next/link"
+import { createClient } from "@/lib/supabase/server"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { useEffect, useState } from "react"
+import { HomeHero } from "@/components/HomeHero"
+import { ArticleRow } from "@/components/article-row"
+import { BookmarksProvider } from "@/lib/bookmarks-context"
+import type { Article } from "@/lib/types"
 
-export default function HomePage() {
-  const [heroVisible, setHeroVisible] = useState(false)
+export default async function HomePage() {
+  const supabase = createClient()
+  const { data } = await supabase
+    .from("articles")
+    .select("*")
+    .eq("status", "published")
+    .order("published_date", { ascending: false })
+    .limit(5)
 
-  useEffect(() => {
-    setHeroVisible(true)
-  }, [])
+  const articles: Article[] = (data ?? []) as Article[]
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Navigation />
 
       <main className="flex-1">
-        {/* Hero Section - Centered, Editorial */}
-        <section className="px-6 lg:px-8 py-32 lg:py-64 flex items-center justify-center min-h-[70vh] bg-[#2B4593]">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="space-y-8">
-              {/* Main Headline */}
-              <h1
-                className={`text-5xl sm:text-6xl lg:text-7xl font-serif italic font-normal leading-tight text-[#E6E2C5] transition-all duration-1000 ${
-                  heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-                style={{ transitionDelay: '100ms' }}
-              >
-                Dirty Paintbrushes
-              </h1>
+        <HomeHero />
 
-              {/* Subheading */}
-              <p
-                className={`text-lg lg:text-xl leading-relaxed text-[#E6E2C5] transition-all duration-1000 ${
-                  heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-                style={{ transitionDelay: '300ms' }}
-              >
-                The tracker for financial crime in the art world. Fraud, money laundering, terror financing, sanctions. All in one place, up to date.
-              </p>
-
-              {/* CTA — text-link style, no button chrome */}
-              <div
-                className={`flex flex-row gap-8 justify-center items-center transition-all duration-1000 ${
-                  heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-                style={{ transitionDelay: '500ms' }}
-              >
+        {/* Latest Intelligence - real published articles, same rows as the Feed page */}
+        {articles.length > 0 && (
+          <section className="px-6 lg:px-8 py-16 lg:py-20 border-t border-border">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl lg:text-3xl font-serif italic text-indigo">
+                  Latest Intelligence
+                </h2>
                 <Link
                   href="/feed"
-                  className="font-serif italic text-lg text-ochre underline decoration-1 decoration-ochre underline-offset-4 hover:opacity-80 transition-opacity"
+                  className="text-sm text-indigo hover:opacity-70 transition-opacity"
                 >
-                  Explore Feed
-                </Link>
-                <Link
-                  href="/saved"
-                  className="font-serif italic text-lg text-[#E6E2C5] underline decoration-1 decoration-[#E6E2C5]/50 underline-offset-4 hover:opacity-80 transition-opacity"
-                >
-                  Saved Articles
+                  View all →
                 </Link>
               </div>
+              <BookmarksProvider>
+                <div className="border-t border-border">
+                  {articles.map((article) => (
+                    <ArticleRow key={article.id} article={article} />
+                  ))}
+                </div>
+              </BookmarksProvider>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* About Section - Editorial Content */}
         <section className="px-6 lg:px-8 py-24 lg:py-32 border-t border-border bg-[#E6E2C5]">
@@ -100,16 +86,16 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-8 lg:gap-12">
               <Link
                 href="/feed"
-                className="group border border-ochre p-6 hover:bg-secondary transition-all"
+                className="group border border-ochre p-6 hover:bg-oxblood transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-ochre">Browse Feed</h3>
+                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-white">Browse Feed</h3>
                 <p className="text-sm text-muted-foreground">Real-time aggregated reporting on art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
-                className="group border border-ochre p-6 hover:bg-secondary transition-all"
+                className="group border border-ochre p-6 hover:bg-oxblood transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-ochre">Sources</h3>
+                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-white">Sources</h3>
                 <p className="text-sm text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
               </Link>
             </div>

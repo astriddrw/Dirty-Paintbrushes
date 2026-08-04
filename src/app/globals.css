@@ -7,7 +7,7 @@
 
 :root {
   /* ── Palette: FT-meets-broadsheet ─────────────────────────────── */
-  --background: #E6E2C5;        /* parchment — shared across every page */
+  --background: #FFEDBB;        /* parchment — shared across every page */
   --foreground: #1A1A1A;        /* deep ink black */
   --card: #FFFFFF;
   --card-foreground: #1A1A1A;
@@ -19,6 +19,8 @@
   --indigo: #2B4593;            /* logo, active-nav underline, pills, external-link icons */
   --indigo-pale: #DCE1F0;       /* pill backgrounds */
   --ochre: #C99A3B;             /* the one warm accent — used sparingly */
+  --light-blue: #CFE6F0;
+  --oxblood: #6C2C25;
   --secondary: #F2F0EC;         /* warm neutral for hover states */
   --secondary-foreground: #1A1A1A;
   --muted: #E8E6E3;             /* warm grey — pill backgrounds, dividers */
@@ -61,6 +63,7 @@
   --font-body: var(--font-body, "Roboto", sans-serif);
   --font-nav: var(--font-nav, "Noto Sans", sans-serif);
   --font-brand: var(--font-brand, serif);
+  --font-mono: var(--font-mono-custom, "IBM Plex Mono", monospace);
   --font-sans: var(--font-body, "Roboto", ui-sans-serif, sans-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -74,6 +77,8 @@
   --color-indigo: var(--indigo);
   --color-indigo-pale: var(--indigo-pale);
   --color-ochre: var(--ochre);
+  --color-light-blue: var(--light-blue);
+  --color-oxblood: var(--oxblood);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -100,6 +105,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }
 
 @layer components {

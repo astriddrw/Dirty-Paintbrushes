@@ -68,6 +68,7 @@ export const TIER_GROUP_LABELS: Record<string, string> = {
   tier1: "Investigative & Research",
   tier2: "Art Industry",
   tier3: "News & Investigations",
+  tier5: "Google Alerts",
   tier4: "Legal & Regulatory",
 }
 
@@ -75,5 +76,6 @@ export const TIER_DESCRIPTIONS: Record<string, string> = {
   tier1: "Core investigative and regulatory source",
   tier2: "Specialist art industry publication",
   tier3: "Mainstream news and investigative media",
+  tier5: "Automated search alerts",
   tier4: "Legal and compliance publication",
 }
