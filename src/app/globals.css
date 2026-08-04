@@ -63,7 +63,6 @@
   --font-body: var(--font-body, "Roboto", sans-serif);
   --font-nav: var(--font-nav, "Noto Sans", sans-serif);
   --font-brand: var(--font-brand, serif);
-  --font-mono: var(--font-mono-custom, "IBM Plex Mono", monospace);
   --font-sans: var(--font-body, "Roboto", ui-sans-serif, sans-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -105,16 +104,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-}
-
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 8s linear infinite;
 }
 
 @layer components {

@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { WorldClock } from "@/components/WorldClock"
 
 export function HomeHero() {
   const [heroVisible, setHeroVisible] = useState(false)
@@ -12,7 +11,7 @@ export function HomeHero() {
   }, [])
 
   return (
-    <section className="relative px-6 lg:px-8 py-20 lg:py-36 flex items-center justify-center min-h-[45vh] bg-[#2B4593]">
+    <section className="px-6 lg:px-8 py-20 lg:py-36 flex items-center justify-center min-h-[45vh] bg-[#2B4593]">
       <div className="max-w-2xl mx-auto text-center">
         <div className="space-y-8">
           {/* Main Headline */}
@@ -57,8 +56,6 @@ export function HomeHero() {
           </div>
         </div>
       </div>
-
-      <WorldClock className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 text-[#E6E2C5]" />
     </section>
   )
 }

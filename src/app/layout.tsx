@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, Roboto, Noto_Sans, IBM_Plex_Mono } from 'next/font/google'
+import { Instrument_Serif, Roboto, Noto_Sans } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 
@@ -29,13 +29,6 @@ const berky = localFont({
   display: 'swap',
 })
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-mono-custom',
-  display: 'swap',
-})
-
 export const metadata: Metadata = {
   title: 'Dirty Paintbrushes | Art Market Financial Crime Intelligence',
   description: 'The tracker for financial crime in the art world. Fraud, money laundering, terror financing, sanctions. All in one place, updated regularly.',
@@ -47,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} ${ibmPlexMono.variable} bg-background`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} bg-background`}>
       <body className="antialiased">
         {children}
       </body>
