@@ -23,6 +23,23 @@ export function tierBadge(tier: SourceTier): { label: string; className: string 
   }
 }
 
+// Strips automated-ingestion prefixes (e.g. "GA - " from Google Alerts
+// source names) and cleans up the remainder for display — "GA - Painting
+// + heist" -> "Painting & Heist". Source names with no such prefix pass
+// through unchanged.
+const GA_PREFIX = /^\s*GA\s*-\s*/i;
+
+export function formatTag(tag: string): string {
+  if (!GA_PREFIX.test(tag)) return tag;
+
+  const stripped = tag.replace(GA_PREFIX, "").trim();
+  const withAmpersands = stripped.replace(/\s*\+\s*/g, " & ");
+  return withAmpersands
+    .split(" ")
+    .map((word) => (word.length > 0 ? word[0].toUpperCase() + word.slice(1) : word))
+    .join(" ");
+}
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });

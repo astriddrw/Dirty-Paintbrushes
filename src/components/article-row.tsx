@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Bookmark, ExternalLink } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn, formatTag } from "@/lib/utils"
 import { crimeTypeLabels, articleTypeLabels } from "@/lib/data"
 import { useBookmarks } from "@/lib/bookmarks-context"
 import type { Article } from "@/lib/types"
@@ -54,7 +54,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
 
           {/* Source */}
           <span className="text-xs text-muted-foreground">
-            {article.source_name}
+            {formatTag(article.source_name)}
           </span>
 
           {/* Date */}

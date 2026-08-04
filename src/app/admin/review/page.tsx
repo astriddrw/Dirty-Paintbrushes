@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Check, X, ExternalLink } from "lucide-react";
+import { formatTag } from "@/lib/utils";
 import type { Article } from "@/lib/types";
 
 function formatDate(ds: string) {
@@ -80,7 +81,7 @@ export default function ReviewQueuePage() {
               </a>
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5">
-                <span className="text-xs text-muted-foreground">{article.source_name}</span>
+                <span className="text-xs text-muted-foreground">{formatTag(article.source_name)}</span>
                 {article.published_date && (
                   <span className="text-xs text-muted-foreground">{formatDate(article.published_date)}</span>
                 )}

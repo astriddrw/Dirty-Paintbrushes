@@ -7,6 +7,7 @@ import type { RssSource } from "@/lib/types"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { FadeInHeading } from "@/components/FadeInHeading"
+import { formatTag } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Sources | Dirty Paintbrushes",
@@ -69,7 +70,7 @@ export default async function SourcesPage() {
                         className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
                       >
                         <h3 className="text-base font-medium text-indigo group-hover:opacity-70 transition-opacity">
-                          {source.name}
+                          {formatTag(source.name)}
                         </h3>
                         <ExternalLink className="h-4 w-4 text-indigo hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
                       </a>
