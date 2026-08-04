@@ -47,38 +47,18 @@ export default async function HomePage() {
                   ))}
                 </div>
               </BookmarksProvider>
+
+              <div className="flex justify-center mt-10">
+                <Link
+                  href="/feed"
+                  className="px-8 py-3 bg-indigo text-white text-sm font-medium hover:opacity-80 transition-opacity"
+                >
+                  Look for more
+                </Link>
+              </div>
             </div>
           </section>
         )}
-
-        {/* About Section - Editorial Content */}
-        <section className="px-6 lg:px-8 py-24 lg:py-32 border-t border-border bg-[#E6E2C5]">
-          <div className="max-w-2xl mx-auto">
-            <div className="space-y-6 text-base leading-relaxed text-foreground">
-              <h2 className="text-3xl font-serif font-normal mb-6">Why Dirty Paintbrushes?</h2>
-
-              <p>
-                The art market is a sector that has long been overlooked from a regulatory perspective. It is highly opaque and inherently cross-border, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.
-              </p>
-
-              <p>
-                Dirty Paintbrushes started as a research question. How can something as cultural and subjective as art be used to move and obscure illicit finance?
-              </p>
-
-              <p>
-                While studying International Relations at King&apos;s College London, I focused on financial crime and non-traditional assets. During my exchange at Georgetown University, I developed a research paper titled &ldquo;Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity&rdquo;, looking at recent case studies in the UK and US, from NFTs to antiquities.
-              </p>
-
-              <p>
-                That work led me to focus more closely on the art market as a financial crime risk area, and made it clear how fragmented this space is. Information is difficult to track, often reactive, and rarely brought together in one place.
-              </p>
-
-              <p>
-                This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Navigation to Other Pages */}
         <section className="px-6 lg:px-8 py-24 lg:py-32 border-t border-border">
@@ -89,7 +69,7 @@ export default async function HomePage() {
                 className="group border border-ochre p-6 hover:bg-oxblood transition-all"
               >
                 <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-white">Browse Feed</h3>
-                <p className="text-sm text-muted-foreground">Real-time aggregated reporting on art market financial crime.</p>
+                <p className="text-sm text-muted-foreground">Curated intelligence and news tracking art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
