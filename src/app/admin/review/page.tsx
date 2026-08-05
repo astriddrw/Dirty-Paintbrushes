@@ -19,7 +19,15 @@ export default function ReviewQueuePage() {
 
   const fetchQueue = useCallback(async () => {
     setLoading(true);
+    setActionError(null);
     const res = await fetch("/api/admin/review");
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setActionError(body.error ?? `Failed to load review queue (HTTP ${res.status})`);
+      setArticles([]);
+      setLoading(false);
+      return;
+    }
     const { articles: data } = await res.json();
     setArticles((data ?? []) as Article[]);
     setLoading(false);
@@ -60,7 +68,7 @@ export default function ReviewQueuePage() {
         </div>
       )}
 
-      {!loading && articles.length === 0 && (
+      {!loading && !actionError && articles.length === 0 && (
         <div className="border border-border p-12 text-center">
           <p className="text-muted-foreground text-sm">Queue is empty.</p>
         </div>
