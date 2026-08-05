@@ -5,45 +5,12 @@ import { createServerClient } from "@supabase/ssr";
 import he from "he";
 import { classifyArticle } from "@/lib/tagging";
 import { checkRelevance } from "@/lib/relevance-filter";
+import { extractSummary, cleanGoogleUrl, parsePublishedDate } from "@/lib/feed-parsing";
 
 // isAuthorized() reads request.cookies, which opts this route out of static
 // rendering — declare it dynamic explicitly rather than relying on Next's
 // (unreliable, in this version) automatic bailout.
 export const dynamic = "force-dynamic";
-
-// ─── Helper functions ───────────────────────────────────────────────────────
-
-function decodeHtml(raw: string): string {
-  if (!raw) return raw;
-  // Strip HTML tags first, then decode entities
-  const stripped = raw.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-  return he.decode(stripped);
-}
-
-function extractSummary(raw: string): string {
-  const plain = decodeHtml(raw);
-  const sentences = plain.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [];
-  return sentences.slice(0, 3).join(" ").trim().slice(0, 600);
-}
-
-function cleanGoogleUrl(url: string): string {
-  try {
-    if (!url.includes("google.com/url")) return url;
-    const parsed = new URL(url);
-    const real = parsed.searchParams.get("url");
-    return real ? decodeURIComponent(real) : url;
-  } catch {
-    return url;
-  }
-}
-
-function parsePublishedDate(item: { pubDate?: string; isoDate?: string }): string | null {
-  const raw = item.isoDate ?? item.pubDate;
-  if (!raw) return null;
-  const parsed = new Date(raw);
-  if (Number.isNaN(parsed.getTime())) return null;
-  return parsed.toISOString();
-}
 
 // ─── Auth check ─────────────────────────────────────────────────────────────
 
