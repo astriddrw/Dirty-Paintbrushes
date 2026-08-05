@@ -35,7 +35,7 @@ export default async function HomePage() {
                 </h2>
                 <Link
                   href="/feed"
-                  className="text-sm text-indigo hover:opacity-70 transition-opacity"
+                  className="font-nav uppercase text-[15px] font-light text-indigo hover:opacity-70 transition-opacity"
                 >
                   View all →
                 </Link>
@@ -51,7 +51,7 @@ export default async function HomePage() {
               <div className="flex justify-center mt-10">
                 <Link
                   href="/feed"
-                  className="px-8 py-3 bg-indigo text-white text-sm font-medium hover:opacity-80 transition-opacity"
+                  className="px-8 py-3 bg-indigo text-background font-nav uppercase text-[15px] font-light hover:opacity-80 transition-opacity"
                 >
                   Look for more
                 </Link>
@@ -68,15 +68,15 @@ export default async function HomePage() {
                 href="/feed"
                 className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Browse Feed</h3>
-                <p className="text-sm text-muted-foreground">Curated intelligence and news tracking art market financial crime.</p>
+                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Browse Feed</h3>
+                <p className="text-sm text-center text-muted-foreground">Curated intelligence and news tracking art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
                 className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Sources</h3>
-                <p className="text-sm text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
+                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Sources</h3>
+                <p className="text-sm text-center text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
               </Link>
             </div>
           </div>
