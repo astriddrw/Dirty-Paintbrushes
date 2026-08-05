@@ -12,7 +12,7 @@ const instrumentSerif = Instrument_Serif({
 
 const roboto = Roboto({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['300', '400', '500', '700'],
   variable: '--font-body',
   display: 'swap',
 })

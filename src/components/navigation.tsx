@@ -36,7 +36,7 @@ export function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "font-nav uppercase text-[15px] font-normal text-foreground transition-colors",
+                  "font-nav uppercase text-[15px] font-light text-foreground transition-colors",
                   pathname === link.href
                     ? "font-medium underline decoration-2 decoration-indigo underline-offset-4"
                     : "hover:opacity-70"
@@ -71,7 +71,7 @@ export function Navigation() {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "font-nav text-sm font-normal transition-colors",
+                    "font-nav text-sm font-light transition-colors",
                     pathname === link.href
                       ? "text-foreground font-medium underline decoration-2 decoration-indigo underline-offset-4"
                       : "text-muted-foreground"

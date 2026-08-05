@@ -18,16 +18,16 @@ export function Footer() {
 
           {/* Navigation links */}
           <div className="flex flex-col gap-3">
-            <a href="/" className="text-sm text-white hover:opacity-70 transition-opacity">
+            <a href="/" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
               Home
             </a>
-            <a href="/feed" className="text-sm text-white hover:opacity-70 transition-opacity">
+            <a href="/feed" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
               Feed
             </a>
-            <a href="/about" className="text-sm text-white hover:opacity-70 transition-opacity">
+            <a href="/about" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
               About
             </a>
-            <a href="/sources" className="text-sm text-white hover:opacity-70 transition-opacity">
+            <a href="/sources" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
               Sources
             </a>
           </div>

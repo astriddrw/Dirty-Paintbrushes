@@ -66,16 +66,16 @@ export default async function HomePage() {
             <div className="grid grid-cols-2 gap-8 lg:gap-12">
               <Link
                 href="/feed"
-                className="group border border-ochre p-6 hover:bg-oxblood transition-all"
+                className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-white">Browse Feed</h3>
+                <h3 className="font-serif text-lg mb-2 text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Browse Feed</h3>
                 <p className="text-sm text-muted-foreground">Curated intelligence and news tracking art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
-                className="group border border-ochre p-6 hover:bg-oxblood transition-all"
+                className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif text-lg mb-2 group-hover:underline group-hover:text-white">Sources</h3>
+                <h3 className="font-serif text-lg mb-2 text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Sources</h3>
                 <p className="text-sm text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
               </Link>
             </div>

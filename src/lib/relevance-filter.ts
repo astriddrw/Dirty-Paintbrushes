@@ -14,10 +14,13 @@ export const ART_MARKET_TERMS = [
 export const FINANCIAL_CRIME_TERMS = [
   "money laundering", "laundering", "fraud", "forgery", "sanctions",
   "terror financing", "terrorist financing", "tax evasion", "tax fraud",
-  "bribery", "corruption", "illicit", "trafficking", "smuggling", "looting",
-  "stolen", "seized", "forfeiture", "confiscated", "indicted", "indictment",
-  "convicted", "sentenced", "shell company", "beneficial owner", "due diligence",
-  "aml", "kyc", "proceeds of crime", "fatf", "ofac", "ofsi", "fincen", "hmrc", "nca",
+  "bribery", "corruption", "illicit", "traffick", "smuggling", "loot",
+  "stolen", "theft", "heist", "robbery", "burglary",
+  "seiz", "forfeiture", "confiscat", "indict", "convict",
+  "sentenced", "sentencing", "shell company", "beneficial owner", "ubo",
+  "due diligence", "aml", "kyc", "proceeds of crime", "fatf", "ofac", "ofsi",
+  "fincen", "hmrc", "nca", "repatriat", "embezzl", "extortion",
+  "racketeering", "black market", "organized crime", "organised crime",
 ];
 
 export const TITLE_EXCLUDE = [
