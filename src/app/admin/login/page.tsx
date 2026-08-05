@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AdminLoginPage() {
@@ -9,7 +8,6 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,12 +26,15 @@ export default function AdminLoginPage() {
       return;
     }
 
-    router.push("/admin");
-    router.refresh();
+    // A hard navigation guarantees the request carries the freshly-set
+    // session cookie and skips Next's router cache — router.push() here was
+    // intermittently hitting a stale/unauthenticated cached response,
+    // requiring a manual reload before the admin session was recognized.
+    window.location.href = "/admin";
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-sm">
         <div className="border border-border p-8">
           <h1 className="text-2xl font-serif mb-2">Admin</h1>
@@ -48,7 +49,7 @@ export default function AdminLoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoFocus
-                className="w-full border border-border px-3 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full border border-border px-3 py-2.5 text-sm bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div>
@@ -58,7 +59,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full border border-border px-3 py-2.5 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full border border-border px-3 py-2.5 text-sm bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             {error && <p className="text-xs text-destructive">{error}</p>}

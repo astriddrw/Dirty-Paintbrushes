@@ -27,7 +27,7 @@ export default async function HomePage() {
 
         {/* Latest Intelligence - real published articles, same rows as the Feed page */}
         {articles.length > 0 && (
-          <section className="px-6 lg:px-8 py-16 lg:py-20 border-t border-border">
+          <section className="px-6 lg:px-8 py-16 lg:py-20 border-t border-border bg-light-blue">
             <div className="max-w-5xl mx-auto">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl lg:text-3xl font-serif italic text-indigo">

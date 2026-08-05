@@ -54,10 +54,10 @@ export default async function SourcesPage() {
               if (tierSources.length === 0) return null
               return (
                 <section key={tier}>
-                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-ochre mb-1">
+                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-oxblood mb-1">
                     {TIER_GROUP_LABELS[tier]}
                   </h2>
-                  <p className="text-sm text-indigo mb-6">
+                  <p className="text-sm text-oxblood mb-6">
                     {TIER_DESCRIPTIONS[tier]}
                   </p>
                   <div className="flex flex-col gap-4">
