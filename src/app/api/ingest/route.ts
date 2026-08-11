@@ -60,7 +60,15 @@ export async function GET(request: NextRequest) {
   }
 
   const parser = new Parser({ timeout: 8000 });
-  const stats = { processed: 0, saved: 0, skipped: 0, errors: [] as string[] };
+  const stats = {
+    sourcesChecked: 0,
+    articlesSeen: 0,
+    stored: 0,
+    rejected: 0,
+    errors: 0,
+    rejectedTitles: [] as string[],
+    errorDetails: [] as string[],
+  };
 
   // Fetch all feeds concurrently
   const feedResults = await Promise.allSettled(
@@ -70,9 +78,13 @@ export async function GET(request: NextRequest) {
     })
   );
 
-  for (const result of feedResults) {
+  for (let i = 0; i < feedResults.length; i++) {
+    const result = feedResults[i];
+    stats.sourcesChecked++;
+
     if (result.status === "rejected") {
-      stats.errors.push(String(result.reason));
+      stats.errors++;
+      stats.errorDetails.push(`${sources[i].feed_url}: ${result.reason}`);
       continue;
     }
 
@@ -95,10 +107,10 @@ export async function GET(request: NextRequest) {
 
     for (const item of items) {
       if (!item.link || !item.title) continue;
-      stats.processed++;
+      stats.articlesSeen++;
 
       const cleanUrl = cleanGoogleUrl(item.link);
-      if (existingUrls.has(cleanUrl)) { stats.skipped++; continue; }
+      if (existingUrls.has(cleanUrl)) continue;
 
       const title = he.decode(item.title.trim());
       const rawSnippet = item.contentSnippet ?? item.content ?? item.summary ?? "";
@@ -106,7 +118,11 @@ export async function GET(request: NextRequest) {
 
       // Applies to every source regardless of tier — a "trusted" tier1 source
       // publishing an off-topic or non-article page is still rejected.
-      if (!checkRelevance(title, rawSnippet).relevant) { stats.skipped++; continue; }
+      if (!checkRelevance(title, rawSnippet).relevant) {
+        stats.rejected++;
+        stats.rejectedTitles.push(title);
+        continue;
+      }
 
       candidates.push({ item, cleanUrl, title, summary });
     }
@@ -142,9 +158,10 @@ export async function GET(request: NextRequest) {
         .from("articles")
         .insert(toInsert);
       if (insertError) {
-        stats.errors.push(`${source.name}: ${insertError.message}`);
+        stats.errors++;
+        stats.errorDetails.push(`${source.name}: ${insertError.message}`);
       } else {
-        stats.saved += toInsert.length;
+        stats.stored += toInsert.length;
       }
     }
 
@@ -154,11 +171,28 @@ export async function GET(request: NextRequest) {
       .eq("id", source.id);
   }
 
-  return NextResponse.json({
-    ok: true,
-    processed: stats.processed,
-    saved: stats.saved,
-    skipped: stats.skipped,
+  const { error: runError } = await supabase.from("ingestion_runs").insert({
+    sources_checked: stats.sourcesChecked,
+    articles_seen: stats.articlesSeen,
+    articles_stored: stats.stored,
+    articles_rejected: stats.rejected,
     errors: stats.errors,
+    rejected_titles: stats.rejectedTitles.slice(0, 50),
+    error_details: stats.errorDetails,
   });
+  if (runError) {
+    // Non-fatal: the ingestion_runs table doesn't exist yet in Supabase.
+    // Add a migration for it if you want run history persisted.
+    console.error("[INGEST] failed to log ingestion_runs:", runError.message);
+  }
+
+  const summary = {
+    sourcesChecked: stats.sourcesChecked,
+    articlesSeen: stats.articlesSeen,
+    stored: stats.stored,
+    rejected: stats.rejected,
+    errors: stats.errors,
+  };
+  console.log("[INGEST SUMMARY]", summary);
+  return NextResponse.json(summary);
 }

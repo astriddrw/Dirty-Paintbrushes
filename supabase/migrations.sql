@@ -142,3 +142,30 @@ DROP POLICY IF EXISTS "Public can submit feedback" ON feedback;
 CREATE POLICY "Public can submit feedback"
   ON feedback FOR INSERT
   WITH CHECK (true);
+
+
+-- ── 6. INGESTION RUNS LOG ─────────────────────────────────────────────────
+-- Tracks each /api/ingest run for observability. Written by the admin
+-- (service-role) client, so no public policy is needed — only authenticated
+-- users can read run history from the admin UI.
+CREATE TABLE IF NOT EXISTS ingestion_runs (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  sources_checked integer NOT NULL DEFAULT 0,
+  articles_seen integer NOT NULL DEFAULT 0,
+  articles_stored integer NOT NULL DEFAULT 0,
+  articles_rejected integer NOT NULL DEFAULT 0,
+  errors integer NOT NULL DEFAULT 0,
+  rejected_titles text[] DEFAULT '{}',
+  error_details text[] DEFAULT '{}',
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS ingestion_runs_created_at_idx ON ingestion_runs (created_at DESC);
+
+ALTER TABLE ingestion_runs ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Authenticated users can manage ingestion_runs" ON ingestion_runs;
+CREATE POLICY "Authenticated users can manage ingestion_runs"
+  ON ingestion_runs FOR ALL
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');

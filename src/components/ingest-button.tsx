@@ -4,11 +4,11 @@ import { useState } from "react";
 import { RefreshCw, Wrench } from "lucide-react";
 
 interface IngestResult {
-  ok: boolean;
-  processed: number;
-  saved: number;
-  skipped: number;
-  errors: string[];
+  sourcesChecked: number;
+  articlesSeen: number;
+  stored: number;
+  rejected: number;
+  errors: number;
 }
 
 interface CleanupResult {
@@ -75,9 +75,9 @@ export function IngestButton() {
         </button>
         {result && (
           <div className="text-xs text-muted-foreground space-y-0.5">
-            <p>✓ {result.saved} saved · {result.skipped} skipped · {result.processed} processed</p>
-            {result.errors.length > 0 && (
-              <p className="text-destructive">{result.errors.length} feed error(s)</p>
+            <p>✓ {result.stored} stored · {result.rejected} rejected · {result.articlesSeen} seen · {result.sourcesChecked} sources</p>
+            {result.errors > 0 && (
+              <p className="text-destructive">{result.errors} error(s)</p>
             )}
           </div>
         )}
