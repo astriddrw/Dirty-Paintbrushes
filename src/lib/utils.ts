@@ -40,6 +40,22 @@ export function formatTag(tag: string): string {
     .join(" ");
 }
 
+// Tier 5 (Google Alerts) source_name is the alert's search-query label
+// (e.g. "Art Market & Crime Fraud"), not the article's real publisher —
+// fall back to the article URL's hostname, which is the true source, for
+// that tier only. Other tiers already carry a real publication name.
+export function formatSource(article: { source_name: string; source_tier: SourceTier; url: string }): string {
+  if (article.source_tier === "tier5") {
+    try {
+      const hostname = new URL(article.url).hostname.replace(/^www\./, "");
+      if (hostname) return hostname;
+    } catch {
+      // fall through to the default below
+    }
+  }
+  return formatTag(article.source_name);
+}
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });

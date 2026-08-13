@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArticleRow } from "@/components/article-row"
@@ -34,40 +35,71 @@ interface FeedContentProps {
   articles: Article[]
 }
 
+function parseSet(value: string | null): Set<string> {
+  return new Set((value ?? "").split(",").filter(Boolean))
+}
+
 export function FeedContent({ articles }: FeedContentProps) {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [sortBy, setSortBy] = useState<SortOption>("newest")
-  const [selectedCrimeTypes, setSelectedCrimeTypes] = useState<Set<string>>(new Set())
-  const [selectedArticleTypes, setSelectedArticleTypes] = useState<Set<string>>(new Set())
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  // The URL query string is the source of truth for every filter, so a
+  // filtered/searched view is shareable and survives refresh/back-button —
+  // only the raw search text gets a local, debounced mirror so typing feels
+  // instant instead of round-tripping through the router on every keystroke.
+  const searchQuery = searchParams.get("q") ?? ""
+  const sortBy = (searchParams.get("sort") as SortOption) || "newest"
+  const selectedCrimeTypes = useMemo(() => parseSet(searchParams.get("crime")), [searchParams])
+  const selectedArticleTypes = useMemo(() => parseSet(searchParams.get("type")), [searchParams])
+  const dateFrom = searchParams.get("from") ?? ""
+  const dateTo = searchParams.get("to") ?? ""
+
+  const [searchInput, setSearchInput] = useState(searchQuery)
+
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      const params = new URLSearchParams(searchParams.toString())
+      for (const [key, value] of Object.entries(updates)) {
+        if (value) params.set(key, value)
+        else params.delete(key)
+      }
+      const query = params.toString()
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    },
+    [router, pathname, searchParams]
+  )
+
+  // Debounce the search box into the URL rather than pushing on every keystroke.
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      if (searchInput !== searchQuery) updateParams({ q: searchInput || null })
+    }, 400)
+    return () => clearTimeout(handle)
+  }, [searchInput, searchQuery, updateParams])
+
+  // Keep the input in sync when the URL changes from outside typing (back/forward).
+  useEffect(() => {
+    setSearchInput(searchQuery)
+  }, [searchQuery])
 
   const toggleCrimeType = (type: string) => {
-    setSelectedCrimeTypes((prev) => {
-      const next = new Set(prev)
-      if (next.has(type)) {
-        next.delete(type)
-      } else {
-        next.add(type)
-      }
-      return next
-    })
+    const next = new Set(selectedCrimeTypes)
+    if (next.has(type)) next.delete(type)
+    else next.add(type)
+    updateParams({ crime: Array.from(next).join(",") || null })
   }
 
   const toggleArticleType = (type: string) => {
-    setSelectedArticleTypes((prev) => {
-      const next = new Set(prev)
-      if (next.has(type)) {
-        next.delete(type)
-      } else {
-        next.add(type)
-      }
-      return next
-    })
+    const next = new Set(selectedArticleTypes)
+    if (next.has(type)) next.delete(type)
+    else next.add(type)
+    updateParams({ type: Array.from(next).join(",") || null })
   }
 
   const clearFilters = () => {
-    setSearchQuery("")
-    setSelectedCrimeTypes(new Set())
-    setSelectedArticleTypes(new Set())
+    setSearchInput("")
+    router.replace(pathname, { scroll: false })
   }
 
   const filteredArticles = useMemo(() => {
@@ -97,6 +129,18 @@ export function FeedContent({ articles }: FeedContentProps) {
       )
     }
 
+    // Filter by date range
+    if (dateFrom) {
+      result = result.filter(
+        (article) => article.published_date && new Date(article.published_date) >= new Date(dateFrom)
+      )
+    }
+    if (dateTo) {
+      result = result.filter(
+        (article) => article.published_date && new Date(article.published_date) <= new Date(dateTo)
+      )
+    }
+
     // Sort
     result.sort((a, b) => {
       const dateA = a.published_date ? new Date(a.published_date).getTime() : 0
@@ -105,10 +149,11 @@ export function FeedContent({ articles }: FeedContentProps) {
     })
 
     return result
-  }, [articles, searchQuery, selectedCrimeTypes, selectedArticleTypes, sortBy])
+  }, [articles, searchQuery, selectedCrimeTypes, selectedArticleTypes, dateFrom, dateTo, sortBy])
 
-  const hasActiveFilters =
-    searchQuery || selectedCrimeTypes.size > 0 || selectedArticleTypes.size > 0
+  const hasActiveFilters = Boolean(
+    searchQuery || selectedCrimeTypes.size > 0 || selectedArticleTypes.size > 0 || dateFrom || dateTo
+  )
 
   return (
     <div className="min-h-screen flex flex-col bg-card">
@@ -122,25 +167,47 @@ export function FeedContent({ articles }: FeedContentProps) {
           </FadeInHeading>
 
           {/* Search and Sort */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
                 placeholder="Search articles..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
               />
             </div>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              onChange={(e) => updateParams({ sort: e.target.value === "newest" ? null : e.target.value })}
               className="px-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
             </select>
+          </div>
+
+          {/* Date range */}
+          <div className="flex flex-wrap items-center gap-2 mb-8">
+            <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
+              Date range
+            </span>
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => updateParams({ from: e.target.value || null })}
+              className="px-3 py-1.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              aria-label="From date"
+            />
+            <span className="text-muted-foreground select-none">–</span>
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => updateParams({ to: e.target.value || null })}
+              className="px-3 py-1.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              aria-label="To date"
+            />
           </div>
 
           {/* Filters */}
@@ -154,6 +221,7 @@ export function FeedContent({ articles }: FeedContentProps) {
                 <button
                   key={type}
                   onClick={() => toggleCrimeType(type)}
+                  aria-pressed={selectedCrimeTypes.has(type)}
                   className={cn(
                     "px-1 py-1 italic text-xs font-medium text-indigo underline decoration-1 underline-offset-4 transition-all",
                     selectedCrimeTypes.has(type)
@@ -175,6 +243,7 @@ export function FeedContent({ articles }: FeedContentProps) {
                 <button
                   key={type}
                   onClick={() => toggleArticleType(type)}
+                  aria-pressed={selectedArticleTypes.has(type)}
                   className={cn(
                     "px-1 py-1 italic text-xs font-medium text-ochre-on-light underline decoration-1 underline-offset-4 transition-all",
                     selectedArticleTypes.has(type)

@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { createClient } from "@/lib/supabase/server"
 import { BookmarksProvider } from "@/lib/bookmarks-context"
 import { FeedContent } from "@/components/feed-content"
@@ -22,7 +23,9 @@ export default async function FeedPage() {
 
   return (
     <BookmarksProvider>
-      <FeedContent articles={articles} />
+      <Suspense fallback={null}>
+        <FeedContent articles={articles} />
+      </Suspense>
     </BookmarksProvider>
   )
 }

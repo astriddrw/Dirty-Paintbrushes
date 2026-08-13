@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Bookmark, ExternalLink } from "lucide-react"
-import { cn, formatTag } from "@/lib/utils"
+import { cn, formatSource } from "@/lib/utils"
 import { crimeTypeLabels, articleTypeLabels } from "@/lib/data"
 import { useBookmarks } from "@/lib/bookmarks-context"
 import type { Article } from "@/lib/types"
@@ -24,8 +24,6 @@ export function ArticleRow({ article }: ArticleRowProps) {
   const { isBookmarked, toggleBookmark } = useBookmarks()
   const bookmarked = isBookmarked(article.id)
 
-  const primaryCrimeType = article.crime_types?.[0] ?? ""
-
   return (
     <div className="group flex items-start gap-4 lg:gap-6 py-5 lg:py-6 border-b border-border hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-sm">
       {/* Content */}
@@ -38,12 +36,13 @@ export function ArticleRow({ article }: ArticleRowProps) {
         </Link>
 
         <div className="flex flex-wrap items-center gap-2 lg:gap-3">
-          {/* Crime Type Tag */}
-          {primaryCrimeType && (
-            <span className="italic text-xs font-medium text-indigo">
-              {crimeTypeLabels[primaryCrimeType] ?? primaryCrimeType.replace(/_/g, " ")}
+          {/* Crime Type Tags — every match, not just the first, so a row visibly
+              justifies why it matched a crime-type filter */}
+          {article.crime_types?.map((ct) => (
+            <span key={ct} className="italic text-xs font-medium text-indigo">
+              {crimeTypeLabels[ct] ?? ct.replace(/_/g, " ")}
             </span>
-          )}
+          ))}
 
           {/* Article Type Tag */}
           {article.article_type && (
@@ -54,7 +53,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
 
           {/* Source */}
           <span className="text-xs text-muted-foreground">
-            {formatTag(article.source_name)}
+            {formatSource(article)}
           </span>
 
           {/* Date */}
@@ -77,6 +76,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
           )}
           aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
+          title={bookmarked ? "Saved on this device — click to remove" : "Save to this device"}
         >
           <Bookmark className={cn("h-4 w-4", bookmarked && "fill-current")} />
         </button>

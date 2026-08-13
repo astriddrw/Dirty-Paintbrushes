@@ -20,13 +20,13 @@ Dirty Paintbrushes aggregates and curates news about financial crime in the art 
 
 ## Positioning
 
-The mechanism is the curated, classified feed: RSS ingestion runs articles through a relevance filter and Haiku-based classifier that tags crime type, region, and entity type, and routes uncertain items to a manual review queue before publish. This turns noisy multi-source RSS into a signal-only feed a reader can trust and filter — something raw RSS or ad hoc search cannot do. Case files are a secondary structure built on top of the same classified article pool.
+The mechanism is the curated, classified feed: RSS ingestion runs articles through a Haiku-based relevance gate (admits or rejects, plus key actors/agencies) and a keyword-based tagger (`src/lib/tagging.ts`) that assigns crime type and article type, then routes everything to a manual review queue before publish. This turns noisy multi-source RSS into a signal-only feed a reader can trust and filter — something raw RSS or ad hoc search cannot do. Case files are a secondary structure built on top of the same classified article pool.
 
 ## Operating Context
 
-- Ingestion pipeline: RSS sources (tiered `tier1`–`tier5` plus `manual`) are pulled, deduped, run through a relevance filter and Haiku classifier, and land in `review_queue` or `published` status (`draft`/`dismissed` also exist). Ingestion runs are logged (`ingestion_runs`).
+- Ingestion pipeline: RSS sources (tiered `tier1`–`tier5` plus `manual`) are pulled, deduped, passed through the Haiku relevance gate, tagged for crime type/article type by the keyword tagger, and land in `review_queue` (every new article, regardless of source tier, waits for manual approval in `/admin/review`). Ingestion runs are logged (`ingestion_runs`).
 - Admin panel (`/admin`) is where the operator (currently just the founder) monitors published/review-queue/source/case counts, submits articles manually, works the review queue, and manages case files.
-- Public surfaces: home (`/`), feed (`/feed`) with filters (crime type, region, entity type, date, search), article detail with crime/region tags and an editor's note, case list/detail (`/cases`), sources (`/sources`) listing all active RSS sources grouped by tier, saved/bookmarked articles (`/saved`), about (`/about`).
+- Public surfaces: home (`/`), feed (`/feed`) with filters (crime type, article type, date range, search — see Capabilities and Constraints re: region/entity type), article detail with crime tags and an editor's note, case list/detail (`/cases`, gated as a "coming soon" placeholder as of 2026-08-13), sources (`/sources`) listing all active RSS sources grouped by tier, saved/bookmarked articles (`/saved`), about (`/about`).
 - Comment feature lets readers add analysis or flag connections on articles.
 - Backed by Supabase (Postgres + auth); classification uses the Anthropic API (Haiku).
 
@@ -35,7 +35,8 @@ The mechanism is the curated, classified feed: RSS ingestion runs articles throu
 - Sourcing discipline is a hard constraint: every published claim must trace back to a cited news source. No editorializing or presenting unverified allegations as fact — this applies to editor's notes, case summaries, and any future AI-assisted copy.
 - Comment moderation policy is not yet decided — record as open rather than inventing a rule.
 - Article/case data model (source of truth in `src/lib/types.ts` and `supabase/schema.sql`): `CrimeType`, `EntityType`, `SourceTier`, `ArticleStatus`, `CaseStatus`, `ArticleType` enums drive tagging and filtering throughout the product — treat these as fixed vocabulary, not free text.
-- Real Supabase data is live in production surfaces (sources, admin, feed); `src/lib/placeholder-data.ts` still exists as legacy fallback/dev data and should not be treated as current product content.
+- `regions` (`string[]`) and `entity_types` (`EntityType[]`) exist on the `Article` schema and in the admin manual-submit form, but the automated ingestion pipeline hardcodes both to `[]` (`src/app/api/ingest/route.ts`) — as of 2026-08-13 only ~3% of published articles have either populated (manually submitted ones). Treat these as planned-but-unpopulated, not shippable filter dimensions, until the classification pipeline is extended to detect them.
+- Real Supabase data is live in production surfaces (sources, admin, feed); `src/lib/placeholder-data.ts` and the old `/cases` implementation it backed have been removed (2026-08-13) — `/cases` is currently a gated placeholder.
 
 ## Brand Commitments
 

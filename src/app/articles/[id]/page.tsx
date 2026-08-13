@@ -6,7 +6,7 @@ import { BookmarksProvider } from "@/lib/bookmarks-context";
 import { ArticleBookmarkButton } from "@/components/article-bookmark-button";
 import CommentSection from "@/components/CommentSection";
 import { crimeTypeLabels, crimeTypeColors, articleTypeLabels } from "@/lib/data";
-import { cn, formatDate, formatTag, tierBadge } from "@/lib/utils";
+import { cn, formatDate, formatSource, tierBadge } from "@/lib/utils";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Article } from "@/lib/types";
@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: Props) {
                 <span className={cn("text-xs font-semibold px-1.5 py-0.5 uppercase tracking-wider", tierClass)}>
                   {tierLabel}
                 </span>
-                <span className="text-sm text-muted-foreground">{formatTag(article.source_name)}</span>
+                <span className="text-sm text-muted-foreground">{formatSource(article)}</span>
                 {article.published_date && (
                   <>
                     <span className="text-muted-foreground select-none">·</span>
