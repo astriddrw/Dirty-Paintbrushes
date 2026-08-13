@@ -6,7 +6,43 @@
       "Bash(npm run:*)",
       "Bash(echo \"Dev server PID: $!\")",
       "Bash(curl:*)",
-      "Bash(kill 6211)"
+      "Bash(kill 6211)",
+      "Bash(cd *)",
+      "Bash(grep -rn \"RSS_SOURCES\\\\|processFeeds\\\\|filterAndCategorize\" /Users/astridderohanwillner/dirty-paintbrushes -g '!node_modules' -g '!.next' -g '!.git')",
+      "Bash(grep -rn \"ingestion_runs\" /Users/astridderohanwillner/dirty-paintbrushes -g '!node_modules' -g '!.next' -g '!.git')",
+      "Bash(echo \"exit:$?\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('.impeccable/design.json','utf8'\\)\\); console.log\\('valid json'\\)\")",
+      "Read(//tmp/**)",
+      "Bash(node -e ' *)",
+      "Bash(node .claude/skills/impeccable/scripts/detect.mjs --json src/)"
     ]
-  }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ ! -f \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\" ] || node \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\"",
+            "timeout": 5,
+            "statusMessage": "Checking UI changes"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ ! -f \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\" ] || node \"${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs\"",
+            "timeout": 30,
+            "statusMessage": "Design deep pass"
+          }
+        ]
+      }
+    ]
+  },
+  "description": "Impeccable design detector: immediate-tier checks after Edit/Write/MultiEdit on UI files, full-rule deep pass on Stop."
 }

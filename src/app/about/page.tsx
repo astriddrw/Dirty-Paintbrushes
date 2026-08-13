@@ -5,18 +5,18 @@ import { FadeInHeading } from "@/components/FadeInHeading"
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#C99A3B]">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-3xl mx-auto">
           {/* Header */}
-          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-[#E6E2C5] mb-12 font-serif">
+          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-oxblood mb-12 font-serif">
             Why Dirty Paintbrushes?
           </FadeInHeading>
 
           {/* Content */}
-          <div className="space-y-6 text-base leading-relaxed text-[#E6E2C5]">
+          <div className="space-y-6 text-base leading-relaxed text-foreground">
             <p>
               The art market is a sector that has long been overlooked from a regulatory perspective. It is highly opaque and inherently cross-border, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.
             </p>

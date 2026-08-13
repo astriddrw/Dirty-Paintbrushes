@@ -176,10 +176,10 @@ export function FeedContent({ articles }: FeedContentProps) {
                   key={type}
                   onClick={() => toggleArticleType(type)}
                   className={cn(
-                    "px-1 py-1 italic text-xs font-medium text-ochre underline decoration-1 underline-offset-4 transition-all",
+                    "px-1 py-1 italic text-xs font-medium text-ochre-on-light underline decoration-1 underline-offset-4 transition-all",
                     selectedArticleTypes.has(type)
-                      ? "decoration-ochre"
-                      : "decoration-transparent hover:decoration-ochre"
+                      ? "decoration-ochre-on-light"
+                      : "decoration-transparent hover:decoration-ochre-on-light"
                   )}
                 >
                   {articleTypeLabels[type]}

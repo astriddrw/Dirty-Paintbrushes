@@ -47,7 +47,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
 
           {/* Article Type Tag */}
           {article.article_type && (
-            <span className="italic text-xs font-medium text-ochre">
+            <span className="italic text-xs font-medium text-ochre-on-light">
               {articleTypeLabels[article.article_type] ?? article.article_type}
             </span>
           )}
@@ -71,7 +71,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
         <button
           onClick={() => toggleBookmark(article.id)}
           className={cn(
-            "p-2 rounded-md transition-colors",
+            "p-3.5 rounded-md transition-colors",
             bookmarked
               ? "text-primary bg-primary/10"
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -84,7 +84,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="p-3.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Open article"
         >
           <ExternalLink className="h-4 w-4" />

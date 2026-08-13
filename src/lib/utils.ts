@@ -23,11 +23,11 @@ export function tierBadge(tier: SourceTier): { label: string; className: string 
   }
 }
 
-// Strips automated-ingestion prefixes (e.g. "GA - " from Google Alerts
-// source names) and cleans up the remainder for display — "GA - Painting
-// + heist" -> "Painting & Heist". Source names with no such prefix pass
-// through unchanged.
-const GA_PREFIX = /^\s*GA\s*-\s*/i;
+// Strips automated-ingestion prefixes (e.g. "GA - " or "Google Alert - "
+// from Google Alerts source names) and cleans up the remainder for display
+// — "GA - Painting + heist" -> "Painting & Heist". Source names with no
+// such prefix pass through unchanged.
+const GA_PREFIX = /^\s*(GA|Google Alert)\s*-\s*/i;
 
 export function formatTag(tag: string): string {
   if (!GA_PREFIX.test(tag)) return tag;

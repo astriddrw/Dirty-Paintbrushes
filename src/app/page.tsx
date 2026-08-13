@@ -68,14 +68,14 @@ export default async function HomePage() {
                 href="/feed"
                 className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Browse Feed</h3>
+                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre-on-light group-hover:underline transition-colors">Browse Feed</h3>
                 <p className="text-sm text-center text-muted-foreground">Curated intelligence and news tracking art market financial crime.</p>
               </Link>
               <Link
                 href="/sources"
                 className="group border border-oxblood p-6 hover:border-ochre transition-all"
               >
-                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre group-hover:underline transition-colors">Sources</h3>
+                <h3 className="font-serif italic text-lg mb-2 text-center text-oxblood group-hover:text-ochre-on-light group-hover:underline transition-colors">Sources</h3>
                 <p className="text-sm text-center text-muted-foreground">Trusted publications, regulatory bodies, and investigative outlets.</p>
               </Link>
             </div>

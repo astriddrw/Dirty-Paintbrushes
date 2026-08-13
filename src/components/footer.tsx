@@ -5,13 +5,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Copyright and tagline */}
           <div>
-            <p className="text-sm font-serif font-semibold text-[#E6E2C5] mb-2">
+            <p className="text-sm font-serif font-semibold text-aged-vellum mb-2">
               Dirty Paintbrushes
             </p>
-            <p className="text-sm text-[#E6E2C5]">
+            <p className="text-sm text-aged-vellum">
               Tracking financial crime in the art world
             </p>
-            <p className="text-xs text-[#E6E2C5] mt-4">
+            <p className="text-xs text-aged-vellum mt-4">
               &copy; {new Date().getFullYear()} All rights reserved.
             </p>
           </div>
@@ -35,7 +35,7 @@ export function Footer() {
 
         {/* Disclaimers */}
         <div className="border-t border-white/20 pt-8 space-y-4">
-          <div className="text-xs text-[#E6E2C5] leading-relaxed">
+          <div className="text-xs text-aged-vellum leading-relaxed">
             <p className="font-semibold text-white mb-2">Disclaimer</p>
             <p className="mb-4">
               Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.

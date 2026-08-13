@@ -3,8 +3,6 @@
 
 @source "../../";
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   /* ── Palette: FT-meets-broadsheet ─────────────────────────────── */
   --background: #FFEDBB;        /* parchment — shared across every page */
@@ -13,49 +11,29 @@
   --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
   --popover-foreground: #1A1A1A;
-  --primary: #1E3A5F;           /* muted navy — links, interactive, labels */
+  --primary: #253B59;           /* muted navy — links, interactive, labels (−20% sat) */
   --primary-foreground: #FAFAF8;
   --heading: #334EAC;           /* page headings (Sources, About, Dashboard, etc.) */
-  --indigo: #2B4593;            /* logo, active-nav underline, pills, external-link icons */
+  --indigo: #354A89;            /* logo, active-nav underline, pills, external-link icons (−20% sat) */
   --indigo-pale: #DCE1F0;       /* pill backgrounds */
-  --ochre: #C99A3B;             /* the one warm accent — used sparingly */
+  --ochre: #BB9549;             /* the one warm accent — used sparingly (−20% sat) */
+  --ochre-on-dark: #D8C297;     /* lightened ochre for text on indigo/navy — the base ochre fails contrast there */
+  --ochre-on-light: #775E2C;    /* darkened ochre for small unfilled text on parchment — the base ochre fails contrast there too */
+  --aged-vellum: #E6E2C5;       /* cream text/surface color on dark-indigo grounds (hero, footer, feedback box) */
   --light-blue: #CFE6F0;
-  --oxblood: #6C2C25;
+  --oxblood: #65322C;           /* −20% sat */
   --secondary: #F2F0EC;         /* warm neutral for hover states */
   --secondary-foreground: #1A1A1A;
   --muted: #E8E6E3;             /* warm grey — pill backgrounds, dividers */
   --muted-foreground: #5C5C5C;  /* warm grey text */
-  --accent: #1E3A5F;
+  --accent: #253B59;
   --accent-foreground: #FAFAF8;
   --destructive: #B83232;
   --destructive-foreground: #FFFFFF;
   --border: #E8E6E3;            /* warm but barely there */
   --input: #FFFFFF;
-  --ring: #1E3A5F;              /* navy focus ring */
+  --ring: #253B59;              /* navy focus ring */
   --radius: 0;
-}
-
-.dark {
-  --background: #1A1A1A;
-  --foreground: #FAFAF8;
-  --card: #242424;
-  --card-foreground: #FAFAF8;
-  --popover: #242424;
-  --popover-foreground: #FAFAF8;
-  --primary: #8BA8C8;
-  --primary-foreground: #1A1A1A;
-  --secondary: #2E2E2E;
-  --secondary-foreground: #FAFAF8;
-  --muted: #3A3A3A;
-  --muted-foreground: #A0A0A0;
-  --accent: #8BA8C8;
-  --accent-foreground: #1A1A1A;
-  --heading: #7C93D9;           /* lightened Planetary for dark backgrounds */
-  --destructive: #ef4444;
-  --destructive-foreground: #1A1A1A;
-  --border: #363636;
-  --input: #2E2E2E;
-  --ring: #8BA8C8;
 }
 
 @theme inline {
@@ -76,6 +54,9 @@
   --color-indigo: var(--indigo);
   --color-indigo-pale: var(--indigo-pale);
   --color-ochre: var(--ochre);
+  --color-ochre-on-dark: var(--ochre-on-dark);
+  --color-ochre-on-light: var(--ochre-on-light);
+  --color-aged-vellum: var(--aged-vellum);
   --color-light-blue: var(--light-blue);
   --color-oxblood: var(--oxblood);
   --color-secondary: var(--secondary);

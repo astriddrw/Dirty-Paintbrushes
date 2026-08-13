@@ -42,9 +42,9 @@ export function FeedbackBox() {
   };
 
   return (
-    <div className="mt-16 bg-indigo rounded-2xl p-6 lg:p-8">
+    <div className="mt-16 bg-indigo p-6 lg:p-8">
       <h2 className="text-sm font-semibold text-white mb-1">Have feedback?</h2>
-      <p className="text-xs text-[#E6E2C5] mb-5 leading-relaxed">
+      <p className="text-xs text-aged-vellum mb-5 leading-relaxed">
         Submit anonymously — no name or account required.
       </p>
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -55,18 +55,18 @@ export function FeedbackBox() {
           rows={3}
           maxLength={2000}
           required
-          className="w-full rounded-xl border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-[#E6E2C5]/60 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
+          className="w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
         />
-        {error && <p className="text-xs text-[#E6E2C5]">{error}</p>}
+        {error && <p className="text-xs text-aged-vellum">{error}</p>}
         <div className="flex items-center gap-3">
           <button
             type="submit"
             disabled={submitting || !message.trim()}
-            className="px-5 py-2 rounded-xl bg-white text-indigo text-sm font-medium hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
+            className="px-5 py-2 bg-white text-indigo text-sm font-medium hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
           >
             {submitting ? "Sending..." : "Send anonymously"}
           </button>
-          {submitted && <span className="text-xs text-[#E6E2C5]">Thanks — received.</span>}
+          {submitted && <span className="text-xs text-aged-vellum">Thanks — received.</span>}
         </div>
       </form>
     </div>
