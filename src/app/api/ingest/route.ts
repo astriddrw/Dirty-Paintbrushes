@@ -4,7 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createServerClient } from "@supabase/ssr";
 import he from "he";
 import { classifyArticle } from "@/lib/tagging";
-import { checkRelevance } from "@/lib/relevance-filter";
+import { classifyWithHaiku, FilterResult } from "@/lib/haiku-classifier";
 import { extractSummary, cleanGoogleUrl, parsePublishedDate } from "@/lib/feed-parsing";
 
 // isAuthorized() reads request.cookies, which opts this route out of static
@@ -103,7 +103,13 @@ export async function GET(request: NextRequest) {
     const existingUrls = new Set(existing?.map((a) => a.url) ?? []);
 
     // Candidates that pass the admission filter — classified concurrently below.
-    const candidates: { item: (typeof items)[number]; cleanUrl: string; title: string; summary: string }[] = [];
+    const candidates: {
+      item: (typeof items)[number];
+      cleanUrl: string;
+      title: string;
+      summary: string;
+      evaluation: FilterResult;
+    }[] = [];
 
     for (const item of items) {
       if (!item.link || !item.title) continue;
@@ -118,13 +124,22 @@ export async function GET(request: NextRequest) {
 
       // Applies to every source regardless of tier — a "trusted" tier1 source
       // publishing an off-topic or non-article page is still rejected.
-      if (!checkRelevance(title, rawSnippet).relevant) {
+      let evaluation: FilterResult;
+      try {
+        evaluation = await classifyWithHaiku(title, rawSnippet);
+      } catch (e) {
+        stats.errors++;
+        stats.errorDetails.push(`${title}: ${e instanceof Error ? e.message : String(e)}`);
+        continue;
+      }
+
+      if (!evaluation.is_relevant) {
         stats.rejected++;
         stats.rejectedTitles.push(title);
         continue;
       }
 
-      candidates.push({ item, cleanUrl, title, summary });
+      candidates.push({ item, cleanUrl, title, summary, evaluation });
     }
 
     // Every new article waits for manual approval in /admin/review, regardless
@@ -150,6 +165,9 @@ export async function GET(request: NextRequest) {
         crime_types: classification.crime_types,
         regions: [],
         entity_types: [],
+        relevance_score: candidate.evaluation.confidence_score,
+        key_actors: candidate.evaluation.key_actors,
+        agencies_or_courts: candidate.evaluation.agencies_or_courts,
       };
     });
 

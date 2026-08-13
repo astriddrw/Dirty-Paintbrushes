@@ -169,3 +169,11 @@ CREATE POLICY "Authenticated users can manage ingestion_runs"
   ON ingestion_runs FOR ALL
   USING (auth.role() = 'authenticated')
   WITH CHECK (auth.role() = 'authenticated');
+
+
+-- ── 7. HAIKU CLASSIFIER OUTPUT COLUMNS ────────────────────────────────────
+-- Named individuals/companies and law enforcement/courts/regulators
+-- extracted by classifyWithHaiku() (haiku-classifier.ts), stored alongside
+-- the confidence_score (which already had a home in relevance_score).
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_actors text[] DEFAULT '{}';
+ALTER TABLE articles ADD COLUMN IF NOT EXISTS agencies_or_courts text[] DEFAULT '{}';
