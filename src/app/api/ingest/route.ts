@@ -117,6 +117,10 @@ export async function GET(request: NextRequest) {
 
       const cleanUrl = cleanGoogleUrl(item.link);
       if (existingUrls.has(cleanUrl)) continue;
+      // Some feeds (Google Alerts especially) list the same article twice in
+      // one pull — mark it seen now so the second copy is skipped too,
+      // instead of both being classified and racing on the url unique constraint.
+      existingUrls.add(cleanUrl);
 
       const title = he.decode(item.title.trim());
       const rawSnippet = item.contentSnippet ?? item.content ?? item.summary ?? "";
@@ -172,14 +176,18 @@ export async function GET(request: NextRequest) {
     });
 
     if (toInsert.length > 0) {
-      const { error: insertError } = await supabase
+      // upsert + ignoreDuplicates rather than insert: a plain insert aborts the
+      // whole batch if any single row collides with an existing url, silently
+      // dropping every other genuinely-new article from this source's run.
+      const { data: inserted, error: insertError } = await supabase
         .from("articles")
-        .insert(toInsert);
+        .upsert(toInsert, { onConflict: "url", ignoreDuplicates: true })
+        .select("id");
       if (insertError) {
         stats.errors++;
         stats.errorDetails.push(`${source.name}: ${insertError.message}`);
       } else {
-        stats.stored += toInsert.length;
+        stats.stored += inserted?.length ?? 0;
       }
     }
 
