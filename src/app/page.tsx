@@ -72,7 +72,7 @@ export default async function HomePage() {
             ) : (
               <div className="border-t border-border py-16 text-center">
                 <p className="text-muted-foreground">
-                  New intelligence is added daily — check back soon.
+                  New intelligence is added daily. Check back soon.
                 </p>
               </div>
             )}

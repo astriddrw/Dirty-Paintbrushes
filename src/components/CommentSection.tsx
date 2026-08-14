@@ -147,7 +147,7 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
           </button>
           {submitted && (
             <span className="text-xs text-muted-foreground">
-              Thanks — your comment is awaiting review and will appear once approved.
+              Thanks. Your comment is awaiting review and will appear once approved.
             </span>
           )}
         </div>

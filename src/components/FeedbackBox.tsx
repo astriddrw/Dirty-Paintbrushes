@@ -47,7 +47,7 @@ export function FeedbackBox() {
     <div className="mt-16 bg-indigo p-6 lg:p-8">
       <h2 className="text-sm font-semibold text-white mb-1">Have feedback?</h2>
       <p className="text-xs text-aged-vellum mb-5 leading-relaxed">
-        Submit anonymously — no name or account required.
+        Submit anonymously. No name or account required.
       </p>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
@@ -79,7 +79,7 @@ export function FeedbackBox() {
               className="flex items-center gap-1.5 text-xs text-aged-vellum animate-fade-in-up"
             >
               <Check className="h-3.5 w-3.5 text-ochre-on-dark" aria-hidden="true" />
-              Thank you — I read every one of these.
+              Thank you. I read every one of these.
             </span>
           )}
         </div>

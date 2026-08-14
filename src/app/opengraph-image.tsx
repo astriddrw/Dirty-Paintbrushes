@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { loadGoogleFont } from "@/lib/og";
 
 export const runtime = "edge";
-export const alt = "Dirty Paintbrushes — Art Market Financial Crime Intelligence";
+export const alt = "Dirty Paintbrushes: Art Market Financial Crime Intelligence";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

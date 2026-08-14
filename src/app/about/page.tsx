@@ -39,7 +39,6 @@ export default function AboutPage() {
           </div>
 
           <p className="text-sm text-foreground mt-8">
-            —{" "}
             <a
               href="https://www.linkedin.com/in/astrid-de-rohan-willner/"
               target="_blank"

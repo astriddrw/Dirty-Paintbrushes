@@ -59,17 +59,13 @@ export function Navigation() {
 
             {!loading && (
               user ? (
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-muted-foreground truncate max-w-[140px]" title={user.email ?? undefined}>
-                    {user.email}
-                  </span>
-                  <button
-                    onClick={signOut}
-                    className="font-nav uppercase text-[15px] font-light text-indigo hover:opacity-70 transition-opacity"
-                  >
-                    Log out
-                  </button>
-                </div>
+                <button
+                  onClick={signOut}
+                  title={user.email ?? undefined}
+                  className="font-nav uppercase text-[15px] font-light text-indigo hover:opacity-70 transition-opacity"
+                >
+                  Log out
+                </button>
               ) : (
                 <Link
                   href="/login"
@@ -117,18 +113,15 @@ export function Navigation() {
 
               {!loading && (
                 user ? (
-                  <div className="flex items-center justify-between pt-2 border-t border-border">
-                    <span className="text-xs text-muted-foreground truncate">{user.email}</span>
-                    <button
-                      onClick={() => {
-                        setMobileMenuOpen(false)
-                        signOut()
-                      }}
-                      className="font-nav text-sm font-light text-indigo"
-                    >
-                      Log out
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      signOut()
+                    }}
+                    className="font-nav text-sm font-light text-indigo pt-2 border-t border-border text-left"
+                  >
+                    Log out
+                  </button>
                 ) : (
                   <Link
                     href="/login"

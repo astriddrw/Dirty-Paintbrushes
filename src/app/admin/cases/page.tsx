@@ -247,7 +247,7 @@ export default function CasesPage() {
         <div className="space-y-6">
           <Field label="Case name *">
             <input type="text" value={form.name} onChange={setField("name")}
-              className="input" placeholder="e.g. Rotenberg Brothers — Sanctions Evasion" />
+              className="input" placeholder="e.g. Rotenberg Brothers, Sanctions Evasion" />
           </Field>
 
           <div className="grid grid-cols-2 gap-4">

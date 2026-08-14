@@ -76,7 +76,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
           )}
           aria-label={bookmarked ? "Remove bookmark" : "Add bookmark"}
-          title={bookmarked ? "Saved on this device — click to remove" : "Save to this device"}
+          title={bookmarked ? "Saved on this device (click to remove)" : "Save to this device"}
         >
           <Bookmark className={cn("h-4 w-4", bookmarked && "fill-current")} />
         </button>

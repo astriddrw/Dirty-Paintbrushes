@@ -15,5 +15,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(new URL(`/login?error=Could not log you in — try again.`, origin));
+  return NextResponse.redirect(new URL(`/login?error=Could not log you in. Try again.`, origin));
 }

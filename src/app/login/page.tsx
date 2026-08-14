@@ -47,12 +47,12 @@ function LoginForm() {
 
         {sent ? (
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Check your inbox — we sent a login link to <span className="text-foreground">{email}</span>.
+            Check your inbox. We sent a login link to <span className="text-foreground">{email}</span>.
           </p>
         ) : (
           <>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
-              We&apos;ll email you a link — no password needed. Logging in syncs your saved articles
+              We&apos;ll email you a link, no password needed. Logging in syncs your saved articles
               across devices.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">

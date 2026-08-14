@@ -50,10 +50,10 @@ const ENTITY_TYPE_OPTIONS = [
 ];
 
 const SOURCE_TIER_OPTIONS = [
-  { value: "tier1",  label: "Tier 1 — Investigative" },
-  { value: "tier2",  label: "Tier 2 — Art Industry" },
-  { value: "tier3",  label: "Tier 3 — News" },
-  { value: "tier4",  label: "Tier 4 — Legal" },
+  { value: "tier1",  label: "Tier 1: Investigative" },
+  { value: "tier2",  label: "Tier 2: Art Industry" },
+  { value: "tier3",  label: "Tier 3: News" },
+  { value: "tier4",  label: "Tier 4: Legal" },
   { value: "manual", label: "Manual" },
 ];
 
@@ -176,7 +176,7 @@ export default function SubmitArticlePage() {
           </Field>
           <Field label="Article type">
             <select value={form.article_type} onChange={set("article_type")} className="input">
-              <option value="">— select —</option>
+              <option value="">Select…</option>
               {ARTICLE_TYPE_OPTIONS.map((v) => (
                 <option key={v} value={v}>{v.charAt(0).toUpperCase() + v.slice(1)}</option>
               ))}
