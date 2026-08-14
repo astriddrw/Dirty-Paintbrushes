@@ -38,6 +38,18 @@ export default function AboutPage() {
             </p>
           </div>
 
+          <p className="text-sm text-foreground mt-8">
+            —{" "}
+            <a
+              href="https://www.linkedin.com/in/astrid-de-rohan-willner/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-4 hover:text-indigo hover:decoration-indigo transition-colors"
+            >
+              Astrid de Rohan Willner
+            </a>
+          </p>
+
           <FeedbackBox />
         </div>
       </main>

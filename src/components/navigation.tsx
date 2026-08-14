@@ -1,10 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
+import { useAuth } from "@/lib/auth-context"
+import { createClient } from "@/lib/supabase/client"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -15,7 +17,16 @@ const navLinks = [
 
 export function Navigation() {
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, loading } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const signOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push("/")
+    router.refresh()
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-background">
@@ -45,6 +56,29 @@ export function Navigation() {
                 {link.label}
               </Link>
             ))}
+
+            {!loading && (
+              user ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-muted-foreground truncate max-w-[140px]" title={user.email ?? undefined}>
+                    {user.email}
+                  </span>
+                  <button
+                    onClick={signOut}
+                    className="font-nav uppercase text-[15px] font-light text-indigo hover:opacity-70 transition-opacity"
+                  >
+                    Log out
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="font-nav uppercase text-[15px] font-light text-indigo hover:opacity-70 transition-opacity"
+                >
+                  Login
+                </Link>
+              )
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -80,6 +114,31 @@ export function Navigation() {
                   {link.label}
                 </Link>
               ))}
+
+              {!loading && (
+                user ? (
+                  <div className="flex items-center justify-between pt-2 border-t border-border">
+                    <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false)
+                        signOut()
+                      }}
+                      className="font-nav text-sm font-light text-indigo"
+                    >
+                      Log out
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-nav text-sm font-light text-indigo pt-2 border-t border-border"
+                  >
+                    Login
+                  </Link>
+                )
+              )}
             </div>
           </div>
         )}

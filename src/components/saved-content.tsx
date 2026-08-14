@@ -5,12 +5,14 @@ import Link from "next/link"
 import { ArticleRow } from "@/components/article-row"
 import { FadeInHeading } from "@/components/FadeInHeading"
 import { useBookmarks } from "@/lib/bookmarks-context"
+import { useAuth } from "@/lib/auth-context"
 import { createClient } from "@/lib/supabase/client"
 import { Bookmark, ArrowRight } from "lucide-react"
 import type { Article } from "@/lib/types"
 
 export function SavedContent() {
   const { bookmarkedIds } = useBookmarks()
+  const { user } = useAuth()
   const [allArticles, setAllArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -50,7 +52,20 @@ export function SavedContent() {
           Your bookmarked articles for easy reference.
         </p>
         <p className="text-xs text-muted-foreground mb-12 border border-border px-4 py-2.5 inline-block">
-          Saved articles are stored in your browser. They won&apos;t sync across devices.
+          {user ? (
+            "Saved articles sync to your account."
+          ) : (
+            <>
+              Saved articles are stored in your browser and won&apos;t sync across devices.{" "}
+              <Link
+                href="/login?next=/saved"
+                className="underline decoration-1 underline-offset-4 hover:text-indigo transition-colors"
+              >
+                Log in
+              </Link>{" "}
+              to sync them.
+            </>
+          )}
         </p>
 
         {/* Articles List */}

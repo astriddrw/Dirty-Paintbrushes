@@ -14,6 +14,12 @@ export function Footer() {
             <p className="text-xs text-aged-vellum mt-4">
               &copy; {new Date().getFullYear()} All rights reserved.
             </p>
+            <a
+              href="mailto:astriddrw@gmail.com"
+              className="inline-block text-xs text-aged-vellum underline decoration-1 decoration-aged-vellum/50 underline-offset-4 hover:opacity-70 transition-opacity mt-2"
+            >
+              Contact
+            </a>
           </div>
 
           {/* Navigation links */}
