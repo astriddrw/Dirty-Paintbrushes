@@ -24,9 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("id", params.id)
     .single();
   if (!data) return {};
+  const title = `${data.title} | Dirty Paintbrushes`;
+  const description = (data.summary ?? "").slice(0, 160);
   return {
-    title: `${data.title} | Dirty Paintbrushes`,
-    description: (data.summary ?? "").slice(0, 160),
+    title,
+    description,
+    openGraph: { title, description, type: "article" },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

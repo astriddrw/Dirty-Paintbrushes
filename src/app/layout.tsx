@@ -51,8 +51,22 @@ const berky = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://dirtypaintbrushes.com'),
   title: 'Dirty Paintbrushes | Art Market Financial Crime Intelligence',
   description: 'The tracker for financial crime in the art world. Fraud, money laundering, terror financing, sanctions. All in one place, updated regularly.',
+  openGraph: {
+    title: 'Dirty Paintbrushes',
+    description: 'Curated intelligence and news tracking art market financial crime.',
+    url: 'https://dirtypaintbrushes.com',
+    siteName: 'Dirty Paintbrushes',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dirty Paintbrushes',
+    description: 'Curated intelligence and news tracking art market financial crime.',
+  },
 }
 
 export default function RootLayout({
