@@ -138,24 +138,24 @@ Fourteen colors total, and only three of them are doing expressive work — the 
 ## Typography
 
 **Display Font:** Instrument Serif (with Georgia, serif fallback) — the wordmark and homepage hero only.
-**Title Font:** Lora (with Georgia, serif fallback) — article titles inside list rows.
+**Headline/Title Font:** Lora (with Georgia, serif fallback) — page titles and article titles.
 **Body Font:** Roboto (with ui-sans-serif fallback)
 **Label/Nav Font:** Noto Sans
 **Unused asset:** a custom display face (BERKY) is loaded as `--font-brand` in the root layout but not applied anywhere yet — treat it as reserved for a future wordmark/masthead treatment, not as an active token.
 
-**Character:** Instrument Serif's italic sets the voice — editorial, a little literary, never neutral — but it was showing up on nearly every headline on the site (wordmark, hero, section headings, article titles), which read as templated rather than considered. Lora now carries actual content titles: a quieter, moderate-contrast text serif with real editorial pedigree, distinct enough from Instrument Serif that the two don't compete. Roboto stays completely out of the way for anything that has to be scanned (filters, admin tables).
+**Character:** Instrument Serif's italic sets the voice — editorial, a little literary, never neutral — but it was showing up on nearly every headline on the site (wordmark, hero, section headings, page titles, article titles), which read as templated rather than considered. Lora now carries every headline that isn't the wordmark or hero: a quieter, moderate-contrast text serif with real editorial pedigree, distinct enough from Instrument Serif that the two don't compete and Instrument Serif's italic stays a genuinely rare signal. Roboto stays completely out of the way for anything that has to be scanned (filters, admin tables).
 
 ### Hierarchy
 - **Display** (400, `clamp(3rem, 6vw, 4.5rem)`, italic, leading-tight): the homepage hero headline only.
-- **Headline** (400, `text-4xl` → `text-5xl`, italic, tracking-tight): every other page's `<h1>` (Sources, Saved, About) via the shared `FadeInHeading` component, plus the "Latest Intelligence" section heading and the footer wordmark — still Instrument Serif, not yet moved to Lora (see Named Rules).
-- **Title** (400, Lora, `text-base` → `text-lg`, not italic): article titles inside list rows (`ArticleRow`). Article detail `<h1>` still steps up to `text-3xl`/`text-4xl` in Instrument Serif at 400 weight, not italic — also not yet moved.
+- **Headline** (400, Lora, `text-4xl` → `text-5xl`, not italic, tracking-tight): every page's `<h1>` (Sources, About, Saved, Feed's "Latest News", the gated Cases page) via the shared `FadeInHeading` component, plus the homepage's "Latest Intelligence" section heading (`text-2xl`/`text-3xl`, same face). Article detail `<h1>` and the footer wordmark still use Instrument Serif, not italic, and have **not** been moved to Lora yet (see Named Rules).
+- **Title** (400, Lora, `text-base` → `text-lg`, not italic): article titles inside list rows (`ArticleRow`).
 - **Body** (400, `text-sm`/`text-base`, leading-relaxed): article summaries, comment bodies, editorial copy.
 - **Label** (300, `text-[15px]`, uppercase, Noto Sans): nav links and CTA buttons. A second, smaller label style (`text-xs`, uppercase, `tracking-wider`, Roboto) marks eyebrow text — "Editor's note," "Entities involved," source tier badges.
 
 ### Named Rules
 **The Italic-Means-Editorial Rule.** Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being *reported*, not *said*. Don't italicize data.
 
-**The Serif Scarcity Rule.** Instrument Serif was overused — leaning on the same distinctive italic face for every headline is what made the site read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only; article-row titles moved to Lora. `FadeInHeading` page titles, the "Latest Intelligence" heading, article detail titles, and the footer wordmark still use Instrument Serif and have **not** been moved yet — extend this rule to them before reaching for Instrument Serif on anything new, rather than treating it as the default headline face again.
+**The Serif Scarcity Rule.** Instrument Serif was overused — leaning on the same distinctive italic face for every headline is what made the site read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only. Article-row titles and every `FadeInHeading` page title (Sources, About, Saved, Feed, Cases) plus the "Latest Intelligence" heading now use Lora instead. Article detail `<h1>` and the footer wordmark still use Instrument Serif and have **not** been moved yet — extend this rule to them before reaching for Instrument Serif on anything new, rather than treating it as the default headline face again.
 
 ## Layout
 
@@ -226,7 +226,7 @@ Square by default. The radius scale (`sm`/`md`/`lg`/`xl`) is hard-set to `0` at 
 - **Do** convey depth with hairline borders and solid color-block sections, never shadows.
 - **Do** use Ochre on Dark / Ochre on Light for any ochre text — the base Worn Ochre token is a border/fill color and fails contrast as text (see Named Rules).
 - **Do** keep icon-only action buttons (bookmark, external-link, mobile nav toggle) at `p-3`/`p-3.5` or larger — a 44px minimum tap target, not `p-2`.
-- **Do** use Lora for content titles (article rows) and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.
+- **Do** use Lora for page titles and article titles, and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.
 
 ### Don't:
 - **Don't** add `box-shadow` anywhere, and don't round `sm`/`md`/`lg`/`xl`-scale corners — both break the flat, square broadsheet language (`rounded-full` for circles is the only exception).

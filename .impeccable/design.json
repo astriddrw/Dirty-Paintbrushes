@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T00:00:00.000Z",
+  "generatedAt": "2026-08-14T01:00:00.000Z",
   "title": "Design System: Dirty Paintbrushes",
   "extensions": {
     "colorMeta": {
@@ -24,8 +24,8 @@
     },
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Homepage hero headline only — Instrument Serif italic, scarce by design (see Serif Scarcity Rule)." },
-      "headline": { "displayName": "Headline", "purpose": "Page-level <h1> via FadeInHeading (Sources, Saved, About), the 'Latest Intelligence' heading, and the footer wordmark — still Instrument Serif, not yet moved to Lora." },
-      "title": { "displayName": "Title", "purpose": "Article titles in list rows (ArticleRow) — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14. Article detail <h1> still Instrument Serif, not yet moved." },
+      "headline": { "displayName": "Headline", "purpose": "Page-level <h1> via FadeInHeading (Sources, About, Saved, Feed, Cases) and the 'Latest Intelligence' heading — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14. Article detail <h1> and the footer wordmark still Instrument Serif, not yet moved." },
+      "title": { "displayName": "Title", "purpose": "Article titles in list rows (ArticleRow) — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14." },
       "body": { "displayName": "Body", "purpose": "Summaries, comments, editorial copy." },
       "label": { "displayName": "Label", "purpose": "Nav links, CTA buttons, uppercase eyebrow text." }
     },
@@ -109,7 +109,7 @@
       { "name": "The Muted Direction Rule", "body": "The three expressive hues were desaturated ~20% from their original values (2026-08-13) at the founder's direction, and Broadsheet Cobalt has not been moved yet. New accent work should continue desaturating toward this family, never brighten back past it.", "section": "colors" },
       { "name": "The Ochre-as-Text Rule", "body": "Worn Ochre was tuned as a border/fill accent, not a text color — it fails WCAG AA contrast as raw text on both indigo (3.01:1) and parchment (2.41:1). Any new ochre text use must reach for Ochre on Dark or Ochre on Light, never the base token.", "section": "colors" },
       { "name": "The Italic-Means-Editorial Rule", "body": "Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being reported, not said. Don't italicize data.", "section": "typography" },
-      { "name": "The Serif Scarcity Rule", "body": "Instrument Serif was overused — leaning on the same distinctive italic face for every headline read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only; article-row titles moved to Lora. FadeInHeading page titles, the 'Latest Intelligence' heading, article detail titles, and the footer wordmark still use Instrument Serif and have not been moved yet — extend this rule to them before reaching for Instrument Serif on anything new.", "section": "typography" },
+      { "name": "The Serif Scarcity Rule", "body": "Instrument Serif was overused — leaning on the same distinctive italic face for every headline read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only. Article-row titles and every FadeInHeading page title (Sources, About, Saved, Feed, Cases) plus the 'Latest Intelligence' heading now use Lora instead. Article detail <h1> and the footer wordmark still use Instrument Serif and have not been moved yet — extend this rule to them before reaching for Instrument Serif on anything new.", "section": "typography" },
       { "name": "The No-Shadow Rule", "body": "Never add box-shadow. If something needs to feel elevated, give it a solid fill or a border, not a shadow.", "section": "elevation" },
       { "name": "The Flat-Edge Rule", "body": "No rounded corners on the standard scale. If a component needs one, it's either a perfect circle (rounded-full) or it's wrong.", "section": "shapes" }
     ],
@@ -117,7 +117,7 @@
       "Do keep the palette to three expressive colors (ink indigo, worn ochre, dried blood) plus structural neutrals — resist adding a fourth accent hue.",
       "Do use the single unified pill style (bg-indigo-pale text-indigo, from src/lib/data.ts) for every new classification tag, badge, or filter chip.",
       "Do lean italic Instrument Serif for anything editorial/authoritative, and keep Roboto for anything that must be scanned quickly.",
-      "Do use Lora for content titles (article rows) and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.",
+      "Do use Lora for page titles and article titles, and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.",
       "Do trend new accent tints toward more muted/desaturated, per the founder's stated direction — not brighter or more saturated.",
       "Do convey depth with hairline borders and solid color-block sections, never shadows.",
       "Do use Ochre on Dark / Ochre on Light for any ochre text — the base Worn Ochre token is a border/fill color and fails contrast as text.",

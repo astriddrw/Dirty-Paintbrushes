@@ -162,7 +162,7 @@ export function FeedContent({ articles }: FeedContentProps) {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-oxblood mb-12 font-serif">
+          <FadeInHeading className="text-4xl lg:text-5xl font-normal tracking-tight text-oxblood mb-12 font-title">
             Latest News
           </FadeInHeading>
 
