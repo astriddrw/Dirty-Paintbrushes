@@ -76,6 +76,6 @@ export const TIER_DESCRIPTIONS: Record<string, string> = {
   tier1: "Core investigative and regulatory source",
   tier2: "Specialist art industry publication",
   tier3: "Mainstream news and investigative media",
-  tier5: "Automated search alerts",
+  tier5: "Automated search alert",
   tier4: "Legal and compliance publication",
 }

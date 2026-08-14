@@ -5,7 +5,6 @@ import { ExternalLink } from "lucide-react"
 import { TIER_GROUP_LABELS, TIER_DESCRIPTIONS } from "@/lib/data"
 import type { RssSource } from "@/lib/types"
 import type { Metadata } from "next"
-import Link from "next/link"
 import { FadeInHeading } from "@/components/FadeInHeading"
 import { formatTag } from "@/lib/utils"
 
@@ -48,36 +47,62 @@ export default async function SourcesPage() {
             We aggregate content from trusted publications, government agencies,
             and research institutions covering art market financial crime.
           </p>
-          <p className="text-sm text-muted-foreground mb-12">
+          <p className="text-sm text-muted-foreground mb-6">
             {sources.length} active source{sources.length !== 1 ? "s" : ""} across {tierCount} tier
             {tierCount !== 1 ? "s" : ""}.
           </p>
 
+          {/* Jump to tier — a quiet inline sentence, not a second label row.
+              An uppercase-tracked nav here duplicated the tier heading
+              directly below it almost verbatim and read as a stutter. */}
+          {tierCount > 1 && (
+            <nav aria-label="Jump to tier" className="text-xs text-muted-foreground mb-10">
+              Jump to:{" "}
+              {tierOrder
+                .filter((tier) => groupedSources[tier]?.length)
+                .map((tier, i, arr) => (
+                  <span key={tier}>
+                    <a
+                      href={`#${tier}`}
+                      className="underline decoration-1 decoration-muted-foreground/40 hover:decoration-indigo hover:text-indigo underline-offset-4 transition-colors"
+                    >
+                      {TIER_GROUP_LABELS[tier]}
+                    </a>
+                    {i < arr.length - 1 ? ", " : "."}
+                  </span>
+                ))}
+            </nav>
+          )}
+
           {/* Sources by Tier */}
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-10">
             {tierOrder.map((tier) => {
               const tierSources = groupedSources[tier] ?? []
               if (tierSources.length === 0) return null
               const isSearchAlert = tier === "tier5"
               return (
-                <section key={tier}>
-                  <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-oxblood mb-1">
+                <section key={tier} id={tier} className="scroll-mt-20">
+                  <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-oxblood mb-1">
                     {TIER_GROUP_LABELS[tier]}
                   </h2>
-                  <p className="text-sm text-oxblood mb-6">
+                  <p className="text-sm text-oxblood mb-4">
                     {TIER_DESCRIPTIONS[tier]}
                   </p>
-                  <div className="flex flex-col gap-4">
+                  {/* A hairline border here reads as a stray light-blue rule
+                      against the warm parchment field (simultaneous-contrast
+                      effect — same clash the Latest Intelligence hue-match
+                      fix addressed) — whitespace-only rhythm avoids it. */}
+                  <div className="flex flex-col">
                     {tierSources.map((source) => (
                       <a
                         key={source.id}
                         href={source.site_url || source.feed_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
+                        className="group flex items-start justify-between gap-4 py-3 px-2 -mx-2 hover:bg-muted/30 transition-colors"
                       >
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="text-base font-medium text-indigo group-hover:opacity-70 transition-opacity">
+                          <h3 className="text-base font-normal text-foreground group-hover:opacity-70 transition-opacity">
                             {formatTag(source.name)}
                           </h3>
                           {isSearchAlert && (
@@ -85,8 +110,9 @@ export default async function SourcesPage() {
                               Search alert
                             </span>
                           )}
+                          <span className="sr-only">(opens in a new tab)</span>
                         </div>
-                        <ExternalLink className="h-4 w-4 text-indigo hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
+                        <ExternalLink className="h-4 w-4 text-indigo group-hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
                       </a>
                     ))}
                   </div>
@@ -95,15 +121,6 @@ export default async function SourcesPage() {
             })}
           </div>
 
-          {/* Quiet admin entry point — not meant to be a public CTA */}
-          <div className="mt-16 flex justify-center">
-            <Link
-              href="/admin"
-              className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
-            >
-              Admin
-            </Link>
-          </div>
         </div>
       </main>
 

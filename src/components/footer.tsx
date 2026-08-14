@@ -44,6 +44,17 @@ export function Footer() {
               This platform reflects personal research and views only, and is not affiliated with any employer or organisation.
             </p>
           </div>
+
+          {/* Quiet admin entry point — deliberately not a public CTA, so it
+              lives here rather than in the primary nav list above. */}
+          <div className="flex justify-end">
+            <a
+              href="/admin"
+              className="text-xs text-aged-vellum/70 hover:text-aged-vellum transition-colors"
+            >
+              Admin
+            </a>
+          </div>
         </div>
       </div>
     </footer>

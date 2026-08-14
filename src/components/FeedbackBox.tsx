@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const COOLDOWN_MS = 30_000;
+const MESSAGE_MAX = 2000;
 
 export function FeedbackBox() {
   const [message, setMessage] = useState("");
@@ -36,7 +38,7 @@ export function FeedbackBox() {
       setMessage("");
       setLastSubmitted(Date.now());
       setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 4000);
+      setTimeout(() => setSubmitted(false), 5000);
     }
     setSubmitting(false);
   };
@@ -48,17 +50,22 @@ export function FeedbackBox() {
         Submit anonymously — no name or account required.
       </p>
       <form onSubmit={handleSubmit} className="space-y-3">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Share your thoughts..."
-          rows={3}
-          maxLength={2000}
-          required
-          className="w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
-        />
+        <div>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Share your thoughts..."
+            rows={3}
+            maxLength={MESSAGE_MAX}
+            required
+            className="w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40 resize-none"
+          />
+          <p className="text-xs text-aged-vellum/50 text-right mt-1">
+            {message.length}/{MESSAGE_MAX}
+          </p>
+        </div>
         {error && <p className="text-xs text-aged-vellum">{error}</p>}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-h-8">
           <button
             type="submit"
             disabled={submitting || !message.trim()}
@@ -66,7 +73,15 @@ export function FeedbackBox() {
           >
             {submitting ? "Sending..." : "Send anonymously"}
           </button>
-          {submitted && <span className="text-xs text-aged-vellum">Thanks — received.</span>}
+          {submitted && (
+            <span
+              role="status"
+              className="flex items-center gap-1.5 text-xs text-aged-vellum animate-fade-in-up"
+            >
+              <Check className="h-3.5 w-3.5 text-ochre-on-dark" aria-hidden="true" />
+              Thank you — I read every one of these.
+            </span>
+          )}
         </div>
       </form>
     </div>
