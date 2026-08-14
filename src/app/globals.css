@@ -41,6 +41,7 @@
   --font-body: var(--font-body, "Roboto", sans-serif);
   --font-nav: var(--font-nav, "Noto Sans", sans-serif);
   --font-brand: var(--font-brand, serif);
+  --font-title: var(--font-title, Georgia, serif);
   --font-sans: var(--font-body, "Roboto", ui-sans-serif, sans-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -90,6 +91,13 @@
      dark CTAs. Swap to aged vellum there (6.44:1 on indigo). */
   .bg-indigo :focus-visible {
     outline-color: var(--aged-vellum);
+  }
+  /* The default hairline (Dust, a warm neutral) sits 162° away in hue from
+     Archive Blue — everywhere else the border stays within ~35° of its
+     background's hue so it reads as "barely there," not a mismatched line.
+     Cool-toned equivalent for the one section that uses this background. */
+  .bg-light-blue {
+    --border: #C9D4D9;
   }
 }
 

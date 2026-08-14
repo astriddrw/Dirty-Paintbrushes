@@ -32,9 +32,9 @@ typography:
     fontWeight: 400
     lineHeight: 1.15
   title:
-    fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "1.25rem"
-    fontWeight: 500
+    fontFamily: "Lora, Georgia, serif"
+    fontSize: "1rem"
+    fontWeight: 400
     lineHeight: 1.35
   body:
     fontFamily: "Roboto, ui-sans-serif, sans-serif"
@@ -98,7 +98,7 @@ The system is flat and square by construction, not by default neglect — corner
 
 **Key Characteristics:**
 - Parchment field, ink-black type, one indigo, one ochre, one oxblood — no other hues admitted without a reason.
-- Instrument Serif italics for anything that speaks with authority (headlines, the wordmark); Roboto for anything that has to be read fast (body copy, data).
+- Instrument Serif italic is a rare, deliberate signal — the wordmark and the homepage hero, nowhere else — not a default headline treatment; Lora carries actual content titles, Roboto anything that has to be read fast.
 - Flat by construction: zero border-radius on the standard scale, zero shadows, depth from borders and color blocks only.
 - One unified pill style for every classification tag — indigo text on pale-indigo wash — never a rainbow of category colors.
 
@@ -137,28 +137,33 @@ Fourteen colors total, and only three of them are doing expressive work — the 
 
 ## Typography
 
-**Display Font:** Instrument Serif (with Georgia, serif fallback)
+**Display Font:** Instrument Serif (with Georgia, serif fallback) — the wordmark and homepage hero only.
+**Title Font:** Lora (with Georgia, serif fallback) — article titles inside list rows.
 **Body Font:** Roboto (with ui-sans-serif fallback)
 **Label/Nav Font:** Noto Sans
 **Unused asset:** a custom display face (BERKY) is loaded as `--font-brand` in the root layout but not applied anywhere yet — treat it as reserved for a future wordmark/masthead treatment, not as an active token.
 
-**Character:** Instrument Serif's italic sets the voice — editorial, a little literary, never neutral — while Roboto stays completely out of the way for anything that has to be scanned (article lists, filters, admin tables). The pairing does the "broadsheet" work by itself; nothing else needs to try.
+**Character:** Instrument Serif's italic sets the voice — editorial, a little literary, never neutral — but it was showing up on nearly every headline on the site (wordmark, hero, section headings, article titles), which read as templated rather than considered. Lora now carries actual content titles: a quieter, moderate-contrast text serif with real editorial pedigree, distinct enough from Instrument Serif that the two don't compete. Roboto stays completely out of the way for anything that has to be scanned (filters, admin tables).
 
 ### Hierarchy
 - **Display** (400, `clamp(3rem, 6vw, 4.5rem)`, italic, leading-tight): the homepage hero headline only.
-- **Headline** (400, `text-4xl` → `text-5xl`, italic, tracking-tight): every other page's `<h1>` (Sources, Saved, About) via the shared `FadeInHeading` component.
-- **Title** (500, `text-lg` → `text-xl`, not italic): article titles inside list rows; article detail `<h1>` steps up to `text-3xl`/`text-4xl` at 400 weight, not italic.
+- **Headline** (400, `text-4xl` → `text-5xl`, italic, tracking-tight): every other page's `<h1>` (Sources, Saved, About) via the shared `FadeInHeading` component, plus the "Latest Intelligence" section heading and the footer wordmark — still Instrument Serif, not yet moved to Lora (see Named Rules).
+- **Title** (400, Lora, `text-base` → `text-lg`, not italic): article titles inside list rows (`ArticleRow`). Article detail `<h1>` still steps up to `text-3xl`/`text-4xl` in Instrument Serif at 400 weight, not italic — also not yet moved.
 - **Body** (400, `text-sm`/`text-base`, leading-relaxed): article summaries, comment bodies, editorial copy.
 - **Label** (300, `text-[15px]`, uppercase, Noto Sans): nav links and CTA buttons. A second, smaller label style (`text-xs`, uppercase, `tracking-wider`, Roboto) marks eyebrow text — "Editor's note," "Entities involved," source tier badges.
 
 ### Named Rules
-**The Italic-Means-Editorial Rule.** Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif (article detail titles) marks something being *reported*, not *said*. Don't italicize data.
+**The Italic-Means-Editorial Rule.** Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being *reported*, not *said*. Don't italicize data.
+
+**The Serif Scarcity Rule.** Instrument Serif was overused — leaning on the same distinctive italic face for every headline is what made the site read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only; article-row titles moved to Lora. `FadeInHeading` page titles, the "Latest Intelligence" heading, article detail titles, and the footer wordmark still use Instrument Serif and have **not** been moved yet — extend this rule to them before reaching for Instrument Serif on anything new, rather than treating it as the default headline face again.
 
 ## Layout
 
 Three container widths, chosen by reading distance, not by page: `max-w-7xl` for chrome (nav, footer), `max-w-5xl` for scanning content (feed, home's article list), `max-w-3xl` for sustained reading (article detail). All are `mx-auto px-6 lg:px-8`.
 
-Sections stack with generous, consistent vertical rhythm — `py-12 lg:py-16` for standard sections, `py-20 lg:py-36` for the hero — separated by `border-t border-border` hairlines rather than background changes, except where a full-bleed color block (hero, "Latest Intelligence") is deliberately used to mark a shift in register.
+Sections stack with generous, consistent vertical rhythm — `py-12 lg:py-16` for standard sections — separated by `border-t border-border` hairlines rather than background changes, except where a full-bleed color block (hero, "Latest Intelligence") is deliberately used to mark a shift in register.
+
+**Hero (2026-08-14):** no longer a tall, centered, full-viewport color block — that composition read as a generic landing-page template. Now a compact single row (`py-8`, `bg-indigo`, `flex-wrap items-baseline justify-between`): wordmark-sized title on the left (Instrument Serif italic, `text-4xl`/`text-5xl`), the tagline inline to its right (plain body text, not serif), CTAs pushed to the far right (`ml-auto`) in the same italic-serif-link style as before. Real content starts almost immediately below it.
 
 The feed and homepage list articles as divided rows (`divide-y`/`border-b`), not cards — this is a broadsheet, not a grid of tiles. Filters render as underlined text-links in italic serif (crime type in indigo, article type in Ochre on Light — see Named Rules), not chip buttons, keeping the controls visually part of the editorial voice rather than app chrome.
 
@@ -221,6 +226,7 @@ Square by default. The radius scale (`sm`/`md`/`lg`/`xl`) is hard-set to `0` at 
 - **Do** convey depth with hairline borders and solid color-block sections, never shadows.
 - **Do** use Ochre on Dark / Ochre on Light for any ochre text — the base Worn Ochre token is a border/fill color and fails contrast as text (see Named Rules).
 - **Do** keep icon-only action buttons (bookmark, external-link, mobile nav toggle) at `p-3`/`p-3.5` or larger — a 44px minimum tap target, not `p-2`.
+- **Do** use Lora for content titles (article rows) and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.
 
 ### Don't:
 - **Don't** add `box-shadow` anywhere, and don't round `sm`/`md`/`lg`/`xl`-scale corners — both break the flat, square broadsheet language (`rounded-full` for circles is the only exception).

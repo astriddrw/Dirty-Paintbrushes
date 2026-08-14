@@ -30,7 +30,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
       <div className="flex-1 min-w-0">
         <Link
           href={`/articles/${article.id}`}
-          className="block text-lg lg:text-xl font-serif font-medium text-foreground leading-snug mb-2 lg:mb-3 text-pretty group-hover:text-oxblood hover:text-oxblood/70! transition-colors"
+          className="block text-base lg:text-lg font-title font-normal text-foreground leading-snug mb-2 lg:mb-3 text-pretty group-hover:text-oxblood hover:text-oxblood/70! transition-colors"
         >
           {article.title}
         </Link>

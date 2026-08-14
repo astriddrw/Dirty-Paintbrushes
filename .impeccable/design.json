@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-13T01:00:00.000Z",
+  "generatedAt": "2026-08-14T00:00:00.000Z",
   "title": "Design System: Dirty Paintbrushes",
   "extensions": {
     "colorMeta": {
@@ -23,9 +23,9 @@
       "alert-red":         { "role": "error",    "displayName": "Alert Red",         "canonical": "#B83232" }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Homepage hero headline only." },
-      "headline": { "displayName": "Headline", "purpose": "Page-level <h1> via FadeInHeading (Sources, Saved, About)." },
-      "title": { "displayName": "Title", "purpose": "Article titles in list rows; steps up and drops italic on the article detail page." },
+      "display": { "displayName": "Display", "purpose": "Homepage hero headline only — Instrument Serif italic, scarce by design (see Serif Scarcity Rule)." },
+      "headline": { "displayName": "Headline", "purpose": "Page-level <h1> via FadeInHeading (Sources, Saved, About), the 'Latest Intelligence' heading, and the footer wordmark — still Instrument Serif, not yet moved to Lora." },
+      "title": { "displayName": "Title", "purpose": "Article titles in list rows (ArticleRow) — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14. Article detail <h1> still Instrument Serif, not yet moved." },
       "body": { "displayName": "Body", "purpose": "Summaries, comments, editorial copy." },
       "label": { "displayName": "Label", "purpose": "Nav links, CTA buttons, uppercase eyebrow text." }
     },
@@ -80,6 +80,13 @@
       "css": ".ds-input { width: 100%; background: #FFEDBB; color: #1A1A1A; border: 1px solid #E8E6E3; border-radius: 0; padding: 10px 14px; font-size: 14px; font-family: Roboto, sans-serif; } .ds-input::placeholder { color: #5C5C5C; } .ds-input:focus { outline: none; box-shadow: 0 0 0 2px #253B59; }"
     },
     {
+      "name": "Hero",
+      "kind": "custom",
+      "description": "Compact single-row masthead band (2026-08-14, replaced a tall centered full-viewport color block that read as a generic landing-page template). Title left (Instrument Serif italic), tagline inline to its right in plain body text, CTAs pushed to the far right in the same italic-serif-link style.",
+      "html": "<section class=\"ds-hero\"><h1 class=\"ds-hero-title\">Dirty Paintbrushes</h1><p class=\"ds-hero-tagline\">Curated intelligence and news tracking art market financial crime.</p><div class=\"ds-hero-cta\"><a class=\"ds-hero-link ds-hero-link--ochre\" href=\"/feed\">Explore Feed</a><a class=\"ds-hero-link\" href=\"/sources\">Browse Sources</a></div></section>",
+      "css": ".ds-hero { background: #354A89; padding: 32px 24px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 24px 32px; } .ds-hero-title { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 48px; line-height: 1.1; color: #E6E2C5; } .ds-hero-tagline { font-family: Roboto, sans-serif; font-size: 16px; color: #E6E2C5; } .ds-hero-cta { display: flex; gap: 24px; align-items: center; margin-left: auto; } .ds-hero-link { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 16px; color: #E6E2C5; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; } .ds-hero-link--ochre { color: #D8C297; }"
+    },
+    {
       "name": "Navigation Bar",
       "kind": "nav",
       "refersTo": "navigation",
@@ -93,7 +100,7 @@
     "overview": "Dirty Paintbrushes reads like the front page of a serious financial broadsheet that happens to cover the art world: parchment newsprint, ink-indigo mastheads, italic serif headlines, and a single dried-blood red held in reserve for what matters. It has to be visually impressive — worth lingering on — without ever tipping into decoration. Every choice answers to the same test: would this survive on the front page of something a compliance officer, a journalist, and a gallerist would all trust with their name.\n\nThe system is flat and square by construction, not by default neglect — corners, shadows, and gradients are absent because a dossier doesn't need them. Depth comes from ink density and hairline rule, the way it does on newsprint: solid color-block sections (the indigo hero, the pale-blue \"Latest Intelligence\" band) interrupt the parchment field the way a masthead interrupts a page. The three expressive hues (Ink Indigo, Worn Ochre, Dried Blood) run about 20% less saturated than their original values, per the founder's direction — a shade more archival, a shade less bright screen-color.",
     "keyCharacteristics": [
       "Parchment field, ink-black type, one indigo, one ochre, one oxblood — no other hues admitted without a reason.",
-      "Instrument Serif italics for anything that speaks with authority (headlines, the wordmark); Roboto for anything that has to be read fast (body copy, data).",
+      "Instrument Serif italic is a rare, deliberate signal — the wordmark and the homepage hero, nowhere else — not a default headline treatment; Lora carries actual content titles, Roboto anything that has to be read fast.",
       "Flat by construction: zero border-radius on the standard scale, zero shadows, depth from borders and color blocks only.",
       "One unified pill style for every classification tag — indigo text on pale-indigo wash — never a rainbow of category colors."
     ],
@@ -102,6 +109,7 @@
       { "name": "The Muted Direction Rule", "body": "The three expressive hues were desaturated ~20% from their original values (2026-08-13) at the founder's direction, and Broadsheet Cobalt has not been moved yet. New accent work should continue desaturating toward this family, never brighten back past it.", "section": "colors" },
       { "name": "The Ochre-as-Text Rule", "body": "Worn Ochre was tuned as a border/fill accent, not a text color — it fails WCAG AA contrast as raw text on both indigo (3.01:1) and parchment (2.41:1). Any new ochre text use must reach for Ochre on Dark or Ochre on Light, never the base token.", "section": "colors" },
       { "name": "The Italic-Means-Editorial Rule", "body": "Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being reported, not said. Don't italicize data.", "section": "typography" },
+      { "name": "The Serif Scarcity Rule", "body": "Instrument Serif was overused — leaning on the same distinctive italic face for every headline read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only; article-row titles moved to Lora. FadeInHeading page titles, the 'Latest Intelligence' heading, article detail titles, and the footer wordmark still use Instrument Serif and have not been moved yet — extend this rule to them before reaching for Instrument Serif on anything new.", "section": "typography" },
       { "name": "The No-Shadow Rule", "body": "Never add box-shadow. If something needs to feel elevated, give it a solid fill or a border, not a shadow.", "section": "elevation" },
       { "name": "The Flat-Edge Rule", "body": "No rounded corners on the standard scale. If a component needs one, it's either a perfect circle (rounded-full) or it's wrong.", "section": "shapes" }
     ],
@@ -109,6 +117,7 @@
       "Do keep the palette to three expressive colors (ink indigo, worn ochre, dried blood) plus structural neutrals — resist adding a fourth accent hue.",
       "Do use the single unified pill style (bg-indigo-pale text-indigo, from src/lib/data.ts) for every new classification tag, badge, or filter chip.",
       "Do lean italic Instrument Serif for anything editorial/authoritative, and keep Roboto for anything that must be scanned quickly.",
+      "Do use Lora for content titles (article rows) and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.",
       "Do trend new accent tints toward more muted/desaturated, per the founder's stated direction — not brighter or more saturated.",
       "Do convey depth with hairline borders and solid color-block sections, never shadows.",
       "Do use Ochre on Dark / Ochre on Light for any ochre text — the base Worn Ochre token is a border/fill color and fails contrast as text.",

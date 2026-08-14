@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, Roboto, Noto_Sans } from 'next/font/google'
+import { Instrument_Serif, Roboto, Noto_Sans, Lora } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 
@@ -7,6 +7,16 @@ const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-serif',
+  display: 'swap',
+})
+
+// Article-title face — deliberately distinct from Instrument Serif, which is
+// now scoped to the wordmark and homepage hero only, so it stays a rare,
+// specific signal rather than the default headline treatment everywhere.
+const lora = Lora({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-title',
   display: 'swap',
 })
 
@@ -40,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} bg-background`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} ${lora.variable} bg-background`}>
       <body className="antialiased">
         {children}
       </body>
