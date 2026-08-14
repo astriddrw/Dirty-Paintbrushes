@@ -26,47 +26,39 @@ export default async function Image() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#FFEDBB",
+          backgroundColor: "#354A89",
           fontFamily: roboto ? "Roboto" : "sans-serif",
         }}
       >
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            backgroundColor: "#354A89",
-            padding: "44px 64px",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+            padding: "0 80px",
           }}
         >
           <div
             style={{
+              display: "flex",
               fontFamily: instrumentSerifItalic ? "Instrument Serif" : "serif",
               fontStyle: "italic",
-              fontSize: 64,
+              fontSize: 84,
               color: "#E6E2C5",
+              lineHeight: 1.1,
+              marginBottom: 24,
             }}
           >
             Dirty Paintbrushes
           </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            justifyContent: "center",
-            padding: "0 64px",
-          }}
-        >
-          <div style={{ display: "flex", width: 120, height: 4, backgroundColor: "#BB9549", marginBottom: 28 }} />
-          <div style={{ display: "flex", fontSize: 36, color: "#1A1A1A", maxWidth: 920, lineHeight: 1.4 }}>
+          <div style={{ display: "flex", fontSize: 34, color: "#E6E2C5", maxWidth: 820, lineHeight: 1.5 }}>
             Curated intelligence and news tracking art market financial crime.
           </div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 64px 44px" }}>
-          <div style={{ display: "flex", fontSize: 22, color: "#5C5C5C" }}>dirtypaintbrushes.com</div>
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 80px 44px" }}>
+          <div style={{ display: "flex", fontSize: 22, color: "#E6E2C5", opacity: 0.7 }}>dirtypaintbrushes.com</div>
         </div>
       </div>
     ),
