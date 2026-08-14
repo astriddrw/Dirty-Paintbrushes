@@ -48,12 +48,15 @@ export interface Article {
   updated_at: string;
 }
 
+export type CommentStatus = "pending" | "approved" | "rejected";
+
 export interface Comment {
   id: string;
   article_id: string;
   user_id?: string | null;
   display_name: string;
   body: string;
+  status?: CommentStatus;
   created_at: string;
 }
 
@@ -81,6 +84,7 @@ export interface RssSource {
   id: string;
   name: string;
   feed_url: string;
+  site_url?: string | null;
   tier: SourceTier;
   active: boolean;
   last_fetched?: string | null;

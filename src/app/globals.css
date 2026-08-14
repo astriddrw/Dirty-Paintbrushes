@@ -85,6 +85,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  /* The navy focus ring reads clearly on parchment (9.78:1) but is nearly
+     invisible on indigo surfaces (1.35:1) — hero, footer, feedback box,
+     dark CTAs. Swap to aged vellum there (6.44:1 on indigo). */
+  .bg-indigo :focus-visible {
+    outline-color: var(--aged-vellum);
+  }
 }
 
 @layer components {

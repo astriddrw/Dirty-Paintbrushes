@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { Comment } from "@/lib/types";
 
@@ -17,6 +16,7 @@ function formatCommentDate(ds: string): string {
 }
 
 const COOLDOWN_MS = 30_000; // 30 seconds between submissions
+const BODY_MAX = 2000;
 
 export default function CommentSection({ articleId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -34,7 +34,15 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
       .select("*")
       .eq("article_id", articleId)
       .order("created_at", { ascending: true })
-      .then(({ data }) => setComments((data ?? []) as Comment[]));
+      .then(({ data }) => {
+        // status is undefined until the moderation migration runs — treat
+        // that as "visible" so existing behavior doesn't regress, and only
+        // hide comments explicitly marked pending/rejected once it has.
+        const visible = ((data ?? []) as Comment[]).filter(
+          (c) => c.status !== "pending" && c.status !== "rejected"
+        );
+        setComments(visible);
+      });
   }, [articleId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,36 +60,37 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
     setError(null);
 
     const supabase = createClient();
-    const { data, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from("comments")
-      .insert({ article_id: articleId, display_name: displayName.trim(), body: body.trim() })
-      .select()
-      .single();
+      .insert({ article_id: articleId, display_name: displayName.trim(), body: body.trim() });
 
     if (insertError) {
       setError("Failed to post comment. Please try again.");
-    } else if (data) {
-      setComments((prev) => [...prev, data as Comment]);
+    } else {
+      // Not appended to the visible list — new comments are pending review
+      // once the moderation migration is live, so an optimistic add would
+      // show something to the submitter that no one else can see yet.
+      setDisplayName("");
       setBody("");
       setLastSubmitted(Date.now());
       setSubmitted(true);
-      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => setSubmitted(false), 5000);
     }
     setSubmitting(false);
   };
 
   return (
     <div className="mt-14 pt-10 border-t border-border">
-      <div className="flex items-center gap-2 mb-8">
-        <MessageSquare className="h-4 w-4 text-muted-foreground" />
-        <h2 className="text-sm font-semibold text-foreground">
-          Discussion{comments.length > 0 ? ` (${comments.length})` : ""}
-        </h2>
-      </div>
-
-      <p className="text-xs text-muted-foreground leading-relaxed mb-8 max-w-md">
-        Comments reflect individual views and do not constitute verified intelligence.
+      <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+        Discussion{comments.length > 0 ? ` (${comments.length})` : ""}
       </p>
+
+      <div className="border border-border bg-secondary px-4 py-3 mb-8 max-w-md">
+        <p className="text-xs text-foreground leading-relaxed">
+          Comments reflect individual views and do not constitute verified intelligence. New
+          comments are reviewed before they appear publicly.
+        </p>
+      </div>
 
       {comments.length > 0 && (
         <div className="space-y-4 mb-8">
@@ -111,13 +120,18 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
           />
         </div>
         <div>
-          <label className="block text-xs text-muted-foreground mb-1.5">Comment</label>
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="block text-xs text-muted-foreground">Comment</label>
+            <span className="text-xs text-muted-foreground">
+              {body.length}/{BODY_MAX}
+            </span>
+          </div>
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder="Add analysis, flag connections, or share context..."
             rows={4}
-            maxLength={2000}
+            maxLength={BODY_MAX}
             required
             className="w-full border border-border px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring resize-none"
           />
@@ -131,7 +145,11 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
           >
             {submitting ? "Posting..." : "Post comment"}
           </button>
-          {submitted && <span className="text-xs text-muted-foreground">Posted.</span>}
+          {submitted && (
+            <span className="text-xs text-muted-foreground">
+              Thanks — your comment is awaiting review and will appear once approved.
+            </span>
+          )}
         </div>
       </form>
     </div>

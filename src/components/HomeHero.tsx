@@ -28,13 +28,13 @@ export function HomeHero() {
           >
             <Link
               href="/feed"
-              className="font-serif italic text-lg text-ochre-on-dark underline decoration-1 decoration-ochre-on-dark underline-offset-4 hover:opacity-80 transition-opacity"
+              className="font-serif italic text-lg text-ochre-on-dark underline decoration-1 decoration-ochre-on-dark underline-offset-4 hover:opacity-70 transition-opacity"
             >
               Explore Feed
             </Link>
             <Link
               href="/sources"
-              className="font-serif italic text-lg text-aged-vellum underline decoration-1 decoration-aged-vellum/50 underline-offset-4 hover:opacity-80 transition-opacity"
+              className="font-serif italic text-lg text-aged-vellum underline decoration-1 decoration-aged-vellum/50 underline-offset-4 hover:opacity-70 transition-opacity"
             >
               Browse Sources
             </Link>

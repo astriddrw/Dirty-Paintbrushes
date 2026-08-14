@@ -163,7 +163,10 @@ export async function GET(request: NextRequest) {
         source_name: source.name,
         source_tier: source.tier,
         published_date: parsePublishedDate(candidate.item),
-        summary: candidate.summary || null,
+        // Prefer Haiku's clean, complete summary over the raw scraped RSS
+        // snippet — the raw version regularly dangles mid-sentence where a
+        // source CMS's own "read more" excerpt gets cut off.
+        summary: candidate.evaluation.summary || candidate.summary || null,
         status,
         article_type: classification.article_type,
         crime_types: classification.crime_types,

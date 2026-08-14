@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "We aggregate content from trusted publications, government agencies, and research institutions covering art market financial crime.",
 }
 
-const tierOrder = ["tier1", "tier2", "tier3", "tier5", "tier4"] as const
+const tierOrder = ["tier1", "tier2", "tier3", "tier4", "tier5"] as const
 
 export default async function SourcesPage() {
   const supabase = createClient()
@@ -32,8 +32,10 @@ export default async function SourcesPage() {
     return acc
   }, {} as Record<string, RssSource[]>)
 
+  const tierCount = tierOrder.filter((tier) => (groupedSources[tier]?.length ?? 0) > 0).length
+
   return (
-    <div className="min-h-screen flex flex-col bg-light-blue">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
@@ -42,9 +44,13 @@ export default async function SourcesPage() {
           <FadeInHeading className="text-4xl lg:text-5xl italic font-normal tracking-tight text-indigo mb-4 font-serif">
             Sources
           </FadeInHeading>
-          <p className="text-lg text-indigo mb-12 max-w-2xl leading-relaxed">
+          <p className="text-lg text-indigo mb-2 max-w-2xl leading-relaxed">
             We aggregate content from trusted publications, government agencies,
             and research institutions covering art market financial crime.
+          </p>
+          <p className="text-sm text-muted-foreground mb-12">
+            {sources.length} active source{sources.length !== 1 ? "s" : ""} across {tierCount} tier
+            {tierCount !== 1 ? "s" : ""}.
           </p>
 
           {/* Sources by Tier */}
@@ -52,6 +58,7 @@ export default async function SourcesPage() {
             {tierOrder.map((tier) => {
               const tierSources = groupedSources[tier] ?? []
               if (tierSources.length === 0) return null
+              const isSearchAlert = tier === "tier5"
               return (
                 <section key={tier}>
                   <h2 className="text-xs font-medium tracking-[0.2em] uppercase text-oxblood mb-1">
@@ -64,14 +71,21 @@ export default async function SourcesPage() {
                     {tierSources.map((source) => (
                       <a
                         key={source.id}
-                        href={source.feed_url}
+                        href={source.site_url || source.feed_url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group flex items-start justify-between gap-4 p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
                       >
-                        <h3 className="text-base font-medium text-indigo group-hover:opacity-70 transition-opacity">
-                          {formatTag(source.name)}
-                        </h3>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="text-base font-medium text-indigo group-hover:opacity-70 transition-opacity">
+                            {formatTag(source.name)}
+                          </h3>
+                          {isSearchAlert && (
+                            <span className="text-xs font-medium text-ochre-on-light">
+                              Search alert
+                            </span>
+                          )}
+                        </div>
                         <ExternalLink className="h-4 w-4 text-indigo hover:opacity-70 transition-opacity flex-shrink-0 mt-1" />
                       </a>
                     ))}

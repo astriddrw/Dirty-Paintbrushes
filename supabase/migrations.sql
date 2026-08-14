@@ -177,3 +177,55 @@ CREATE POLICY "Authenticated users can manage ingestion_runs"
 -- the confidence_score (which already had a home in relevance_score).
 ALTER TABLE articles ADD COLUMN IF NOT EXISTS key_actors text[] DEFAULT '{}';
 ALTER TABLE articles ADD COLUMN IF NOT EXISTS agencies_or_courts text[] DEFAULT '{}';
+
+
+-- ── 8. SOURCE HOMEPAGE URLS ────────────────────────────────────────────────
+-- /sources previously linked every source to feed_url, which resolves to raw
+-- RSS/Atom XML instead of the institution's actual site — exactly wrong for
+-- a page whose job is letting a skeptical visitor verify provenance.
+-- site_url is left NULL for tier5 (Google Alerts) rows on purpose: those
+-- aren't institutions with a homepage, they're the founder's own search
+-- queries, and the page now labels them as such rather than linking them
+-- to somewhere that doesn't exist.
+ALTER TABLE rss_sources ADD COLUMN IF NOT EXISTS site_url text;
+
+UPDATE rss_sources SET site_url = 'https://theantiquitiescoalition.org' WHERE name = 'Antiquities Coalition';
+UPDATE rss_sources SET site_url = 'https://www.artcrimeresearch.org' WHERE name = 'ARCA';
+UPDATE rss_sources SET site_url = 'https://www.apollo-magazine.com' WHERE name = 'Apollo Magazine';
+UPDATE rss_sources SET site_url = 'https://news.artnet.com' WHERE name = 'Artnet News';
+UPDATE rss_sources SET site_url = 'https://www.artnews.com' WHERE name = 'ARTnews';
+UPDATE rss_sources SET site_url = 'https://www.theartnewspaper.com' WHERE name = 'The Art Newspaper';
+UPDATE rss_sources SET site_url = 'https://baselgovernance.org' WHERE name = 'Basel Institute on Governance';
+UPDATE rss_sources SET site_url = 'https://www.bbc.co.uk/news' WHERE name = 'BBC News';
+UPDATE rss_sources SET site_url = 'https://www.bellingcat.com' WHERE name = 'Bellingcat';
+UPDATE rss_sources SET site_url = 'https://itsartlaw.org' WHERE name = 'Center for Art Law';
+UPDATE rss_sources SET site_url = 'https://www.fatf-gafi.org' WHERE name = 'FATF';
+UPDATE rss_sources SET site_url = 'https://www.icij.org' WHERE name = 'ICIJ';
+UPDATE rss_sources SET site_url = 'https://www.occrp.org' WHERE name = 'OCCRP';
+UPDATE rss_sources SET site_url = 'https://www.theguardian.com' WHERE name = 'The Guardian';
+UPDATE rss_sources SET site_url = 'https://www.transparency.org' WHERE name = 'Transparency International';
+UPDATE rss_sources SET site_url = 'https://complyadvantage.com' WHERE name = 'ComplyAdvantage';
+UPDATE rss_sources SET site_url = 'https://www.judiciary.uk' WHERE name = 'Courts and Tribunals Judiciary — Judgments';
+UPDATE rss_sources SET site_url = 'https://www.cps.gov.uk' WHERE name = 'Crown Prosecution Service (CPS)';
+UPDATE rss_sources SET site_url = 'https://financialcrimeacademy.org' WHERE name = 'Financial Crime Academy';
+UPDATE rss_sources SET site_url = 'https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service' WHERE name = 'HM Courts & Tribunals Service (HMCTS)';
+UPDATE rss_sources SET site_url = 'https://www.nationalcrimeagency.gov.uk' WHERE name = 'National Crime Agency (NCA)';
+
+
+-- ── 9. COMMENT MODERATION ───────────────────────────────────────────────────
+-- Comments previously published instantly with zero review, unlike every
+-- article on the product (which waits in /admin/review). New comments now
+-- default to 'pending' and are excluded from the public read policy until
+-- approved. There's no admin approval UI yet — approve a comment by setting
+-- its status to 'approved' directly in the Supabase table editor.
+ALTER TABLE comments ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'pending'
+  CHECK (status IN ('pending', 'approved', 'rejected'));
+
+-- Backfill: comments that already existed before this migration were
+-- effectively pre-approved (they were already live under the old policy).
+UPDATE comments SET status = 'approved' WHERE status = 'pending';
+
+DROP POLICY IF EXISTS "Public can read comments" ON comments;
+CREATE POLICY "Public can read approved comments"
+  ON comments FOR SELECT
+  USING (status = 'approved');
