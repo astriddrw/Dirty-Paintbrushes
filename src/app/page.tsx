@@ -29,7 +29,7 @@ export default async function HomePage() {
         <section className="px-6 lg:px-8 py-16 lg:py-20 border-t border-border bg-light-blue">
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-2xl lg:text-3xl font-title text-indigo">
+              <h2 className="text-2xl lg:text-3xl font-headline font-semibold tracking-tight text-indigo">
                 Latest Intelligence
               </h2>
               <Link

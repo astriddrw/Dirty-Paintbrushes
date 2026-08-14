@@ -43,7 +43,7 @@ export function SavedContent() {
     <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <FadeInHeading className="text-4xl lg:text-5xl font-normal tracking-tight text-indigo mb-4 font-title">
+        <FadeInHeading className="text-4xl lg:text-5xl font-semibold tracking-tight text-indigo mb-4 font-headline">
           Saved Articles
         </FadeInHeading>
         <p className="text-lg text-muted-foreground mb-4">

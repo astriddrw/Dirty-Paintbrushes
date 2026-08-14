@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, Roboto, Noto_Sans, Lora } from 'next/font/google'
+import { Instrument_Serif, Roboto, Noto_Sans, Lora, Archivo } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 
@@ -17,6 +17,17 @@ const lora = Lora({
   subsets: ['latin'],
   weight: ['400', '500'],
   variable: '--font-title',
+  display: 'swap',
+})
+
+// Page-title face — the big FadeInHeading titles (Sources, Latest
+// Intelligence, etc). Split from --font-title (Lora, article-row titles)
+// because at this larger scale a second serif read too close to the
+// Instrument Serif hero; a heavy grotesque gives it its own register.
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-headline',
   display: 'swap',
 })
 
@@ -50,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} ${lora.variable} bg-background`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} ${lora.variable} ${archivo.variable} bg-background`}>
       <body className="antialiased">
         {children}
       </body>

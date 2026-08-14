@@ -1,41 +1,194 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T01:00:00.000Z",
+  "generatedAt": "2026-08-14T13:55:46.047Z",
   "title": "Design System: Dirty Paintbrushes",
   "extensions": {
     "colorMeta": {
-      "ink-indigo":        { "role": "primary",  "displayName": "Ink Indigo",        "canonical": "#354A89", "tonalRamp": ["#151e37", "#283867", "#394f93", "#4e6abb", "#7b8fcc", "#a3b1db", "#ccd3eb", "#edeff8"] },
-      "muted-navy":        { "role": "primary",  "displayName": "Muted Navy",        "canonical": "#253B59", "tonalRamp": ["#162436", "#2a4365", "#3c6090", "#527db7", "#7d9dc9", "#a5bbda", "#cdd9ea", "#edf1f8"] },
-      "broadsheet-cobalt": { "role": "primary",  "displayName": "Broadsheet Cobalt",  "canonical": "#334EAC" },
-      "worn-ochre":        { "role": "secondary","displayName": "Worn Ochre",        "canonical": "#BB9549", "tonalRamp": ["#382c15", "#685227", "#957637", "#bc974d", "#cdb179", "#dcc9a2", "#ece1cb", "#f8f4ec"] },
-      "ochre-on-dark":     { "role": "secondary","displayName": "Ochre on Dark",     "canonical": "#D8C297" },
-      "ochre-on-light":    { "role": "secondary","displayName": "Ochre on Light",    "canonical": "#775E2C" },
-      "dried-blood":       { "role": "secondary","displayName": "Dried Blood",       "canonical": "#65322C", "tonalRamp": ["#351a17", "#63312b", "#8e463e", "#b55f54", "#c7877f", "#d8aba6", "#e9d0cd", "#f7eeed"] },
-      "aged-paper":        { "role": "neutral",  "displayName": "Aged Paper",        "canonical": "#FFEDBB", "tonalRamp": ["#4d3800", "#8f6900", "#cc9600", "#ffbe0a", "#ffce47", "#ffdd80", "#ffecb8", "#fff8e5"] },
-      "aged-vellum":       { "role": "neutral",  "displayName": "Aged Vellum",       "canonical": "#E6E2C5", "tonalRamp": ["#353217", "#645d2b", "#8f853d", "#b5a954", "#c8bf7f", "#d9d2a6", "#e9e6cd", "#f7f6ed"] },
-      "ink-black":         { "role": "neutral",  "displayName": "Ink Black",         "canonical": "#1A1A1A" },
-      "gallery-white":     { "role": "neutral",  "displayName": "Gallery White",     "canonical": "#FFFFFF" },
-      "pale-indigo-wash":  { "role": "neutral",  "displayName": "Pale Indigo Wash",  "canonical": "#DCE1F0" },
-      "archive-blue":      { "role": "neutral",  "displayName": "Archive Blue",      "canonical": "#CFE6F0" },
-      "dust":              { "role": "neutral",  "displayName": "Dust",              "canonical": "#E8E6E3" },
-      "paper-hover":       { "role": "neutral",  "displayName": "Paper Hover",       "canonical": "#F2F0EC" },
-      "faded-ink":         { "role": "neutral",  "displayName": "Faded Ink",         "canonical": "#5C5C5C" },
-      "alert-red":         { "role": "error",    "displayName": "Alert Red",         "canonical": "#B83232" }
+      "ink-indigo": {
+        "role": "primary",
+        "displayName": "Ink Indigo",
+        "canonical": "#354A89",
+        "tonalRamp": [
+          "#151e37",
+          "#283867",
+          "#394f93",
+          "#4e6abb",
+          "#7b8fcc",
+          "#a3b1db",
+          "#ccd3eb",
+          "#edeff8"
+        ]
+      },
+      "muted-navy": {
+        "role": "primary",
+        "displayName": "Muted Navy",
+        "canonical": "#253B59",
+        "tonalRamp": [
+          "#162436",
+          "#2a4365",
+          "#3c6090",
+          "#527db7",
+          "#7d9dc9",
+          "#a5bbda",
+          "#cdd9ea",
+          "#edf1f8"
+        ]
+      },
+      "broadsheet-cobalt": {
+        "role": "primary",
+        "displayName": "Broadsheet Cobalt",
+        "canonical": "#334EAC"
+      },
+      "worn-ochre": {
+        "role": "secondary",
+        "displayName": "Worn Ochre",
+        "canonical": "#BB9549",
+        "tonalRamp": [
+          "#382c15",
+          "#685227",
+          "#957637",
+          "#bc974d",
+          "#cdb179",
+          "#dcc9a2",
+          "#ece1cb",
+          "#f8f4ec"
+        ]
+      },
+      "ochre-on-dark": {
+        "role": "secondary",
+        "displayName": "Ochre on Dark",
+        "canonical": "#D8C297"
+      },
+      "ochre-on-light": {
+        "role": "secondary",
+        "displayName": "Ochre on Light",
+        "canonical": "#775E2C"
+      },
+      "dried-blood": {
+        "role": "secondary",
+        "displayName": "Dried Blood",
+        "canonical": "#65322C",
+        "tonalRamp": [
+          "#351a17",
+          "#63312b",
+          "#8e463e",
+          "#b55f54",
+          "#c7877f",
+          "#d8aba6",
+          "#e9d0cd",
+          "#f7eeed"
+        ]
+      },
+      "aged-paper": {
+        "role": "neutral",
+        "displayName": "Aged Paper",
+        "canonical": "#FFEDBB",
+        "tonalRamp": [
+          "#4d3800",
+          "#8f6900",
+          "#cc9600",
+          "#ffbe0a",
+          "#ffce47",
+          "#ffdd80",
+          "#ffecb8",
+          "#fff8e5"
+        ]
+      },
+      "aged-vellum": {
+        "role": "neutral",
+        "displayName": "Aged Vellum",
+        "canonical": "#E6E2C5",
+        "tonalRamp": [
+          "#353217",
+          "#645d2b",
+          "#8f853d",
+          "#b5a954",
+          "#c8bf7f",
+          "#d9d2a6",
+          "#e9e6cd",
+          "#f7f6ed"
+        ]
+      },
+      "ink-black": {
+        "role": "neutral",
+        "displayName": "Ink Black",
+        "canonical": "#1A1A1A"
+      },
+      "gallery-white": {
+        "role": "neutral",
+        "displayName": "Gallery White",
+        "canonical": "#FFFFFF"
+      },
+      "pale-indigo-wash": {
+        "role": "neutral",
+        "displayName": "Pale Indigo Wash",
+        "canonical": "#DCE1F0"
+      },
+      "archive-blue": {
+        "role": "neutral",
+        "displayName": "Archive Blue",
+        "canonical": "#CFE6F0"
+      },
+      "dust": {
+        "role": "neutral",
+        "displayName": "Dust",
+        "canonical": "#E8E6E3"
+      },
+      "paper-hover": {
+        "role": "neutral",
+        "displayName": "Paper Hover",
+        "canonical": "#F2F0EC"
+      },
+      "faded-ink": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "#5C5C5C"
+      },
+      "alert-red": {
+        "role": "error",
+        "displayName": "Alert Red",
+        "canonical": "#B83232"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Homepage hero headline only — Instrument Serif italic, scarce by design (see Serif Scarcity Rule)." },
-      "headline": { "displayName": "Headline", "purpose": "Page-level <h1> via FadeInHeading (Sources, About, Saved, Feed, Cases) and the 'Latest Intelligence' heading — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14. Article detail <h1> and the footer wordmark still Instrument Serif, not yet moved." },
-      "title": { "displayName": "Title", "purpose": "Article titles in list rows (ArticleRow) — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14." },
-      "body": { "displayName": "Body", "purpose": "Summaries, comments, editorial copy." },
-      "label": { "displayName": "Label", "purpose": "Nav links, CTA buttons, uppercase eyebrow text." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Homepage hero headline only — Instrument Serif italic, scarce by design (see Serif Scarcity Rule)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page-level <h1> via FadeInHeading (Sources, About, Saved, Feed, Cases) and the 'Latest Intelligence' heading — Archivo, semibold, blocky grotesque, moved off Lora 2026-08-14 (Lora at this scale still read too close to the Instrument Serif hero). Article detail <h1> and the footer wordmark still Instrument Serif, not yet moved."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Article titles in list rows (ArticleRow) — Lora, regular weight, not italic, moved off Instrument Serif 2026-08-14."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Summaries, comments, editorial copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav links, CTA buttons, uppercase eyebrow text."
+      }
     },
     "shadows": [],
     "motion": [
-      { "name": "fade-in-up", "value": "translateY(1rem) -> translateY(0), opacity 0 -> 1, 1s cubic-bezier(0.4,0,0.2,1)", "purpose": "Entrance for hero text and page titles (.animate-fade-in-up); respects prefers-reduced-motion." }
+      {
+        "name": "fade-in-up",
+        "value": "translateY(1rem) -> translateY(0), opacity 0 -> 1, 1s cubic-bezier(0.4,0,0.2,1)",
+        "purpose": "Entrance for hero text and page titles (.animate-fade-in-up); respects prefers-reduced-motion."
+      }
     ],
     "breakpoints": [
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px" }
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
     ]
   },
   "components": [
@@ -105,19 +258,47 @@
       "One unified pill style for every classification tag — indigo text on pale-indigo wash — never a rainbow of category colors."
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "Ochre appears on at most one or two elements per screen. Its rarity is what makes it read as a flag, not a decoration.", "section": "colors" },
-      { "name": "The Muted Direction Rule", "body": "The three expressive hues were desaturated ~20% from their original values (2026-08-13) at the founder's direction, and Broadsheet Cobalt has not been moved yet. New accent work should continue desaturating toward this family, never brighten back past it.", "section": "colors" },
-      { "name": "The Ochre-as-Text Rule", "body": "Worn Ochre was tuned as a border/fill accent, not a text color — it fails WCAG AA contrast as raw text on both indigo (3.01:1) and parchment (2.41:1). Any new ochre text use must reach for Ochre on Dark or Ochre on Light, never the base token.", "section": "colors" },
-      { "name": "The Italic-Means-Editorial Rule", "body": "Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being reported, not said. Don't italicize data.", "section": "typography" },
-      { "name": "The Serif Scarcity Rule", "body": "Instrument Serif was overused — leaning on the same distinctive italic face for every headline read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only. Article-row titles and every FadeInHeading page title (Sources, About, Saved, Feed, Cases) plus the 'Latest Intelligence' heading now use Lora instead. Article detail <h1> and the footer wordmark still use Instrument Serif and have not been moved yet — extend this rule to them before reaching for Instrument Serif on anything new.", "section": "typography" },
-      { "name": "The No-Shadow Rule", "body": "Never add box-shadow. If something needs to feel elevated, give it a solid fill or a border, not a shadow.", "section": "elevation" },
-      { "name": "The Flat-Edge Rule", "body": "No rounded corners on the standard scale. If a component needs one, it's either a perfect circle (rounded-full) or it's wrong.", "section": "shapes" }
+      {
+        "name": "The One Voice Rule",
+        "body": "Ochre appears on at most one or two elements per screen. Its rarity is what makes it read as a flag, not a decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Muted Direction Rule",
+        "body": "The three expressive hues were desaturated ~20% from their original values (2026-08-13) at the founder's direction, and Broadsheet Cobalt has not been moved yet. New accent work should continue desaturating toward this family, never brighten back past it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ochre-as-Text Rule",
+        "body": "Worn Ochre was tuned as a border/fill accent, not a text color — it fails WCAG AA contrast as raw text on both indigo (3.01:1) and parchment (2.41:1). Any new ochre text use must reach for Ochre on Dark or Ochre on Light, never the base token.",
+        "section": "colors"
+      },
+      {
+        "name": "The Italic-Means-Editorial Rule",
+        "body": "Italic Instrument Serif marks anything the platform is asserting with a voice — headlines, the wordmark, hero copy. Non-italic serif marks something being reported, not said. Don't italicize data.",
+        "section": "typography"
+      },
+      {
+        "name": "The Serif Scarcity Rule",
+        "body": "Instrument Serif was overused — leaning on the same distinctive italic face for every headline read as templated rather than authored. As of 2026-08-14 it's scoped to the wordmark and homepage hero only. Everything else was first moved to Lora, then page-level headings (every FadeInHeading title plus the 'Latest Intelligence' heading) moved a second time to Archivo, a sans-serif, once a same-page serif-next-to-serif pairing turned out to have its own version of the same problem. Article-row titles stay on Lora, where the smaller scale keeps it from competing with the hero. Article detail <h1> and the footer wordmark still use Instrument Serif and have not been moved yet — extend this rule to them before reaching for Instrument Serif on anything new.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Shadow Rule",
+        "body": "Never add box-shadow. If something needs to feel elevated, give it a solid fill or a border, not a shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat-Edge Rule",
+        "body": "No rounded corners on the standard scale. If a component needs one, it's either a perfect circle (rounded-full) or it's wrong.",
+        "section": "shapes"
+      }
     ],
     "dos": [
       "Do keep the palette to three expressive colors (ink indigo, worn ochre, dried blood) plus structural neutrals — resist adding a fourth accent hue.",
       "Do use the single unified pill style (bg-indigo-pale text-indigo, from src/lib/data.ts) for every new classification tag, badge, or filter chip.",
       "Do lean italic Instrument Serif for anything editorial/authoritative, and keep Roboto for anything that must be scanned quickly.",
-      "Do use Lora for page titles and article titles, and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.",
+      "Do use Archivo for page-level headings, Lora for article titles, and reserve Instrument Serif for the wordmark and hero — see the Serif Scarcity Rule before adding a new Instrument Serif headline anywhere else.",
       "Do trend new accent tints toward more muted/desaturated, per the founder's stated direction — not brighter or more saturated.",
       "Do convey depth with hairline borders and solid color-block sections, never shadows.",
       "Do use Ochre on Dark / Ochre on Light for any ochre text — the base Worn Ochre token is a border/fill color and fails contrast as text.",

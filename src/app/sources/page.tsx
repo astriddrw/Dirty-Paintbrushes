@@ -41,7 +41,7 @@ export default async function SourcesPage() {
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <FadeInHeading className="text-4xl lg:text-5xl font-normal tracking-tight text-indigo mb-4 font-title">
+          <FadeInHeading className="text-4xl lg:text-5xl font-semibold tracking-tight text-indigo mb-4 font-headline">
             Sources
           </FadeInHeading>
           <p className="text-lg text-indigo mb-2 max-w-2xl leading-relaxed">

@@ -42,6 +42,7 @@
   --font-nav: var(--font-nav, "Noto Sans", sans-serif);
   --font-brand: var(--font-brand, serif);
   --font-title: var(--font-title, Georgia, serif);
+  --font-headline: var(--font-headline, Arial, sans-serif);
   --font-sans: var(--font-body, "Roboto", ui-sans-serif, sans-serif);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
