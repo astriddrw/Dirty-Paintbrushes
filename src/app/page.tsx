@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer"
 import { HomeHero } from "@/components/HomeHero"
 import { ArticleRow } from "@/components/article-row"
 import { BookmarksProvider } from "@/lib/bookmarks-context"
+import { NewsletterSignupModal } from "@/components/newsletter-signup-modal"
 import type { Article } from "@/lib/types"
 
 export default async function HomePage() {
@@ -81,6 +82,7 @@ export default async function HomePage() {
       </main>
 
       <Footer />
+      <NewsletterSignupModal />
     </div>
   )
 }

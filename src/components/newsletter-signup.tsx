@@ -8,9 +8,10 @@ type Status = "idle" | "submitting" | "sent" | "error";
 
 interface NewsletterSignupProps {
   variant?: "compact" | "full";
+  onSubscribed?: () => void;
 }
 
-export function NewsletterSignup({ variant = "full" }: NewsletterSignupProps) {
+export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +38,7 @@ export function NewsletterSignup({ variant = "full" }: NewsletterSignupProps) {
       return;
     }
     setStatus("sent");
+    onSubscribed?.();
   };
 
   const doneMessage = status === "sent" ? "Check your inbox to confirm." : null;
@@ -90,7 +92,7 @@ export function NewsletterSignup({ variant = "full" }: NewsletterSignupProps) {
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="flex-shrink-0 px-5 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-80 disabled:opacity-30 transition-opacity"
+            className="flex-shrink-0 px-5 py-2.5 bg-indigo text-background text-sm font-serif italic hover:opacity-80 disabled:opacity-30 transition-opacity"
           >
             {status === "submitting" ? "Subscribing…" : "Subscribe"}
           </button>
