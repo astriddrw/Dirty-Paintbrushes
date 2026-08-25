@@ -11,6 +11,7 @@ const links = [
   { href: "/admin/submit", label: "Submit" },
   { href: "/admin/review", label: "Review Queue" },
   { href: "/admin/cases", label: "Cases" },
+  { href: "/admin/newsletter", label: "Newsletter" },
 ];
 
 export function AdminHeader() {

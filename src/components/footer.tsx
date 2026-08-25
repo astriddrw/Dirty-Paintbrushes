@@ -1,8 +1,10 @@
+import { NewsletterSignup } from "@/components/newsletter-signup"
+
 export function Footer() {
   return (
     <footer className="border-t border-border bg-indigo">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Copyright and tagline */}
           <div>
             <p className="text-sm font-serif font-semibold text-aged-vellum mb-2">
@@ -36,7 +38,13 @@ export function Footer() {
             <a href="/sources" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
               Sources
             </a>
+            <a href="/newsletter" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+              Newsletter
+            </a>
           </div>
+
+          {/* Newsletter signup */}
+          <NewsletterSignup variant="compact" />
         </div>
 
         {/* Disclaimers */}

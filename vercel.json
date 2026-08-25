@@ -3,6 +3,10 @@
     {
       "path": "/api/ingest",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/newsletter/generate-draft",
+      "schedule": "0 8 1 * *"
     }
   ]
 }

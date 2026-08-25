@@ -229,3 +229,57 @@ DROP POLICY IF EXISTS "Public can read comments" ON comments;
 CREATE POLICY "Public can read approved comments"
   ON comments FOR SELECT
   USING (status = 'approved');
+
+
+-- ── 10. NEWSLETTER ─────────────────────────────────────────────────────────
+-- subscribers: pending/confirmed/unsubscribed rather than a boolean, so
+-- "never confirmed" and "confirmed then left" stay distinguishable in the
+-- audit trail. confirm_token and unsubscribe_token are separate columns
+-- (not one reused token) so a leaked unsubscribe link — which ends up in
+-- every sent email, is by design low-stakes to leak — can never be replayed
+-- to (re)confirm a subscription.
+CREATE TABLE IF NOT EXISTS subscribers (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email text UNIQUE NOT NULL,
+  status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'unsubscribed')),
+  confirm_token uuid DEFAULT uuid_generate_v4(),
+  unsubscribe_token uuid DEFAULT uuid_generate_v4(),
+  created_at timestamptz DEFAULT now(),
+  confirmed_at timestamptz
+);
+
+CREATE INDEX IF NOT EXISTS subscribers_status_idx ON subscribers (status);
+
+ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
+
+-- No public policy: subscribe/confirm/unsubscribe all go through API routes
+-- using the service-role client (the routes need to read tokens back and
+-- send email via Resend regardless), same shape as ingestion_runs below.
+DROP POLICY IF EXISTS "Authenticated users can manage subscribers" ON subscribers;
+CREATE POLICY "Authenticated users can manage subscribers"
+  ON subscribers FOR ALL
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');
+
+-- newsletter_issues: draft/sent archive, edited in /admin/newsletter before
+-- sending — mirrors the articles review_queue pattern (generate first,
+-- human reviews, human triggers the irreversible step).
+CREATE TABLE IF NOT EXISTS newsletter_issues (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  period text NOT NULL, -- e.g. '2026-08'
+  status text NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'sent')),
+  subject text,
+  html_content text,
+  created_at timestamptz DEFAULT now(),
+  sent_at timestamptz
+);
+
+CREATE INDEX IF NOT EXISTS newsletter_issues_period_idx ON newsletter_issues (period DESC);
+
+ALTER TABLE newsletter_issues ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Authenticated users can manage newsletter_issues" ON newsletter_issues;
+CREATE POLICY "Authenticated users can manage newsletter_issues"
+  ON newsletter_issues FOR ALL
+  USING (auth.role() = 'authenticated')
+  WITH CHECK (auth.role() = 'authenticated');
