@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react"
 import { useAuth } from "@/lib/auth-context"
 import { createClient } from "@/lib/supabase/client"
+import { LoginPromptModal } from "@/components/login-prompt-modal"
 
 interface BookmarksContextType {
   bookmarkedIds: Set<string>
@@ -21,9 +22,14 @@ export function BookmarksProvider({ children }: { children: ReactNode }) {
   // Guards the local->account migration so it only runs once per mount even
   // though the effect below re-fires if `user` reference changes.
   const migratedRef = useRef(false)
+  // Non-null shows the login prompt modal and carries the page to return to
+  // after logging in — see toggleBookmark below.
+  const [loginPromptNext, setLoginPromptNext] = useState<string | null>(null)
 
-  // Logged out: unchanged localStorage-only behavior, so anonymous
-  // bookmarking never regresses for anyone who doesn't want an account.
+  // Logged out: still reads any bookmarks saved locally before this gate
+  // existed, so nobody's pre-existing saves disappear — but toggleBookmark
+  // below no longer writes new ones here. Saving now requires an account,
+  // so a local-only save can never become the *only* copy of it again.
   useEffect(() => {
     if (authLoading || user) return
     const stored = localStorage.getItem(STORAGE_KEY)
@@ -74,6 +80,19 @@ export function BookmarksProvider({ children }: { children: ReactNode }) {
   }, [user])
 
   const toggleBookmark = (id: string) => {
+    // Saving requires an account: prompt anonymous visitors to log in
+    // instead of silently writing to localStorage, so a "save" always lands
+    // somewhere the visitor can actually get back to. The prompt (rather
+    // than an immediate redirect) gives them the option to back out instead
+    // of being yanked off the page they were reading. `next` round-trips
+    // through the magic-link flow (see /login, /auth/callback) so they land
+    // back on this exact page, filters and all, once they're signed in.
+    if (authLoading) return
+    if (!user) {
+      setLoginPromptNext(window.location.pathname + window.location.search)
+      return
+    }
+
     const wasBookmarked = bookmarkedIds.has(id)
 
     setBookmarkedIds((prev) => {
@@ -85,8 +104,6 @@ export function BookmarksProvider({ children }: { children: ReactNode }) {
       }
       return next
     })
-
-    if (!user) return
 
     // RLS on `bookmarks` requires user_id = auth.uid() on writes, so it has
     // to be set explicitly here rather than relying on a table default.
@@ -103,6 +120,7 @@ export function BookmarksProvider({ children }: { children: ReactNode }) {
   return (
     <BookmarksContext.Provider value={{ bookmarkedIds, toggleBookmark, isBookmarked }}>
       {children}
+      <LoginPromptModal next={loginPromptNext} onClose={() => setLoginPromptNext(null)} />
     </BookmarksContext.Provider>
   )
 }

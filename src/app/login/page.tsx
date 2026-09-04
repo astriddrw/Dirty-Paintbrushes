@@ -42,36 +42,39 @@ function LoginForm() {
 
   return (
     <main className="flex-1 flex items-center justify-center px-6 lg:px-8 py-16">
-      <div className="w-full max-w-sm border border-border p-8">
-        <h1 className="text-2xl font-semibold text-foreground mb-2">Log in</h1>
+      <div className="w-full max-w-sm bg-indigo p-8">
+        <p className="text-sm text-aged-vellum mb-6 leading-relaxed">
+          Want to save articles for later? Log in to get started.
+        </p>
+        <h1 className="text-2xl font-semibold text-aged-vellum mb-2">Log in</h1>
 
         {sent ? (
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Check your inbox. We sent a login link to <span className="text-foreground">{email}</span>.
+          <p className="text-sm text-aged-vellum leading-relaxed">
+            Check your inbox. We sent a login link to <span className="text-white">{email}</span>.
           </p>
         ) : (
           <>
-            <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
-              We&apos;ll email you a link, no password needed. Logging in syncs your saved articles
-              across devices.
+            <p className="text-sm text-aged-vellum mb-8 leading-relaxed">
+              We&apos;ll email you a link, no password needed.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs text-muted-foreground mb-1.5">Email</label>
+                <label className="block text-xs text-aged-vellum mb-1.5">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
                   required
                   autoFocus
-                  className="input"
+                  className="w-full border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40"
                 />
               </div>
-              {error && <p className="text-xs text-destructive">{error}</p>}
+              {error && <p className="text-xs text-aged-vellum">{error}</p>}
               <button
                 type="submit"
                 disabled={submitting || !email.trim()}
-                className="w-full py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
+                className="w-full py-2.5 bg-white text-indigo text-sm font-medium hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
               >
                 {submitting ? "Sending…" : "Send login link"}
               </button>
@@ -85,7 +88,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-light-blue">
       <Navigation />
       <Suspense fallback={null}>
         <LoginForm />

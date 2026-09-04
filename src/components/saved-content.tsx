@@ -56,14 +56,13 @@ export function SavedContent() {
             "Saved articles sync to your account."
           ) : (
             <>
-              Saved articles are stored in your browser and won&apos;t sync across devices.{" "}
               <Link
                 href="/login?next=/saved"
                 className="underline decoration-1 underline-offset-4 hover:text-indigo transition-colors"
               >
                 Log in
               </Link>{" "}
-              to sync them.
+              to save articles and sync them across devices.
             </>
           )}
         </p>
