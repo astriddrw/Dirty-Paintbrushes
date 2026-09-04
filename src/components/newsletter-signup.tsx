@@ -7,7 +7,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 type Status = "idle" | "submitting" | "sent" | "error";
 
 interface NewsletterSignupProps {
-  variant?: "compact" | "full";
+  variant?: "compact" | "full" | "banner";
   onSubscribed?: () => void;
 }
 
@@ -63,6 +63,47 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
               type="submit"
               disabled={status === "submitting"}
               className="flex-shrink-0 px-3 py-2 bg-white text-indigo text-xs font-medium hover:opacity-80 disabled:opacity-30 transition-opacity"
+            >
+              {status === "submitting" ? "…" : "Subscribe"}
+            </button>
+          </form>
+        )}
+        {error && <p className="text-xs text-aged-vellum mt-1.5">{error}</p>}
+      </div>
+    );
+  }
+
+  if (variant === "banner") {
+    return (
+      <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+          <p className="text-xs uppercase tracking-wide font-nav font-light text-ochre-on-dark mb-2">
+            Monthly digest
+          </p>
+          <h2 className="text-2xl lg:text-3xl font-serif italic text-aged-vellum">Stay briefed</h2>
+        </div>
+
+        {doneMessage ? (
+          <p className="text-sm text-aged-vellum" role="status">
+            {doneMessage}
+          </p>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto lg:min-w-[380px]"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+              className="min-w-0 flex-1 border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+            />
+            <button
+              type="submit"
+              disabled={status === "submitting"}
+              className="flex-shrink-0 px-5 py-2.5 bg-white text-indigo text-sm font-serif italic hover:opacity-80 disabled:opacity-30 transition-opacity"
             >
               {status === "submitting" ? "…" : "Subscribe"}
             </button>

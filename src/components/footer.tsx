@@ -2,9 +2,19 @@ import { NewsletterSignup } from "@/components/newsletter-signup"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-indigo">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <>
+      {/* Newsletter banner — full-width, oxblood (the site's other
+          established accent, not a new hue) so this reads as a deliberate
+          stop above the footer, not another footer column. */}
+      <section className="border-t border-border bg-oxblood px-6 lg:px-8 py-10 lg:py-12">
+        <div className="max-w-7xl mx-auto">
+          <NewsletterSignup variant="banner" />
+        </div>
+      </section>
+
+      <footer className="bg-indigo">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Copyright and tagline */}
           <div>
             <p className="text-sm font-serif font-semibold text-aged-vellum mb-2">
@@ -42,9 +52,6 @@ export function Footer() {
               Newsletter
             </a>
           </div>
-
-          {/* Newsletter signup */}
-          <NewsletterSignup variant="compact" />
         </div>
 
         {/* Disclaimers */}
@@ -70,7 +77,8 @@ export function Footer() {
             </a>
           </div>
         </div>
-      </div>
-    </footer>
+        </div>
+      </footer>
+    </>
   )
 }
