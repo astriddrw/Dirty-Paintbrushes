@@ -1,23 +1,16 @@
 "use client"
 
-import { useState, useMemo, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArticleRow } from "@/components/article-row"
 import { FadeInHeading } from "@/components/FadeInHeading"
 import { Search, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { crimeTypeLabels, articleTypeLabels } from "@/lib/data"
+import { cn, FEED_PAGE_SIZE } from "@/lib/utils"
+import { articleTypeLabels } from "@/lib/data"
+import { TypologiesModule } from "@/components/TypologiesModule"
 import type { Article } from "@/lib/types"
-
-// DB crime type values used for filtering
-const crimeFilterTypes = [
-  "fraud",
-  "money_laundering",
-  "sanctions_evasion",
-  "terror_financing",
-] as const
 
 // DB article type values used for filtering
 const articleFilterTypes = [
@@ -32,14 +25,21 @@ const articleFilterTypes = [
 type SortOption = "newest" | "oldest"
 
 interface FeedContentProps {
+  // Already the correct page of already-filtered, already-sorted results —
+  // filtering/sorting/pagination all happen server-side now (see
+  // feed/page.tsx) so they compose correctly together. This component just
+  // renders what it's given and writes filter/page state to the URL.
   articles: Article[]
+  page: number
+  totalPages: number
+  totalCount: number
 }
 
 function parseSet(value: string | null): Set<string> {
   return new Set((value ?? "").split(",").filter(Boolean))
 }
 
-export function FeedContent({ articles }: FeedContentProps) {
+export function FeedContent({ articles, page, totalPages, totalCount }: FeedContentProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -50,22 +50,42 @@ export function FeedContent({ articles }: FeedContentProps) {
   // instant instead of round-tripping through the router on every keystroke.
   const searchQuery = searchParams.get("q") ?? ""
   const sortBy = (searchParams.get("sort") as SortOption) || "newest"
-  const selectedCrimeTypes = useMemo(() => parseSet(searchParams.get("crime")), [searchParams])
-  const selectedArticleTypes = useMemo(() => parseSet(searchParams.get("type")), [searchParams])
+  const selectedCrimeType = searchParams.get("crime") ?? ""
+  const selectedArticleTypes = parseSet(searchParams.get("type"))
   const dateFrom = searchParams.get("from") ?? ""
   const dateTo = searchParams.get("to") ?? ""
 
   const [searchInput, setSearchInput] = useState(searchQuery)
 
+  // Any filter/search/sort change resets to page 1 (a filter change can
+  // easily make the page you were on no longer exist) — pass
+  // resetPage: false only for actual page-to-page navigation.
   const updateParams = useCallback(
-    (updates: Record<string, string | null>) => {
+    (updates: Record<string, string | null>, options?: { resetPage?: boolean }) => {
       const params = new URLSearchParams(searchParams.toString())
       for (const [key, value] of Object.entries(updates)) {
         if (value) params.set(key, value)
         else params.delete(key)
       }
+      if (options?.resetPage !== false) {
+        params.delete("page")
+      }
       const query = params.toString()
       router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    },
+    [router, pathname, searchParams]
+  )
+
+  // Page navigation: router.push (not replace) so the back button steps
+  // back through pages, and the default scroll-to-top behavior is kept
+  // (unlike updateParams above) so a new page of results starts in view.
+  const goToPage = useCallback(
+    (nextPage: number) => {
+      const params = new URLSearchParams(searchParams.toString())
+      if (nextPage > 1) params.set("page", String(nextPage))
+      else params.delete("page")
+      const query = params.toString()
+      router.push(query ? `${pathname}?${query}` : pathname)
     },
     [router, pathname, searchParams]
   )
@@ -83,11 +103,8 @@ export function FeedContent({ articles }: FeedContentProps) {
     setSearchInput(searchQuery)
   }, [searchQuery])
 
-  const toggleCrimeType = (type: string) => {
-    const next = new Set(selectedCrimeTypes)
-    if (next.has(type)) next.delete(type)
-    else next.add(type)
-    updateParams({ crime: Array.from(next).join(",") || null })
+  const handleTypologySelect = (type: string) => {
+    updateParams({ crime: type === selectedCrimeType ? null : type })
   }
 
   const toggleArticleType = (type: string) => {
@@ -102,58 +119,12 @@ export function FeedContent({ articles }: FeedContentProps) {
     router.replace(pathname, { scroll: false })
   }
 
-  const filteredArticles = useMemo(() => {
-    let result = [...articles]
-
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      result = result.filter(
-        (article) =>
-          article.title.toLowerCase().includes(query) ||
-          article.source_name.toLowerCase().includes(query)
-      )
-    }
-
-    // Filter by crime type
-    if (selectedCrimeTypes.size > 0) {
-      result = result.filter((article) =>
-        article.crime_types?.some((ct) => selectedCrimeTypes.has(ct))
-      )
-    }
-
-    // Filter by article type
-    if (selectedArticleTypes.size > 0) {
-      result = result.filter((article) =>
-        article.article_type != null && selectedArticleTypes.has(article.article_type)
-      )
-    }
-
-    // Filter by date range
-    if (dateFrom) {
-      result = result.filter(
-        (article) => article.published_date && new Date(article.published_date) >= new Date(dateFrom)
-      )
-    }
-    if (dateTo) {
-      result = result.filter(
-        (article) => article.published_date && new Date(article.published_date) <= new Date(dateTo)
-      )
-    }
-
-    // Sort
-    result.sort((a, b) => {
-      const dateA = a.published_date ? new Date(a.published_date).getTime() : 0
-      const dateB = b.published_date ? new Date(b.published_date).getTime() : 0
-      return sortBy === "newest" ? dateB - dateA : dateA - dateB
-    })
-
-    return result
-  }, [articles, searchQuery, selectedCrimeTypes, selectedArticleTypes, dateFrom, dateTo, sortBy])
-
   const hasActiveFilters = Boolean(
-    searchQuery || selectedCrimeTypes.size > 0 || selectedArticleTypes.size > 0 || dateFrom || dateTo
+    searchQuery || selectedCrimeType || selectedArticleTypes.size > 0 || dateFrom || dateTo
   )
+
+  const rangeStart = totalCount > 0 ? (page - 1) * FEED_PAGE_SIZE + 1 : 0
+  const rangeEnd = (page - 1) * FEED_PAGE_SIZE + articles.length
 
   return (
     <div className="min-h-screen flex flex-col bg-card">
@@ -210,31 +181,10 @@ export function FeedContent({ articles }: FeedContentProps) {
             />
           </div>
 
-          {/* Filters */}
+          {/* Article Type + Clear Filters — the generic form controls, grouped
+              with Search/Sort/Date range above Typologies rather than sitting
+              between the tabs and the panel they're attached to. */}
           <div className="flex flex-col gap-4 mb-8">
-            {/* Crime Type Filters */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
-                Crime Type
-              </span>
-              {crimeFilterTypes.map((type) => (
-                <button
-                  key={type}
-                  onClick={() => toggleCrimeType(type)}
-                  aria-pressed={selectedCrimeTypes.has(type)}
-                  className={cn(
-                    "px-1 py-1 italic text-xs font-medium text-indigo underline decoration-1 underline-offset-4 transition-all",
-                    selectedCrimeTypes.has(type)
-                      ? "decoration-indigo"
-                      : "decoration-transparent hover:decoration-indigo"
-                  )}
-                >
-                  {crimeTypeLabels[type]}
-                </button>
-              ))}
-            </div>
-
-            {/* Article Type Filters */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
                 Article Type
@@ -256,7 +206,6 @@ export function FeedContent({ articles }: FeedContentProps) {
               ))}
             </div>
 
-            {/* Clear Filters */}
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
@@ -268,12 +217,11 @@ export function FeedContent({ articles }: FeedContentProps) {
             )}
           </div>
 
-          {/* Articles List */}
-          <div className="border-t border-border">
-            {filteredArticles.length > 0 ? (
-              filteredArticles.map((article) => (
-                <ArticleRow key={article.id} article={article} />
-              ))
+          {/* Typologies tabs, fused with the article panel they filter —
+              list, results count, and pagination all live inside it now. */}
+          <TypologiesModule selected={selectedCrimeType} onSelect={handleTypologySelect}>
+            {articles.length > 0 ? (
+              articles.map((article) => <ArticleRow key={article.id} article={article} />)
             ) : (
               <div className="py-16 text-center">
                 <p className="text-muted-foreground">
@@ -287,15 +235,36 @@ export function FeedContent({ articles }: FeedContentProps) {
                 </button>
               </div>
             )}
-          </div>
 
-          {/* Results count */}
-          {filteredArticles.length > 0 && (
-            <p className="mt-8 text-sm text-muted-foreground">
-              Showing {filteredArticles.length} article
-              {filteredArticles.length !== 1 ? "s" : ""}
-            </p>
-          )}
+            {totalCount > 0 && (
+              <p className="mt-8 text-sm text-muted-foreground">
+                Showing {rangeStart}–{rangeEnd} of {totalCount} article
+                {totalCount !== 1 ? "s" : ""}
+              </p>
+            )}
+
+            {totalPages > 1 && (
+              <div className="mt-6 flex items-center justify-center gap-4">
+                <button
+                  onClick={() => goToPage(page - 1)}
+                  disabled={page <= 1}
+                  className="px-5 py-2.5 border border-border text-sm font-medium text-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  ← Previous
+                </button>
+                <span className="text-sm text-muted-foreground">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  onClick={() => goToPage(page + 1)}
+                  disabled={page >= totalPages}
+                  className="px-5 py-2.5 border border-border text-sm font-medium text-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
+          </TypologiesModule>
         </div>
       </main>
 
