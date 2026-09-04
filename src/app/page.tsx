@@ -6,6 +6,7 @@ import { HomeHero } from "@/components/HomeHero"
 import { ArticleRow } from "@/components/article-row"
 import { BookmarksProvider } from "@/lib/bookmarks-context"
 import { NewsletterSignupModal } from "@/components/newsletter-signup-modal"
+import { formatHeaderTimestamp } from "@/lib/utils"
 import type { Article } from "@/lib/types"
 
 export default async function HomePage() {
@@ -18,6 +19,8 @@ export default async function HomePage() {
     .limit(4)
 
   const articles: Article[] = (data ?? []) as Article[]
+  // Computed once, server-side, at request time — not a live client clock.
+  const dateTime = formatHeaderTimestamp(new Date())
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -29,6 +32,7 @@ export default async function HomePage() {
         {/* Latest Intelligence - real published articles, same rows as the Feed page */}
         <section className="px-6 lg:px-8 py-16 lg:py-20 border-t border-border bg-light-blue">
           <div className="max-w-5xl mx-auto">
+            <p className="text-xs text-muted-foreground mb-3">{dateTime}</p>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-2xl lg:text-3xl font-headline font-semibold tracking-tight text-indigo">
                 Latest Intelligence
