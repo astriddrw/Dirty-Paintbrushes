@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Check } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -8,6 +8,7 @@ const COOLDOWN_MS = 30_000;
 const MESSAGE_MAX = 2000;
 
 export function FeedbackBox() {
+  const messageId = useId();
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -45,13 +46,17 @@ export function FeedbackBox() {
 
   return (
     <div className="mt-16 bg-indigo p-6 lg:p-8">
-      <h2 className="text-sm font-semibold text-white mb-1">Have feedback?</h2>
+      <h2 className="text-sm font-semibold text-aged-vellum mb-1">Have feedback?</h2>
       <p className="text-xs text-aged-vellum mb-5 leading-relaxed">
         Submit anonymously. No name or account required.
       </p>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
+          <label htmlFor={messageId} className="sr-only">
+            Feedback message
+          </label>
           <textarea
+            id={messageId}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Share your thoughts..."

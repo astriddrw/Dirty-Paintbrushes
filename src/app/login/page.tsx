@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, Suspense } from "react"
+import { useId, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/client"
 function LoginForm() {
   const searchParams = useSearchParams()
   const next = searchParams.get("next") ?? "/saved"
+  const emailId = useId()
 
   const [email, setEmail] = useState("")
   const [submitting, setSubmitting] = useState(false)
@@ -59,8 +60,11 @@ function LoginForm() {
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs text-aged-vellum mb-1.5">Email</label>
+                <label htmlFor={emailId} className="block text-xs text-aged-vellum mb-1.5">
+                  Email
+                </label>
                 <input
+                  id={emailId}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

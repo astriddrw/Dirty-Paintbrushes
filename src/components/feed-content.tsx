@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useId, useState, useEffect, useCallback } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -40,6 +40,7 @@ function parseSet(value: string | null): Set<string> {
 }
 
 export function FeedContent({ articles, page, totalPages, totalCount }: FeedContentProps) {
+  const searchId = useId()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -140,8 +141,15 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
           {/* Search and Sort */}
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search
+                aria-hidden="true"
+                className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+              />
+              <label htmlFor={searchId} className="sr-only">
+                Search articles
+              </label>
               <input
+                id={searchId}
                 type="text"
                 placeholder="Search articles..."
                 value={searchInput}
@@ -152,6 +160,7 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
             <select
               value={sortBy}
               onChange={(e) => updateParams({ sort: e.target.value === "newest" ? null : e.target.value })}
+              aria-label="Sort articles by"
               className="px-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             >
               <option value="newest">Newest first</option>
@@ -209,9 +218,9 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-1 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
-                <X className="h-3 w-3" />
+                <X aria-hidden="true" className="h-3 w-3" />
                 Clear filters
               </button>
             )}
@@ -229,7 +238,7 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="mt-4 text-sm text-primary hover:underline"
+                  className="mt-4 px-2 py-2 text-sm text-primary hover:underline"
                 >
                   Clear filters
                 </button>

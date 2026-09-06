@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useId, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Comment } from "@/lib/types";
 
@@ -19,6 +19,8 @@ const COOLDOWN_MS = 30_000; // 30 seconds between submissions
 const BODY_MAX = 2000;
 
 export default function CommentSection({ articleId }: CommentSectionProps) {
+  const displayNameId = useId();
+  const bodyId = useId();
   const [comments, setComments] = useState<Comment[]>([]);
   const [lastSubmitted, setLastSubmitted] = useState<number | null>(null);
   const [displayName, setDisplayName] = useState("");
@@ -108,8 +110,11 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs text-muted-foreground mb-1.5">Display name</label>
+          <label htmlFor={displayNameId} className="block text-xs text-muted-foreground mb-1.5">
+            Display name
+          </label>
           <input
+            id={displayNameId}
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
@@ -121,12 +126,15 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
         </div>
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-xs text-muted-foreground">Comment</label>
+            <label htmlFor={bodyId} className="block text-xs text-muted-foreground">
+              Comment
+            </label>
             <span className="text-xs text-muted-foreground">
               {body.length}/{BODY_MAX}
             </span>
           </div>
           <textarea
+            id={bodyId}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             placeholder="Add analysis, flag connections, or share context..."

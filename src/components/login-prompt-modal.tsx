@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { useModalFocusTrap } from "@/lib/use-modal-focus-trap";
 
 interface LoginPromptModalProps {
   // The path (with query string) to return to after logging in. Presence of
@@ -14,6 +15,7 @@ interface LoginPromptModalProps {
 
 export function LoginPromptModal({ next, onClose }: LoginPromptModalProps) {
   const open = next !== null;
+  const dialogRef = useModalFocusTrap(open);
 
   useEffect(() => {
     if (!open) return;
@@ -32,6 +34,7 @@ export function LoginPromptModal({ next, onClose }: LoginPromptModalProps) {
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="login-prompt-heading"
@@ -69,7 +72,7 @@ export function LoginPromptModal({ next, onClose }: LoginPromptModalProps) {
           </Link>
           <button
             onClick={onClose}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="px-2 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Not now
           </button>

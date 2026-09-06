@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { NewsletterSignup } from "@/components/newsletter-signup";
+import { useModalFocusTrap } from "@/lib/use-modal-focus-trap";
 
 // Tune the delay here — 5-10s was the requested range, 7s is the default.
 export const NEWSLETTER_MODAL_DELAY_MS = 7_000;
@@ -17,6 +18,7 @@ const SUBSCRIBED_KEY = "dpb_newsletter_subscribed";
 
 export function NewsletterSignupModal() {
   const [open, setOpen] = useState(false);
+  const dialogRef = useModalFocusTrap(open);
 
   // Runs once on mount. Suppression is keyed to when the modal was last
   // *shown*, not to whether it was closed vs. ignored vs. left to time out —
@@ -58,6 +60,7 @@ export function NewsletterSignupModal() {
       onClick={close}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="newsletter-modal-heading"

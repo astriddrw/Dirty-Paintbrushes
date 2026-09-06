@@ -36,19 +36,19 @@ export function Footer() {
 
           {/* Navigation links */}
           <div className="flex flex-col gap-3">
-            <a href="/" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+            <a href="/" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               Home
             </a>
-            <a href="/feed" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+            <a href="/feed" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               Feed
             </a>
-            <a href="/about" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+            <a href="/about" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               About
             </a>
-            <a href="/sources" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+            <a href="/sources" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               Sources
             </a>
-            <a href="/newsletter" className="text-sm font-light text-white hover:opacity-70 transition-opacity">
+            <a href="/newsletter" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               Newsletter
             </a>
           </div>
@@ -57,7 +57,7 @@ export function Footer() {
         {/* Disclaimers */}
         <div className="border-t border-white/20 pt-8 space-y-4">
           <div className="text-xs text-aged-vellum leading-relaxed">
-            <p className="font-semibold text-white mb-2">Disclaimer</p>
+            <p className="font-semibold text-aged-vellum mb-2">Disclaimer</p>
             <p className="mb-4">
               Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.
             </p>

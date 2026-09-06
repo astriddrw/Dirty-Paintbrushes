@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -12,6 +12,10 @@ interface NewsletterSignupProps {
 }
 
 export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterSignupProps) {
+  // Every variant relies on the placeholder as its only visual cue, but a
+  // placeholder isn't an accessible name once the field has a value — this
+  // id backs a visually-hidden real <label> in each variant below.
+  const emailId = useId();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +55,11 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
           <p className="text-xs text-aged-vellum">{doneMessage}</p>
         ) : (
           <form onSubmit={handleSubmit} className="flex items-stretch gap-2 max-w-xs">
+            <label htmlFor={emailId} className="sr-only">
+              Email address
+            </label>
             <input
+              id={emailId}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -92,7 +100,11 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
             onSubmit={handleSubmit}
             className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto lg:min-w-[380px]"
           >
+            <label htmlFor={emailId} className="sr-only">
+              Email address
+            </label>
             <input
+              id={emailId}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -122,7 +134,11 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
         </p>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-md">
+          <label htmlFor={emailId} className="sr-only">
+            Email address
+          </label>
           <input
+            id={emailId}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
