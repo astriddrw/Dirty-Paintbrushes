@@ -32,6 +32,17 @@ const PANEL_BG = "#FFEDBB" // --background (parchment)
 const PANEL_BG_TEXT = "#1A1A1A" // --foreground (ink)
 const INK_RGB = "26, 26, 26" // --foreground, for veil/shadow rgba()
 
+// Money Laundering's light-blue fill (#CFE6F0) sits at ~1.1:1 contrast
+// against the parchment panel/page (#FFEDBB) — both pale, WCAG non-text
+// minimum is 3:1 — so its silhouette all but disappears at rest, even with
+// the veil darkening it (still only ~1.6:1). No other category has this
+// problem: indigo/oxblood/grey all clear 5.7:1+ against parchment on their
+// own. rgba ink at 0.55 alpha clears 3:1 against both the light-blue fill
+// and the parchment it sits on, so this tab alone gets a hairline outline
+// the others don't need.
+const OUTLINE_NEEDED: ReadonlySet<string> = new Set(["money_laundering"])
+const OUTLINE_COLOR = `rgba(${INK_RGB}, 0.55)`
+
 // One of the site's actual established colors per tab (light blue, oxblood,
 // indigo, warm grey) rather than shades of a single manila tone — four
 // distinct hues so every typology stays identifiable at a glance, unlike
@@ -101,6 +112,12 @@ const TAB_WIDTH = 176 // px
 const TAB_HEIGHT = 62 // px — same ~2.84:1 ratio as the source mock's 210×74
 const TAB_CLIP_ID = "typology-tab-clip"
 
+// Shared by the invisible <clipPath> (shapes every tab) and the visible
+// outline overlay (only rendered for OUTLINE_NEEDED tabs) — one geometry,
+// so they can never drift apart into a clip that doesn't match its outline.
+const TAB_PATH_D =
+  "M0,1 L0,0.8243 Q0,0.6622 0.0476,0.5541 L0.1,0.1892 Q0.1238,0.027 0.181,0 L0.819,0 Q0.8762,0.027 0.9,0.1892 L0.9524,0.5541 Q1,0.6622 1,0.8243 L1,1 Z"
+
 // Adjacent tabs overlap rather than sitting edge-to-edge — later tabs paint
 // over the previous one's right edge (same DOM-order stacking the mock's
 // option 1B fans out, just a lighter touch of it than a full 20px
@@ -147,7 +164,7 @@ function TypologiesTabBar({ selected, onSelect }: Omit<TypologiesModuleProps, "c
     >
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
         <clipPath id={TAB_CLIP_ID} clipPathUnits="objectBoundingBox">
-          <path d="M0,1 L0,0.8243 Q0,0.6622 0.0476,0.5541 L0.1,0.1892 Q0.1238,0.027 0.181,0 L0.819,0 Q0.8762,0.027 0.9,0.1892 L0.9524,0.5541 Q1,0.6622 1,0.8243 L1,1 Z" />
+          <path d={TAB_PATH_D} />
         </clipPath>
       </svg>
       {tabs.map(({ value, label }, index) => {
@@ -207,6 +224,28 @@ function TypologiesTabBar({ selected, onSelect }: Omit<TypologiesModuleProps, "c
                 transition: "opacity 260ms ease",
               }}
             />
+            {/* Outline — only for tabs whose fill is too close in lightness
+                to the parchment it sits on (see OUTLINE_NEEDED above).
+                Fades out as the tab merges into the panel: once merged, the
+                tab *is* parchment, and an outline would just draw a line
+                around nothing. */}
+            {OUTLINE_NEEDED.has(value) && (
+              <svg
+                className="absolute inset-0"
+                viewBox="0 0 1 1"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d={TAB_PATH_D}
+                  fill="none"
+                  stroke={OUTLINE_COLOR}
+                  strokeWidth={1.5}
+                  vectorEffect="non-scaling-stroke"
+                  style={{ opacity: 1 - mergeOpacity, transition: "opacity 260ms ease" }}
+                />
+              </svg>
+            )}
             <span
               className="absolute left-0 right-0 bottom-3 text-center font-title uppercase tracking-wide text-xs font-medium"
               style={{ color: textColor, transition: "color 260ms ease" }}
