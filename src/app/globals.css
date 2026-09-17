@@ -286,3 +286,44 @@
     transform: none;
   }
 }
+
+/* ── About page typewriter heading ──────────────────────────────────
+   Each character is its own span with its own animation-delay (set
+   inline), so this is a pure-CSS "typed" reveal — no JS, and no width
+   animation to fight with, so the heading still wraps normally on
+   narrow viewports. */
+@keyframes typewriter-char-in {
+  to {
+    opacity: 1;
+  }
+}
+.typewriter-char {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  animation: typewriter-char-in 1ms linear forwards;
+}
+@keyframes typewriter-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: typewriter-blink 900ms steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-char {
+    opacity: 1;
+    animation: none;
+  }
+  .typewriter-cursor {
+    animation: none;
+  }
+}
