@@ -130,3 +130,159 @@
     animation: none;
   }
 }
+
+/* ── Sources page folder cover ──────────────────────────────────────
+   Checkbox + label driven (no JS): #sources-open:checked selects
+   everything below via sibling combinators, so open/close works with
+   JS fully disabled — the transitions here are a progressive-
+   enhancement layer on top of that, not a requirement for it. */
+.sources-cover-slot {
+  perspective: 1800px;
+  transition: max-height 1ms linear;
+  max-height: 820px;
+}
+.sources-cover-folder {
+  transform-origin: 2% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: rotateY(0deg);
+  opacity: 1;
+  transition: transform 460ms cubic-bezier(0.34, 1.3, 0.4, 1), opacity 280ms ease;
+}
+.sources-cover-folder img {
+  backface-visibility: hidden;
+  filter: drop-shadow(0 18px 24px rgba(26, 26, 26, 0.24));
+  transition: filter 200ms ease;
+}
+.sources-cover-folder:hover,
+.sources-cover-folder:focus-visible {
+  transform: translateY(-5px) scale(1.015) rotateY(0deg);
+}
+.sources-cover-folder:hover img,
+.sources-cover-folder:focus-visible img {
+  filter: drop-shadow(0 26px 30px rgba(26, 26, 26, 0.3));
+}
+.sources-cover-folder:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 8px;
+}
+#sources-open:checked ~ .sources-cover-slot .sources-cover-folder {
+  transform: rotateY(-98deg);
+  opacity: 0;
+  pointer-events: none;
+}
+/* overflow waits for the same 460ms as the transform — otherwise it
+   clips instantly on click, cutting the folder off mid-rotation. */
+#sources-open:checked ~ .sources-cover-slot {
+  transition: max-height 1ms linear 460ms, overflow 1ms linear 460ms;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.sources-cover-reveal {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 1ms linear 420ms, opacity 1ms linear 420ms;
+}
+#sources-open:checked ~ .sources-cover-reveal {
+  max-height: 4000px;
+  opacity: 1;
+  overflow: visible;
+}
+
+.sources-cover-close {
+  color: var(--foreground);
+}
+.sources-cover-close svg {
+  color: currentColor;
+  pointer-events: none;
+}
+.sources-cover-close:hover,
+.sources-cover-close:focus-visible {
+  color: var(--oxblood);
+}
+
+.sources-cover-board {
+  aspect-ratio: 914 / 600;
+}
+@keyframes sources-note-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.sources-cover-note {
+  opacity: 0;
+  transform: scale(0.85);
+  filter: drop-shadow(0 8px 10px rgba(26, 26, 26, 0.28)) drop-shadow(0 2px 4px rgba(26, 26, 26, 0.18));
+  transition: transform 180ms ease, filter 180ms ease;
+}
+#sources-open:checked ~ .sources-cover-reveal .sources-cover-note {
+  animation: sources-note-pop 320ms cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
+  animation-delay: calc(460ms + var(--i) * 80ms);
+}
+.sources-cover-note:hover,
+.sources-cover-note:focus-within {
+  transform: scale(1.05) translateY(-6px);
+  filter: drop-shadow(0 14px 16px rgba(26, 26, 26, 0.32)) drop-shadow(0 4px 6px rgba(26, 26, 26, 0.2));
+  z-index: 5;
+}
+
+@media (max-width: 1023px) {
+  .sources-cover-board {
+    position: static;
+    aspect-ratio: auto;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .sources-cover-note {
+    position: static !important;
+    width: min(270px, 82vw) !important;
+  }
+  #sources-open:checked ~ .sources-cover-reveal .sources-cover-note {
+    animation-name: sources-note-pop-mobile;
+  }
+}
+@keyframes sources-note-pop-mobile {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sources-open:checked ~ .sources-cover-slot .sources-cover-folder {
+    animation: none;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+  #sources-open:checked ~ .sources-cover-slot {
+    transition-delay: 120ms;
+  }
+  .sources-cover-reveal,
+  #sources-open:checked ~ .sources-cover-reveal {
+    transition-delay: 120ms !important;
+  }
+  #sources-open:checked ~ .sources-cover-reveal .sources-cover-note {
+    animation-duration: 1ms !important;
+    animation-delay: 120ms !important;
+  }
+  .sources-cover-folder:hover,
+  .sources-cover-folder:focus-visible,
+  .sources-cover-note:hover,
+  .sources-cover-note:focus-within {
+    transform: none;
+  }
+}
