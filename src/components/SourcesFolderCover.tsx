@@ -29,7 +29,7 @@ const TIER_LAYOUT: TierLayout[] = [
     x: "64.0%",
     y: "6.3%",
     w: "22.3%",
-    inset: { t: "26%", r: "8%", b: "8%", l: "8%" },
+    inset: { t: "22%", r: "9%", b: "9%", l: "9%" },
     accent: "#354A89",
   },
   {
@@ -39,7 +39,7 @@ const TIER_LAYOUT: TierLayout[] = [
     x: "0%",
     y: "43.5%",
     w: "27.4%",
-    inset: { t: "14%", r: "10%", b: "10%", l: "10%" },
+    inset: { t: "44%", r: "10%", b: "4%", l: "10%" },
     accent: "#2E6E86",
   },
   {
@@ -49,7 +49,7 @@ const TIER_LAYOUT: TierLayout[] = [
     x: "34.8%",
     y: "64.8%",
     w: "31.6%",
-    inset: { t: "9%", r: "9%", b: "8%", l: "22%" },
+    inset: { t: "10%", r: "9%", b: "9%", l: "10%" },
     accent: "#65322C",
   },
   {
@@ -59,7 +59,7 @@ const TIER_LAYOUT: TierLayout[] = [
     x: "29.3%",
     y: "0%",
     w: "29.6%",
-    inset: { t: "9%", r: "8%", b: "7%", l: "19%" },
+    inset: { t: "8%", r: "8%", b: "7%", l: "20%" },
     accent: "#1F5A6E",
   },
   {
@@ -69,7 +69,7 @@ const TIER_LAYOUT: TierLayout[] = [
     x: "72.2%",
     y: "50.5%",
     w: "27.8%",
-    inset: { t: "12%", r: "10%", b: "10%", l: "10%" },
+    inset: { t: "9%", r: "9%", b: "9%", l: "9%" },
     accent: "#3B6B85",
   },
 ]
@@ -134,7 +134,7 @@ export function SourcesFolderCover({ groupedSources }: SourcesFolderCoverProps) 
             </label>
           </div>
 
-          <div className="sources-cover-board relative w-full max-w-[960px] mx-auto">
+          <div className="sources-cover-board relative w-full max-w-[1100px] mx-auto">
             {TIER_LAYOUT.map((tier, i) => {
               const sources = groupedSources[tier.key] ?? []
               if (sources.length === 0) return null
@@ -163,7 +163,7 @@ export function SourcesFolderCover({ groupedSources }: SourcesFolderCoverProps) 
                     </h2>
                     <p
                       className="font-body text-foreground text-left"
-                      style={{ fontSize: 11.5, lineHeight: 1.55, overflow: "auto" }}
+                      style={{ fontSize: 10.5, lineHeight: 1.45 }}
                     >
                       {sources.map((source, idx) => (
                         <span key={source.id}>
