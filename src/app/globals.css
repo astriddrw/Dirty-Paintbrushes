@@ -131,6 +131,29 @@
   }
 }
 
+/* ── Newsletter marquee ───────────────────────────────────────────────
+   The track renders its content twice back to back and scrolls exactly
+   -50%, so the second copy lands where the first started — a seamless,
+   endless loop with no reset jump. */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 34s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* ── Sources page folder cover ──────────────────────────────────────
    Checkbox + label driven (no JS): #sources-open:checked selects
    everything below via sibling combinators, so open/close works with

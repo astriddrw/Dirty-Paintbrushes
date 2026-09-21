@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HomeHero } from "@/components/HomeHero"
+import { NewsletterMarquee } from "@/components/newsletter-marquee"
 import { ArticleRow } from "@/components/article-row"
 import { BookmarksProvider } from "@/lib/bookmarks-context"
 import { NewsletterSignupModal } from "@/components/newsletter-signup-modal"
@@ -16,7 +17,7 @@ export default async function HomePage() {
     .select("*")
     .eq("status", "published")
     .order("published_date", { ascending: false })
-    .limit(4)
+    .limit(5)
 
   const articles: Article[] = (data ?? []) as Article[]
   // Computed once, server-side, at request time — not a live client clock.
@@ -84,6 +85,8 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
+
+      <NewsletterMarquee />
 
       <Footer />
       <NewsletterSignupModal />
