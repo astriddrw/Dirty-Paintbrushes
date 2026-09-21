@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Instrument_Serif, Roboto, Noto_Sans, Lora, Archivo } from 'next/font/google'
 import localFont from 'next/font/local'
 import { AuthProvider } from '@/lib/auth-context'
+import { LenisSmoothScroll } from '@/components/LenisSmoothScroll'
 import './globals.css'
 
 const instrumentSerif = Instrument_Serif({
@@ -78,6 +79,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${roboto.variable} ${notoSans.variable} ${berky.variable} ${lora.variable} ${archivo.variable} bg-background`}>
       <body className="antialiased">
+        <LenisSmoothScroll />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
