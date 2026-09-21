@@ -40,13 +40,19 @@ export default async function SourcesPage() {
           <h1 className="sr-only">Sources</h1>
 
           <div className="flex flex-wrap items-start gap-10">
-            <div className="flex-1 min-w-[240px] basis-[300px]" style={{ paddingTop: "clamp(24px, 6vw, 64px)" }}>
+            <div
+              className="flex-1 min-w-[240px] basis-[300px] animate-fade-in-up"
+              style={{ paddingTop: "clamp(24px, 6vw, 64px)", animationDelay: "100ms" }}
+            >
               <p className="text-indigo leading-relaxed max-w-[26ch]" style={{ fontSize: "clamp(18px, 2.4vw, 25px)" }}>
                 We aggregate content from trusted publications, government agencies,
                 and research institutions covering art market financial crime.
               </p>
             </div>
-            <div className="flex-1 min-w-[320px] basis-[460px] flex justify-center">
+            <div
+              className="flex-1 min-w-[320px] basis-[460px] flex justify-center animate-fade-in-up"
+              style={{ animationDelay: "300ms" }}
+            >
               <SourcesFolderCover groupedSources={groupedSources} />
             </div>
           </div>

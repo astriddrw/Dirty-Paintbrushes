@@ -11,10 +11,10 @@ const paragraphs = [
   "This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.",
 ]
 
-// Title types in over ~1s (23 chars * 45ms); paragraphs start fading
+// Title types in over ~2s (23 chars * 95ms); paragraphs start fading
 // in right after so the page doesn't feel like it's waiting on the
 // heading to finish before anything else happens.
-const TITLE_MS_PER_CHAR = 70
+const TITLE_MS_PER_CHAR = 95
 const TITLE_DURATION_MS = "Why Dirty Paintbrushes?".length * TITLE_MS_PER_CHAR
 
 export default function AboutPage() {
@@ -27,7 +27,7 @@ export default function AboutPage() {
           {/* Sized big enough that the existing copy, at its existing
               font sizes, reads comfortably — not shrunk to fit a small
               prop. */}
-          <div>
+          <div className="animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             {/* The cream strip is sized/positioned to match the
                 photographed paper's own width within the image below —
                 measured directly off the image's top row (67.0%, inset
@@ -70,7 +70,10 @@ export default function AboutPage() {
             />
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div
+            className="max-w-2xl mx-auto animate-fade-in-up"
+            style={{ animationDelay: "300ms" }}
+          >
             <p className="text-sm text-foreground mt-8">
               <a
                 href="https://www.linkedin.com/in/astrid-de-rohan-willner/"

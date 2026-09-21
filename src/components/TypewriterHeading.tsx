@@ -1,22 +1,44 @@
+"use client"
+
+import { useEffect, useState } from "react"
+
 interface TypewriterHeadingProps {
   text: string
   className?: string
   msPerChar?: number
 }
 
-// Renders as complete text immediately (aria-label + SSR markup), then
-// reveals character-by-character via CSS animation-delay — no JS, no
-// width-based steps() trick to fight with text wrapping.
+// Reveals the text one character at a time on a timer, so the blinking
+// cursor is the last DOM node after only the currently-typed characters —
+// it moves with the text instead of sitting fixed at the final line length.
 export function TypewriterHeading({ text, className, msPerChar = 45 }: TypewriterHeadingProps) {
+  const [visibleCount, setVisibleCount] = useState(0)
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduceMotion) {
+      setVisibleCount(text.length)
+      return
+    }
+
+    setVisibleCount(0)
+    let count = 0
+    const id = setInterval(() => {
+      count += 1
+      setVisibleCount(count)
+      if (count >= text.length) clearInterval(id)
+    }, msPerChar)
+
+    return () => clearInterval(id)
+  }, [text, msPerChar])
+
+  const done = visibleCount >= text.length
+
   return (
     <h1 className={className} aria-label={text}>
       <span aria-hidden="true">
-        {text.split("").map((char, i) => (
-          <span key={i} className="typewriter-char" style={{ animationDelay: `${i * msPerChar}ms` }}>
-            {char}
-          </span>
-        ))}
-        <span className="typewriter-cursor">|</span>
+        {text.slice(0, visibleCount)}
+        <span className={`typewriter-cursor${done ? " typewriter-cursor-done" : ""}`}>|</span>
       </span>
     </h1>
   )

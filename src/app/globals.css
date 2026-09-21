@@ -288,21 +288,10 @@
 }
 
 /* ── About page typewriter heading ──────────────────────────────────
-   Each character is its own span with its own animation-delay (set
-   inline), so this is a pure-CSS "typed" reveal — no JS, and no width
-   animation to fight with, so the heading still wraps normally on
-   narrow viewports. */
-@keyframes typewriter-char-in {
-  to {
-    opacity: 1;
-  }
-}
-.typewriter-char {
-  display: inline-block;
-  white-space: pre;
-  opacity: 0;
-  animation: typewriter-char-in 1ms linear forwards;
-}
+   The heading text is revealed on a JS timer (TypewriterHeading), one
+   character at a time, so the cursor below is always the last DOM node
+   after only the typed-so-far characters — it moves with the text
+   instead of sitting fixed at the final line length. */
 @keyframes typewriter-blink {
   0%,
   49% {
@@ -318,11 +307,10 @@
   margin-left: 2px;
   animation: typewriter-blink 900ms steps(1) infinite;
 }
+.typewriter-cursor-done {
+  animation-iteration-count: 3;
+}
 @media (prefers-reduced-motion: reduce) {
-  .typewriter-char {
-    opacity: 1;
-    animation: none;
-  }
   .typewriter-cursor {
     animation: none;
   }
