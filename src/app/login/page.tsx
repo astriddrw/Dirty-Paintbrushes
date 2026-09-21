@@ -42,11 +42,28 @@ function LoginForm() {
   }
 
   return (
-    <main className="flex-1 flex items-center justify-center px-6 lg:px-8 py-16">
-      <div className="w-full max-w-sm bg-indigo p-8">
-        <p className="text-sm text-aged-vellum mb-6 leading-relaxed">
-          Want to save articles for later? Log in to get started.
-        </p>
+    <main className="flex-1 flex flex-col items-center justify-center px-6 lg:px-8 py-16 lg:py-20 text-center">
+      <p
+        className="text-2xl lg:text-3xl font-body text-indigo leading-snug max-w-md mb-8 animate-fade-in-up"
+        style={{ animationDelay: "100ms" }}
+      >
+        Want to save articles for later?
+        <br />
+        Log in to get started.
+      </p>
+
+      <img
+        src="/archive-box.png"
+        alt=""
+        aria-hidden="true"
+        className="w-44 lg:w-56 h-auto mb-10 animate-fade-in-up"
+        style={{ animationDelay: "250ms" }}
+      />
+
+      <div
+        className="w-full max-w-sm bg-indigo p-8 text-left animate-fade-in-up"
+        style={{ animationDelay: "400ms" }}
+      >
         <h1 className="text-2xl font-semibold text-aged-vellum mb-2">Log in</h1>
 
         {sent ? (
