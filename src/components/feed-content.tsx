@@ -128,13 +128,13 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
   const rangeEnd = (page - 1) * FEED_PAGE_SIZE + articles.length
 
   return (
-    <div className="min-h-screen flex flex-col bg-card">
+    <div className="min-h-screen flex flex-col bg-indigo">
       <Navigation />
 
       <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <FadeInHeading className="text-4xl lg:text-5xl font-semibold tracking-tight text-oxblood mb-12 font-headline">
+          <FadeInHeading className="text-4xl lg:text-5xl font-semibold tracking-tight text-aged-vellum mb-12 font-headline">
             Latest News
           </FadeInHeading>
 
@@ -168,34 +168,14 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
             </select>
           </div>
 
-          {/* Date range */}
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
-              Date range
-            </span>
-            <input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => updateParams({ from: e.target.value || null })}
-              className="px-3 py-1.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              aria-label="From date"
-            />
-            <span className="text-muted-foreground select-none">–</span>
-            <input
-              type="date"
-              value={dateTo}
-              onChange={(e) => updateParams({ to: e.target.value || null })}
-              className="px-3 py-1.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              aria-label="To date"
-            />
-          </div>
-
           {/* Article Type + Clear Filters — the generic form controls, grouped
-              with Search/Sort/Date range above Typologies rather than sitting
-              between the tabs and the panel they're attached to. */}
+              with Search/Sort above Typologies rather than sitting between
+              the tabs and the panel they're attached to. Date range is still
+              filterable via the URL (see feed/page.tsx) — just not exposed
+              as a control here anymore. */}
           <div className="flex flex-col gap-4 mb-8">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-foreground uppercase tracking-wide mr-2">
+              <span className="text-xs font-medium text-aged-vellum/80 uppercase tracking-wide mr-2">
                 Article Type
               </span>
               {articleFilterTypes.map((type) => (
@@ -204,10 +184,10 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
                   onClick={() => toggleArticleType(type)}
                   aria-pressed={selectedArticleTypes.has(type)}
                   className={cn(
-                    "px-1 py-1 italic text-xs font-medium text-ochre-on-light underline decoration-1 underline-offset-4 transition-all",
+                    "px-1 py-1 italic text-xs font-medium text-ochre-on-dark underline decoration-1 underline-offset-4 transition-all",
                     selectedArticleTypes.has(type)
-                      ? "decoration-ochre-on-light"
-                      : "decoration-transparent hover:decoration-ochre-on-light"
+                      ? "decoration-ochre-on-dark"
+                      : "decoration-transparent hover:decoration-ochre-on-dark"
                   )}
                 >
                   {articleTypeLabels[type]}
@@ -218,20 +198,23 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-1 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-1 py-2 text-xs text-aged-vellum/70 hover:text-aged-vellum transition-colors"
               >
                 <X aria-hidden="true" className="h-3 w-3" />
                 Clear filters
               </button>
             )}
           </div>
+        </div>
 
-          {/* Typologies tabs, fused with the article panel they filter —
-              list, results count, and pagination all live inside it now.
-              -mx-6/-mx-8 cancels main's own side padding on the left only
-              in effect (the module is left-anchored, not centered), so the
-              binder photo bleeds flush to the page's left edge. */}
-          <div className="-mx-6 lg:-mx-8">
+        {/* Typologies tabs, fused with the article panel they filter — list,
+            results count, and pagination all live inside it now. This sits
+            outside the max-w-5xl/mx-auto column (not nested in it) and
+            cancels only main's own side padding, so the binder photo
+            bleeds flush to the page's actual left edge at any viewport
+            width — nesting it inside the centered column would leave it
+            offset by that column's own auto-centering margin instead. */}
+        <div className="-mx-6 lg:-mx-8">
           <TypologiesModule selected={selectedCrimeType} onSelect={handleTypologySelect}>
             {articles.length > 0 ? (
               articles.map((article) => <ArticleRow key={article.id} article={article} />)
@@ -278,7 +261,6 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
               </div>
             )}
           </TypologiesModule>
-          </div>
         </div>
       </main>
 
