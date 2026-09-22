@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: Props) {
 
             <Link
               href="/feed"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors animate-fade-in-up"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Back to feed
@@ -71,20 +71,34 @@ export default async function ArticlePage({ params }: Props) {
             {/* Article "page" — the same content/typography as before, just
                 laid on the photographed binder-divider paper (same sheet as
                 the Feed page's tabs) instead of the plain page background.
-                The image keeps its own natural proportions (not stretched to
-                fit) — same fixed-aspect-ratio + scrollable-inset pattern as
-                TypologiesModule's binder page, so long articles scroll
-                inside the sheet instead of distorting it. */}
-            <div className="relative mx-auto" style={{ width: "min(660px, 85vw)", aspectRatio: "667 / 898" }}>
+                The photo isn't stretched and isn't in a fixed-height box
+                either: it's pinned behind the content as a decorative layer
+                (min-height guarantees it's always fully visible for short
+                articles), while the content flows normally and — for long
+                articles or narrow/mobile widths where the photo's own
+                proportions leave little room — spills onto the wrapper's
+                matching cream background below it, rather than trapping the
+                page in a tiny nested scrollbar. paddingTop is 6% of the
+                image's *height*, pre-converted to %-of-width (898/667 ×
+                6%) since CSS percentage padding is always width-relative. */}
+            <div
+              className="relative mx-auto overflow-hidden animate-fade-in-up"
+              style={{
+                width: "min(660px, 85vw)",
+                minHeight: "calc(min(660px, 85vw) * 898 / 667)",
+                backgroundColor: "#EDE8E4",
+                animationDelay: "100ms",
+              }}
+            >
               <img
                 src="/note-page.webp"
                 alt=""
                 aria-hidden="true"
-                className="absolute inset-0 block h-full w-full select-none pointer-events-none"
+                className="absolute left-0 top-0 block w-full h-auto select-none pointer-events-none"
               />
               <div
-                className="absolute overflow-y-auto"
-                style={{ left: "11%", right: "6%", top: "6%", bottom: "5%" }}
+                className="relative"
+                style={{ paddingLeft: "11%", paddingRight: "6%", paddingTop: "8.08%", paddingBottom: "3rem" }}
               >
             <article>
               {/* Meta */}

@@ -82,7 +82,7 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
   };
 
   return (
-    <div className="mt-14 pt-10 border-t border-border">
+    <div className="mt-14 pt-10 border-t border-border animate-fade-in-up" style={{ animationDelay: "300ms" }}>
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
         Discussion{comments.length > 0 ? ` (${comments.length})` : ""}
       </p>
