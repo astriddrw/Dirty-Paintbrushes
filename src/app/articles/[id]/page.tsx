@@ -4,6 +4,7 @@ import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { BookmarksProvider } from "@/lib/bookmarks-context";
 import { ArticleBookmarkButton } from "@/components/article-bookmark-button";
+import { OvalOutline } from "@/components/OvalOutline";
 import CommentSection from "@/components/CommentSection";
 import { crimeTypeLabels, crimeTypeColors, articleTypeLabels } from "@/lib/data";
 import { cn, formatDate, formatSource, tierBadge } from "@/lib/utils";
@@ -151,10 +152,11 @@ export default async function ArticlePage({ params }: Props) {
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-80 transition-opacity"
+                  className="btn-oval relative inline-flex items-center justify-center gap-2 px-12 py-5 text-sm font-medium"
                 >
-                  <ExternalLink className="h-4 w-4" />
-                  Read original
+                  <OvalOutline />
+                  <ExternalLink className="relative h-4 w-4" />
+                  <span className="relative">Read original</span>
                 </a>
                 <ArticleBookmarkButton articleId={article.id} />
               </div>

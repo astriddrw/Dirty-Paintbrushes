@@ -271,15 +271,35 @@
   overflow: visible;
 }
 
-.sources-cover-close {
+.sources-cover-close,
+.btn-oval {
   color: var(--foreground);
 }
-.sources-cover-close svg {
+.sources-cover-close svg,
+.btn-oval svg {
   color: currentColor;
   pointer-events: none;
 }
 .sources-cover-close:hover,
-.sources-cover-close:focus-visible {
+.sources-cover-close:focus-visible,
+.btn-oval:hover,
+.btn-oval:focus-visible {
+  color: var(--oxblood);
+}
+/* Same pop the typology tabs use on hover (see .typology-tab) — motion
+   only, no fill/shadow, so this still reads as "text + hand-drawn oval",
+   not a button. */
+.btn-oval {
+  transform: scale(1);
+  transition: color 200ms ease, transform 180ms cubic-bezier(0.3, 0, 0.2, 1);
+}
+.btn-oval:hover,
+.btn-oval:focus-visible {
+  transform: scale(1.05);
+}
+/* Bookmarked state — permanently oxblood, like an active typology tab,
+   distinct from the transient hover color above. */
+.btn-oval.is-active {
   color: var(--oxblood);
 }
 
