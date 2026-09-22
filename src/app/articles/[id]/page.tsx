@@ -67,6 +67,24 @@ export default async function ArticlePage({ params }: Props) {
               Back to feed
             </Link>
 
+            {/* Article "page" — the same content/typography as before, just
+                laid on the photographed binder-divider paper (same sheet as
+                the Feed page's tabs) instead of the plain page background.
+                The image keeps its own natural proportions (not stretched to
+                fit) — same fixed-aspect-ratio + scrollable-inset pattern as
+                TypologiesModule's binder page, so long articles scroll
+                inside the sheet instead of distorting it. */}
+            <div className="relative mx-auto" style={{ width: "min(660px, 85vw)", aspectRatio: "667 / 898" }}>
+              <img
+                src="/note-page.webp"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 block h-full w-full select-none pointer-events-none"
+              />
+              <div
+                className="absolute overflow-y-auto"
+                style={{ left: "11%", right: "6%", top: "6%", bottom: "5%" }}
+              >
             <article>
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -160,6 +178,8 @@ export default async function ArticlePage({ params }: Props) {
                 </div>
               </div>
             )}
+              </div>
+            </div>
 
             <CommentSection articleId={article.id} />
           </div>
