@@ -154,6 +154,63 @@
   }
 }
 
+/* ── Feed typology tabs (notebook-divider redesign) ─────────────────
+   Right-edge tab labels sit directly on the photographed binder's own
+   die-cut flaps (see TypologiesModule.tsx for the measured percentages).
+   Text-only styling deliberately — a drawn "raised" tile was tried and
+   rejected as its own visual layer competing with the photo. */
+.typology-tab {
+  transform: translateX(0);
+  transition: transform 180ms cubic-bezier(0.3, 0, 0.2, 1);
+}
+.typology-tab:hover,
+.typology-tab:focus-visible {
+  transform: translateX(7%);
+}
+.typology-tab.active {
+  transform: translateX(4%);
+}
+.typology-tab:focus-visible {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 2px;
+}
+.typology-tab-label {
+  color: rgba(26, 26, 26, 0.6);
+  transition: color 200ms ease;
+}
+.typology-tab:hover .typology-tab-label,
+.typology-tab:focus-visible .typology-tab-label {
+  color: rgba(26, 26, 26, 0.8);
+}
+.typology-tab.active .typology-tab-label {
+  color: var(--oxblood);
+  font-weight: 600;
+}
+
+@keyframes panel-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-panel-fade {
+  animation: panel-fade 420ms cubic-bezier(0.3, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typology-tab,
+  .typology-tab-label {
+    transition: none;
+  }
+  .animate-panel-fade {
+    animation: none;
+  }
+}
+
 /* ── Sources page folder cover ──────────────────────────────────────
    Checkbox + label driven (no JS): #sources-open:checked selects
    everything below via sibling combinators, so open/close works with

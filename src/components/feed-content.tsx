@@ -227,7 +227,11 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
           </div>
 
           {/* Typologies tabs, fused with the article panel they filter —
-              list, results count, and pagination all live inside it now. */}
+              list, results count, and pagination all live inside it now.
+              -mx-6/-mx-8 cancels main's own side padding on the left only
+              in effect (the module is left-anchored, not centered), so the
+              binder photo bleeds flush to the page's left edge. */}
+          <div className="-mx-6 lg:-mx-8">
           <TypologiesModule selected={selectedCrimeType} onSelect={handleTypologySelect}>
             {articles.length > 0 ? (
               articles.map((article) => <ArticleRow key={article.id} article={article} />)
@@ -274,6 +278,7 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
               </div>
             )}
           </TypologiesModule>
+          </div>
         </div>
       </main>
 
