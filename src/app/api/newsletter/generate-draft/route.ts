@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { render } from "@react-email/render";
 import NewsletterDigest from "@/emails/NewsletterDigest";
 import { buildMonthlyDigest } from "@/lib/newsletter";
+import { createResendClient, NEWSLETTER_FROM } from "@/lib/resend";
 
 // Reads request.cookies via isAuthorized() — opt out of static rendering
 // explicitly, same reasoning as /api/ingest.
@@ -29,6 +30,26 @@ async function isAuthorized(request: NextRequest): Promise<boolean> {
   );
   const { data: { session } } = await supabase.auth.getSession();
   return !!session;
+}
+
+// The cron only drafts — nothing goes out until someone presses Send in
+// /admin/newsletter — so without a nudge a generated draft can sit unseen.
+// Opt-in via NEWSLETTER_ADMIN_EMAIL; a failed nudge never fails the draft.
+async function notifyDraftReady(request: NextRequest, periodLabel: string, articleCount: number) {
+  const to = process.env.NEWSLETTER_ADMIN_EMAIL;
+  if (!to) return;
+  const reviewUrl = new URL("/admin/newsletter", request.url).toString();
+  try {
+    const { error } = await createResendClient().emails.send({
+      from: NEWSLETTER_FROM,
+      to,
+      subject: `${periodLabel} newsletter draft is ready to review`,
+      html: `<p>The ${periodLabel} digest has been drafted with ${articleCount} article${articleCount === 1 ? "" : "s"}.</p><p><a href="${reviewUrl}">Review and send it in the admin</a>.</p>`,
+    });
+    if (error) console.error("[newsletter/generate-draft] draft notification failed:", error.message);
+  } catch (err) {
+    console.error("[newsletter/generate-draft] draft notification failed:", err);
+  }
 }
 
 export async function GET(request: NextRequest) {
@@ -65,6 +86,7 @@ export async function GET(request: NextRequest) {
     if (updateError) {
       return NextResponse.json({ error: updateError.message }, { status: 500 });
     }
+    await notifyDraftReady(request, periodLabel, articleCount);
     return NextResponse.json({ ok: true, issueId: existingIssue.id, articleCount });
   }
 
@@ -78,5 +100,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: insertError.message }, { status: 500 });
   }
 
+  await notifyDraftReady(request, periodLabel, articleCount);
   return NextResponse.json({ ok: true, issueId: issue.id, articleCount });
 }

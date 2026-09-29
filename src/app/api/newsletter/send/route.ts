@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createResendClient } from "@/lib/resend";
+import { createResendClient, NEWSLETTER_FROM } from "@/lib/resend";
 import { UNSUBSCRIBE_PLACEHOLDER } from "@/emails/NewsletterDigest";
 
 // Reads request.cookies via requireSession() — opt out of static rendering
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     const payload = batch.map((sub) => {
       const unsubscribeUrl = `${siteOrigin}/api/newsletter/unsubscribe?token=${sub.unsubscribe_token}`;
       return {
-        from: "Dirty Paintbrushes <news@dirtypaintbrushes.com>",
+        from: NEWSLETTER_FROM,
         to: sub.email,
         subject: issue.subject ?? "Dirty Paintbrushes",
         html: issue.html_content!.split(UNSUBSCRIBE_PLACEHOLDER).join(unsubscribeUrl),

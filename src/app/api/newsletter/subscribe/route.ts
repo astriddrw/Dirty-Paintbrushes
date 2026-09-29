@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createResendClient } from "@/lib/resend";
+import { createResendClient, NEWSLETTER_FROM } from "@/lib/resend";
 
 export const dynamic = "force-dynamic";
 
@@ -68,15 +68,20 @@ export async function POST(request: NextRequest) {
   const confirmUrl = new URL("/api/newsletter/confirm", request.url);
   confirmUrl.searchParams.set("token", String(confirmToken));
 
+  // The Resend SDK reports API failures (bad key, unverified domain) via the
+  // returned `error` rather than throwing, so both paths need checking —
+  // otherwise the form says "check your inbox" for an email that never left.
   try {
     const resend = createResendClient();
-    await resend.emails.send({
-      from: "Dirty Paintbrushes <news@dirtypaintbrushes.com>",
+    const { error: sendError } = await resend.emails.send({
+      from: NEWSLETTER_FROM,
       to: email,
       subject: "Confirm your subscription",
       html: confirmEmailHtml(confirmUrl.toString()),
     });
-  } catch {
+    if (sendError) throw new Error(sendError.message);
+  } catch (err) {
+    console.error("[newsletter/subscribe] confirmation email failed:", err);
     return NextResponse.json(
       { error: "Could not send confirmation email. Try again." },
       { status: 500 }
