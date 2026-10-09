@@ -7,7 +7,7 @@ import { ArticleBookmarkButton } from "@/components/article-bookmark-button";
 import { OvalOutline } from "@/components/OvalOutline";
 import CommentSection from "@/components/CommentSection";
 import { crimeTypeLabels, crimeTypeColors, articleTypeLabels } from "@/lib/data";
-import { cn, formatDate, formatSource, tierBadge } from "@/lib/utils";
+import { cn, formatDate, formatSource } from "@/lib/utils";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Article } from "@/lib/types";
@@ -50,7 +50,6 @@ export default async function ArticlePage({ params }: Props) {
   const crimeColors  = primaryCrime ? (crimeTypeColors[primaryCrime] ?? { bg: "bg-secondary", text: "text-muted-foreground" }) : null;
   const crimeLabel   = primaryCrime ? (crimeTypeLabels[primaryCrime] ?? primaryCrime.replace(/_/g, " ")) : null;
   const typeLabel    = article.article_type ? (articleTypeLabels[article.article_type] ?? article.article_type) : null;
-  const { label: tierLabel, className: tierClass } = tierBadge(article.source_tier);
 
   return (
     <BookmarksProvider>
@@ -69,24 +68,27 @@ export default async function ArticlePage({ params }: Props) {
             </Link>
 
             {/* Article "page" — the same content/typography as before, just
-                laid on the photographed binder-divider paper (same sheet as
-                the Feed page's tabs) instead of the plain page background.
-                The photo isn't stretched and isn't in a fixed-height box
-                either: it's pinned behind the content as a decorative layer
-                (min-height guarantees it's always fully visible for short
-                articles), while the content flows normally and — for long
-                articles or narrow/mobile widths where the photo's own
-                proportions leave little room — spills onto the wrapper's
-                matching cream background below it, rather than trapping the
-                page in a tiny nested scrollbar. paddingTop is 6% of the
-                image's *height*, pre-converted to %-of-width (898/667 ×
-                6%) since CSS percentage padding is always width-relative. */}
+                laid on a photographed ring-punched sheet instead of the
+                plain page background. The sheet's six punched holes are
+                genuinely transparent in the source image (not opaque white
+                circles), so this wrapper is left without a fill color on
+                purpose — the site's own parchment background shows through
+                them, the way it would through a real hole-punched page.
+                That also means, for long articles or narrow/mobile widths
+                where the photo's own proportions leave little room, content
+                that spills below the photo lands directly on that same
+                parchment rather than a mismatched filler color. The photo
+                itself isn't stretched: it's pinned behind the content as a
+                decorative layer, with min-height guaranteeing it's always
+                fully visible for short articles. paddingLeft clears the six
+                punched holes running down the left edge; this sheet
+                (unlike the Feed page's binder divider) has no die-cut tab,
+                so paddingRight is a plain, smaller margin. */}
             <div
-              className="relative mx-auto overflow-hidden animate-fade-in-up"
+              className="relative mx-auto animate-fade-in-up"
               style={{
                 width: "min(660px, 85vw)",
-                minHeight: "calc(min(660px, 85vw) * 898 / 667)",
-                backgroundColor: "#EDE8E4",
+                minHeight: "calc(min(660px, 85vw) * 1420 / 1095)",
                 animationDelay: "100ms",
               }}
             >
@@ -98,14 +100,11 @@ export default async function ArticlePage({ params }: Props) {
               />
               <div
                 className="relative"
-                style={{ paddingLeft: "11%", paddingRight: "6%", paddingTop: "8.08%", paddingBottom: "3rem" }}
+                style={{ paddingLeft: "10%", paddingRight: "7%", paddingTop: "6%", paddingBottom: "3rem" }}
               >
             <article>
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
-                <span className={cn("text-xs font-semibold px-1.5 py-0.5 uppercase tracking-wider", tierClass)}>
-                  {tierLabel}
-                </span>
                 <span className="text-sm text-muted-foreground">{formatSource(article)}</span>
                 {article.published_date && (
                   <>

@@ -95,7 +95,7 @@ export function SourcesFolderCover({ groupedSources }: SourcesFolderCoverProps) 
           />
           <span
             className="absolute flex items-center justify-center text-center"
-            style={{ left: "19%", top: "11.5%", width: "22%", height: "15%" }}
+            style={{ left: "19%", top: "13%", width: "22%", height: "15%" }}
           >
             <span
               className="font-headline font-bold text-indigo inline-block whitespace-nowrap"
