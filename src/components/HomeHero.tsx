@@ -19,7 +19,7 @@ export function HomeHero() {
         </div>
 
         <p
-          className="text-base text-aged-vellum animate-fade-in-up"
+          className="font-body font-bold uppercase tracking-wide text-base text-aged-vellum animate-fade-in-up"
           style={{ animationDelay: '300ms' }}
         >
           Curated intelligence and news tracking art market financial crime.

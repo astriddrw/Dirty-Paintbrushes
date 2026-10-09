@@ -4,8 +4,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { HomeHero } from "@/components/HomeHero"
 import { NewsletterMarquee } from "@/components/newsletter-marquee"
-import { ArticleRow } from "@/components/article-row"
-import { BookmarksProvider } from "@/lib/bookmarks-context"
+import { HomeArticleRow } from "@/components/HomeArticleRow"
 import { NewsletterSignupModal } from "@/components/newsletter-signup-modal"
 import { formatHeaderTimestamp } from "@/lib/utils"
 import type { Article } from "@/lib/types"
@@ -16,7 +15,10 @@ export default async function HomePage() {
     .from("articles")
     .select("*")
     .eq("status", "published")
-    .order("published_date", { ascending: false })
+    // nullsFirst: false — Postgres' default for DESC is NULLS FIRST, which
+    // would otherwise permanently pin any article missing a published_date
+    // at the very top, ahead of everything actually recent.
+    .order("published_date", { ascending: false, nullsFirst: false })
     .limit(5)
 
   const articles: Article[] = (data ?? []) as Article[]
@@ -30,7 +32,9 @@ export default async function HomePage() {
       <main className="flex-1">
         <HomeHero />
 
-        {/* Latest Intelligence - real published articles, same rows as the Feed page */}
+        {/* Latest Intelligence — real published articles, in the homepage's
+            own row style (HomeArticleRow): no divider lines, generous gap
+            between entries instead. */}
         <section className="px-6 lg:px-8 py-16 lg:py-20 bg-light-blue">
           <div className="max-w-5xl mx-auto">
             <p className="text-xs text-muted-foreground mb-3">{dateTime}</p>
@@ -58,13 +62,11 @@ export default async function HomePage() {
 
             {articles.length > 0 ? (
               <>
-                <BookmarksProvider>
-                  <div className="border-t border-border">
-                    {articles.map((article) => (
-                      <ArticleRow key={article.id} article={article} />
-                    ))}
-                  </div>
-                </BookmarksProvider>
+                <div className="flex flex-col gap-10">
+                  {articles.map((article) => (
+                    <HomeArticleRow key={article.id} article={article} />
+                  ))}
+                </div>
 
                 <div className="flex justify-center mt-10">
                   <Link

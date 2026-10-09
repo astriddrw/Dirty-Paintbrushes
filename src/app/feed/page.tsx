@@ -60,7 +60,10 @@ export default async function FeedPage({ searchParams }: FeedPageProps) {
   if (dateFrom) query = query.gte("published_date", dateFrom)
   if (dateTo) query = query.lte("published_date", dateTo)
 
-  query = query.order("published_date", { ascending: sort === "oldest" })
+  // nullsFirst: false regardless of direction — an article missing a
+  // published_date shouldn't jump to the front of either "newest first"
+  // (Postgres' DESC default is NULLS FIRST) or "oldest first".
+  query = query.order("published_date", { ascending: sort === "oldest", nullsFirst: false })
 
   const rangeStart = (page - 1) * FEED_PAGE_SIZE
   const rangeEnd = rangeStart + FEED_PAGE_SIZE - 1
