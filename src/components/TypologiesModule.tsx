@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useRef } from "react"
 import { crimeTypeLabels } from "@/lib/data"
 
 // Same four values the old Crime Type pill row exposed, same order, same
@@ -44,7 +47,58 @@ interface TypologiesModuleProps {
   children: React.ReactNode
 }
 
+// The root LenisSmoothScroll instance (see src/components/LenisSmoothScroll.tsx)
+// is created with allowNestedScroll: true, which tells *it* to leave overflow
+// containers like this one on native scroll rather than fight over them — so
+// without a Lenis instance of its own, this panel scrolls at native/instant
+// speed while the rest of the page scrolls smoothed, a jarring mismatch.
+// Giving it its own instance (same defaults as the root one, since neither
+// sets an explicit duration/easing) makes the two feel identical.
+// Re-runs whenever `selected` changes: the panel's content div is
+// re-keyed on every typology switch (a new DOM node, for the fade-in), so
+// a Lenis instance created against the old one would be measuring a
+// detached element after the switch.
+function useNestedLenis(ref: React.RefObject<HTMLDivElement>, selected: string) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el || !el.firstElementChild) return
+
+    let lenis: { destroy: () => void } | undefined
+    let cancelled = false
+    let pollId: ReturnType<typeof setInterval> | undefined
+
+    const init = () => {
+      if (cancelled || !window.Lenis || !el.firstElementChild) return
+      lenis = new window.Lenis({
+        wrapper: el,
+        content: el.firstElementChild as HTMLElement,
+        autoRaf: true,
+      }) as { destroy: () => void }
+    }
+
+    if (window.Lenis) {
+      init()
+    } else {
+      pollId = setInterval(() => {
+        if (window.Lenis) {
+          clearInterval(pollId)
+          init()
+        }
+      }, 50)
+    }
+
+    return () => {
+      cancelled = true
+      if (pollId) clearInterval(pollId)
+      lenis?.destroy()
+    }
+  }, [ref, selected])
+}
+
 export function TypologiesModule({ selected, onSelect, children }: TypologiesModuleProps) {
+  const panelRef = useRef<HTMLDivElement>(null)
+  useNestedLenis(panelRef, selected)
+
   return (
     <div style={{ width: "min(1120px, 86vw)", maxWidth: "100%" }}>
       <div className="relative w-full" style={{ aspectRatio: "743 / 905" }}>
@@ -57,10 +111,16 @@ export function TypologiesModule({ selected, onSelect, children }: TypologiesMod
 
         {/* Article list, count, pagination — sits directly on the
             photographed page. Keyed by `selected` so the fade-in restarts
-            on every typology switch. */}
+            on every typology switch. overflow-x-hidden is required, not
+            decorative: per the CSS overflow spec, an axis left "visible"
+            while the other is "auto" computes to "auto" too — without it,
+            any content even 1px wider than the panel (a long unbroken
+            token in a title, say) silently grows a horizontal scrollbar
+            along the bottom that has no reason to be there. */}
         <div
-          className="absolute overflow-y-auto"
-          style={{ left: "22.5%", right: "24.5%", top: "8.2%", bottom: "7.5%" }}
+          ref={panelRef}
+          className="absolute overflow-y-auto overflow-x-hidden"
+          style={{ left: "23.4%", right: "19.5%", top: "8.2%", bottom: "7.5%" }}
         >
           <div key={selected} className="animate-panel-fade">
             {children}

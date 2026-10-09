@@ -5,8 +5,12 @@ export function Footer() {
     <>
       {/* Newsletter banner — full-width, oxblood (the site's other
           established accent, not a new hue) so this reads as a deliberate
-          stop above the footer, not another footer column. */}
-      <section className="border-t border-border bg-oxblood px-6 lg:px-8 py-10 lg:py-12">
+          stop above the footer, not another footer column. No top border:
+          border-border is a warm light grey, which against parchment (or
+          indigo, on the feed page) read as a stray hairline rather than a
+          deliberate rule — the color-block transition itself is enough of
+          a seam. */}
+      <section className="bg-oxblood px-6 lg:px-8 py-10 lg:py-12">
         <div className="max-w-7xl mx-auto">
           <NewsletterSignup variant="banner" />
         </div>

@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 // Shared between feed/page.tsx (server query .range()) and feed-content.tsx
 // (client display range "X–Y of Z") so the two can never drift apart.
-export const FEED_PAGE_SIZE = 25;
+export const FEED_PAGE_SIZE = 12;
 
 export function tierBadge(tier: SourceTier): { label: string; className: string } {
   switch (tier) {

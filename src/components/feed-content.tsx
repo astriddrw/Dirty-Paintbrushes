@@ -244,7 +244,7 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
                 <button
                   onClick={() => goToPage(page - 1)}
                   disabled={page <= 1}
-                  className="px-5 py-2.5 border border-border text-sm font-medium text-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="px-2 py-2.5 text-sm font-medium text-muted-foreground hover:text-oxblood disabled:opacity-40 disabled:hover:text-muted-foreground disabled:cursor-not-allowed transition-colors"
                 >
                   ← Previous
                 </button>
@@ -254,7 +254,7 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
                 <button
                   onClick={() => goToPage(page + 1)}
                   disabled={page >= totalPages}
-                  className="px-5 py-2.5 border border-border text-sm font-medium text-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="px-2 py-2.5 text-sm font-medium text-muted-foreground hover:text-oxblood disabled:opacity-40 disabled:hover:text-muted-foreground disabled:cursor-not-allowed transition-colors"
                 >
                   Next →
                 </button>
