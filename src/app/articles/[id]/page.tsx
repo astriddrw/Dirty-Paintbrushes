@@ -83,7 +83,12 @@ export default async function ArticlePage({ params }: Props) {
                 fully visible for short articles. paddingLeft clears the six
                 punched holes running down the left edge; this sheet
                 (unlike the Feed page's binder divider) has no die-cut tab,
-                so paddingRight is a plain, smaller margin. */}
+                so paddingRight is a plain, smaller margin. The photo's own
+                height shrinks with viewport width (it keeps its aspect
+                ratio, not stretched), so at mobile widths even a short
+                article's text can run past its bottom edge — a mask fade
+                there blends that overflow into the parchment smoothly
+                instead of cutting across the text with a hard rectangle. */}
             <div
               className="relative mx-auto animate-fade-in-up"
               style={{
@@ -97,6 +102,10 @@ export default async function ArticlePage({ params }: Props) {
                 alt=""
                 aria-hidden="true"
                 className="absolute left-0 top-0 block w-full h-auto select-none pointer-events-none"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, black 82%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, black 82%, transparent 100%)",
+                }}
               />
               <div
                 className="relative"
