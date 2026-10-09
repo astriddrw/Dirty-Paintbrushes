@@ -87,8 +87,11 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
     // via the single-property full-bleed trick (width: 100vw anchored by
     // a negative margin-left computed against the viewport, not the
     // parent), then re-centers a max-w-3xl column of content inside it.
+    // -mb-12 lg:-mb-16 cancels the parent <main>'s own bottom padding
+    // (py-12 lg:py-16), which would otherwise leave a strip of parchment
+    // showing between this indigo block and the footer below it.
     <div
-      className="relative mt-14 bg-indigo text-aged-vellum animate-fade-in-up"
+      className="relative mt-14 -mb-12 lg:-mb-16 bg-indigo text-aged-vellum animate-fade-in-up"
       style={{ width: "100vw", marginLeft: "calc(50% - 50vw)", animationDelay: "300ms" }}
     >
       <div className="max-w-3xl mx-auto px-6 lg:px-8 py-10 lg:py-12">
