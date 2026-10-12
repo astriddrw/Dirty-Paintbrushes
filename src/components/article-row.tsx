@@ -13,9 +13,9 @@ interface ArticleRowProps {
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
-  return date.toLocaleDateString("en-US", {
-    month: "short",
+  return date.toLocaleDateString("en-GB", {
     day: "numeric",
+    month: "short",
     year: "numeric",
   })
 }
@@ -25,7 +25,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
   const bookmarked = isBookmarked(article.id)
 
   return (
-    <div className="group flex items-start gap-4 lg:gap-6 py-5 lg:py-6 border-b border-border hover:bg-muted/30 transition-colors px-2 -mx-2 rounded-sm">
+    <div className="group flex items-start gap-4 lg:gap-6 py-5 lg:py-6 border-b border-border hover:bg-muted/30 transition-colors px-2 -mx-2">
       {/* Content */}
       <div className="flex-1 min-w-0">
         <Link
@@ -70,7 +70,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
         <button
           onClick={() => toggleBookmark(article.id)}
           className={cn(
-            "p-3.5 rounded-md transition-colors",
+            "p-3.5 transition-colors",
             bookmarked
               ? "text-primary bg-primary/10"
               : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -84,7 +84,7 @@ export function ArticleRow({ article }: ArticleRowProps) {
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          className="p-3.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
           aria-label="Open article"
         >
           <ExternalLink className="h-4 w-4" />

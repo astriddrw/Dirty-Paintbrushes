@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Noto_Sans } from 'next/font/google'
-import localFont from 'next/font/local'
 import { AuthProvider } from '@/lib/auth-context'
 import { LenisSmoothScroll } from '@/components/LenisSmoothScroll'
 import './globals.css'
@@ -15,12 +14,6 @@ const instrumentSerif = Instrument_Serif({
 const notoSans = Noto_Sans({
   subsets: ['latin'],
   variable: '--font-nav',
-  display: 'swap',
-})
-
-const berky = localFont({
-  src: './fonts/BERKY.ttf',
-  variable: '--font-brand',
   display: 'swap',
 })
 
@@ -49,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${notoSans.variable} ${berky.variable} bg-background`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${notoSans.variable} bg-background`}>
       <body className="antialiased">
         <LenisSmoothScroll />
         <AuthProvider>{children}</AuthProvider>

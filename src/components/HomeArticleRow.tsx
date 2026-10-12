@@ -44,7 +44,7 @@ export function HomeArticleRow({ article }: HomeArticleRowProps) {
       </div>
 
       {article.summary && (
-        <p className="mt-10 text-sm text-foreground/80 leading-relaxed max-w-2xl">
+        <p className="mt-3 text-sm text-foreground/80 leading-relaxed max-w-2xl">
           {article.summary}
         </p>
       )}

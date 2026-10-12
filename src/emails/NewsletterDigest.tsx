@@ -14,10 +14,12 @@ import { articleTypeLabels } from "@/lib/data";
 
 // Every value below is pulled from the site's actual tokens, not
 // approximated — src/app/globals.css (:root custom properties) for color,
-// src/app/layout.tsx (next/font declarations) for the font each CSS
-// variable resolves to. Kept as literals rather than CSS vars because
-// email clients render this HTML standalone, with no access to the site's
-// stylesheet — but every hex/font-family here has a named source of truth.
+// and either src/app/layout.tsx (next/font declarations, for --font-serif
+// and --font-nav) or globals.css's @theme block (for --font-headline,
+// --font-title, --font-body, all Arial) for the font each CSS variable
+// resolves to. Kept as literals rather than CSS vars because email clients
+// render this HTML standalone, with no access to the site's stylesheet —
+// but every hex/font-family here has a named source of truth.
 const TOKENS = {
   indigo: "#354A89", // --indigo — header band, matches nav/logo
   lightBlue: "#CFE6F0", // --light-blue — main body + footer band, same as the homepage's "Latest Intelligence" section
@@ -33,14 +35,14 @@ const TOKENS = {
 // --font-serif (layout.tsx: Instrument Serif, 400) — HomeHero's exact
 // treatment: text-4xl/5xl font-serif italic font-normal text-aged-vellum.
 const FONT_SERIF = "'Instrument Serif', Georgia, serif";
-// --font-headline (layout.tsx: Archivo, 600/700) — same face every
+// --font-headline (globals.css @theme: Arial) — same face every
 // FadeInHeading on the live site (Feed's "Latest News", About, Sources) uses.
-const FONT_HEADLINE = "'Archivo', Arial, sans-serif";
-// --font-title (layout.tsx: Lora, 400/500) — ArticleRow's title font inside
+const FONT_HEADLINE = "Arial, sans-serif";
+// --font-title (globals.css @theme: Arial) — ArticleRow's title font inside
 // list rows on /feed and the homepage.
-const FONT_TITLE = "'Lora', Georgia, serif";
-// --font-body (layout.tsx: Roboto) — body copy, metadata, everything scanned.
-const FONT_BODY = "'Roboto', ui-sans-serif, sans-serif";
+const FONT_TITLE = "Arial, sans-serif";
+// --font-body (globals.css @theme: Arial) — body copy, metadata, everything scanned.
+const FONT_BODY = "Arial, sans-serif";
 
 // Baked into the rendered HTML as literal text and swapped for a real,
 // per-subscriber link at send time (src/app/api/newsletter/send) — the

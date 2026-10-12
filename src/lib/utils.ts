@@ -67,22 +67,23 @@ export function formatDate(dateString: string): string {
 
 export function formatDateShort(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
 const HEADER_TIMESTAMP_MONTHS = [
   "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
 ];
 
-// "SEP 4 2026 · 14:32" — masthead-style dateline. Built manually rather than
-// via toLocaleDateString/toLocaleString so the format (uppercase month,
-// 24-hour time, the "·" separator) is exact and locale-independent, since
-// this is read as part of the page furniture, not localized article data.
+// "4 SEP 2026 · 14:32" — masthead-style dateline, UK day-month-year order.
+// Built manually rather than via toLocaleDateString/toLocaleString so the
+// format (uppercase month, 24-hour time, the "·" separator) is exact and
+// locale-independent, since this is read as part of the page furniture,
+// not localized article data.
 export function formatHeaderTimestamp(date: Date): string {
   const month = HEADER_TIMESTAMP_MONTHS[date.getMonth()];
   const day = date.getDate();
   const year = date.getFullYear();
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${month} ${day} ${year} · ${hours}:${minutes}`;
+  return `${day} ${month} ${year} · ${hours}:${minutes}`;
 }

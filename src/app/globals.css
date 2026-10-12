@@ -40,7 +40,6 @@
   --font-serif: var(--font-serif, Georgia, serif);
   --font-body: Arial, sans-serif;
   --font-nav: var(--font-nav, "Noto Sans", sans-serif);
-  --font-brand: var(--font-brand, serif);
   --font-title: Arial, sans-serif;
   --font-headline: Arial, sans-serif;
   --font-sans: Arial, sans-serif;
@@ -243,7 +242,7 @@
   filter: drop-shadow(0 26px 30px rgba(26, 26, 26, 0.3));
 }
 .sources-cover-folder:focus-visible {
-  outline: 2px solid var(--navy);
+  outline: 2px solid var(--ring);
   outline-offset: 8px;
 }
 #sources-open:checked ~ .sources-cover-slot .sources-cover-folder {

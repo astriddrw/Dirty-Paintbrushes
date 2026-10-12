@@ -1,7 +1,14 @@
+import type { Metadata } from "next"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { FeedbackBox } from "@/components/FeedbackBox"
 import { TypewriterHeading } from "@/components/TypewriterHeading"
+
+export const metadata: Metadata = {
+  title: "About | Dirty Paintbrushes",
+  description:
+    "Why Dirty Paintbrushes exists: tracking financial crime in the art market, from fraud and forgery to sanctions evasion and terror financing.",
+}
 
 const paragraphs = [
   "The art market is a sector that has long been overlooked from a regulatory perspective. It is highly opaque and inherently cross-border, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.",
