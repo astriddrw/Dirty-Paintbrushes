@@ -122,7 +122,7 @@ export function TypologiesModule({ selected, onSelect, children }: TypologiesMod
           className="absolute overflow-y-auto overflow-x-hidden"
           style={{ left: "23.4%", right: "18%", top: "8.2%", bottom: "7.5%" }}
         >
-          <div key={selected} className="animate-panel-fade" style={{ paddingRight: "4%" }}>
+          <div key={selected} className="animate-panel-fade" style={{ paddingRight: "8%" }}>
             {children}
           </div>
         </div>
