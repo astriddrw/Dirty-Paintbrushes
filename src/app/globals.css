@@ -215,10 +215,33 @@
    everything below via sibling combinators, so open/close works with
    JS fully disabled — the transitions here are a progressive-
    enhancement layer on top of that, not a requirement for it. */
+/* The folder and the revealed board are stacked in the same grid cell
+   (both grid-row/grid-column: 1) instead of one collapsing to make room
+   for the other. That means the stage's height is always just "however
+   tall the taller of the two is" — a constant — so opening/closing only
+   ever cross-fades and rotates what's inside it; the page below (the
+   footer) never shifts, because the stage's own height never changes. */
+.sources-cover-stage {
+  display: grid;
+}
+.sources-cover-stage > .sources-cover-slot,
+.sources-cover-stage > .sources-cover-reveal {
+  grid-row: 1;
+  grid-column: 1;
+}
 .sources-cover-slot {
-  perspective: 1800px;
-  transition: max-height 1ms linear;
-  max-height: 820px;
+  /* Generous perspective (further "camera" distance) keeps the rotated
+     cover from distorting/bowing near the top and bottom edges the way
+     a tighter perspective does — that bowing is what was clipping the
+     top of the image mid-rotation. No max-height/overflow cap needed
+     here any more: the grid sizes the stage to the image's natural
+     height, so there's nothing for the rotating cover to clip against. */
+  perspective: 2600px;
+}
+#sources-open:checked ~ .sources-cover-slot {
+  /* Faded/rotated away by then, but still sitting in the same grid
+     cell as the revealed content — stop it from intercepting clicks. */
+  pointer-events: none;
 }
 .sources-cover-folder {
   transform-origin: 2% 50%;
@@ -226,7 +249,12 @@
   backface-visibility: hidden;
   transform: rotateY(0deg);
   opacity: 1;
-  transition: transform 460ms cubic-bezier(0.34, 1.3, 0.4, 1), opacity 280ms ease;
+  /* Slower and stopping just short of a full 90° edge-on turn (rather
+     than past it, at -98°) — past 90° is where perspective distortion
+     gets extreme, and a real cover doesn't swing past vertical before
+     it's fully open. ease-in-out instead of the old overshoot curve
+     reads as a cover settling open, not a spring. */
+  transition: transform 680ms ease-in-out, opacity 520ms ease-in;
 }
 .sources-cover-folder img {
   backface-visibility: hidden;
@@ -246,28 +274,29 @@
   outline-offset: 8px;
 }
 #sources-open:checked ~ .sources-cover-slot .sources-cover-folder {
-  transform: rotateY(-98deg);
+  transform: rotateY(-90deg);
   opacity: 0;
   pointer-events: none;
 }
-/* overflow waits for the same 460ms as the transform — otherwise it
-   clips instantly on click, cutting the folder off mid-rotation. */
-#sources-open:checked ~ .sources-cover-slot {
-  transition: max-height 1ms linear 460ms, overflow 1ms linear 460ms;
-  max-height: 0;
-  overflow: hidden;
-}
 
+/* Pure cross-fade now — no height/overflow animation at all, since both
+   this and .sources-cover-slot live in the same fixed-size grid cell
+   (see .sources-cover-stage above) and never need to grow or collapse. */
 .sources-cover-reveal {
-  max-height: 0;
   opacity: 0;
-  overflow: hidden;
-  transition: max-height 1ms linear 420ms, opacity 1ms linear 420ms;
+  pointer-events: none;
+  /* Closing: quick and undelayed. By the time this fires the notes are
+     already most of the way back to the center on their own transition
+     (below), so there's nothing left worth waiting for. */
+  transition: opacity 260ms ease-in;
 }
 #sources-open:checked ~ .sources-cover-reveal {
-  max-height: 4000px;
   opacity: 1;
-  overflow: visible;
+  pointer-events: auto;
+  /* Opening: waits for the folder to finish rotating away (560ms)
+     before fading the "close folder" button/board in, so they don't
+     appear underneath/through the still-closing cover. */
+  transition: opacity 420ms ease-out 560ms;
 }
 
 .sources-cover-close,
@@ -305,25 +334,32 @@
 .sources-cover-board {
   aspect-ratio: 914 / 600;
 }
-@keyframes sources-note-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+/* --tx/--ty (set per-note in SourcesFolderCover.tsx, in units of the
+   note's own box) carry it from the board's center — roughly where the
+   folder sat — out to its real position, so all five appear to spill
+   out of the folder rather than fading in already scattered in place.
+
+   Deliberately plain `transition` here, not `animation` + @keyframes,
+   on BOTH this base rule and the :checked rule below. An `animation`
+   with fill-mode forwards does not reliably hand off to a transition
+   once its triggering selector stops matching (removing the animation
+   and starting a transition on the same property in the same update is
+   a known fragile interaction) — in practice here it just snapped
+   instantly instead of reversing. Two plain, symmetric transitions
+   have no such gotcha: whichever rule's delay/duration applies is
+   simply whichever one currently matches. */
 .sources-cover-note {
   opacity: 0;
-  transform: scale(0.85);
+  transform: translate(var(--tx), var(--ty)) scale(0.4);
   filter: drop-shadow(0 8px 10px rgba(26, 26, 26, 0.28)) drop-shadow(0 2px 4px rgba(26, 26, 26, 0.18));
-  transition: transform 180ms ease, filter 180ms ease;
+  transition: transform 360ms ease-in, opacity 300ms ease-in, filter 180ms ease;
+  transition-delay: calc(var(--i) * 40ms), calc(var(--i) * 40ms), 0ms;
 }
 #sources-open:checked ~ .sources-cover-reveal .sources-cover-note {
-  animation: sources-note-pop 320ms cubic-bezier(0.2, 0.85, 0.3, 1) forwards;
-  animation-delay: calc(460ms + var(--i) * 80ms);
+  opacity: 1;
+  transform: translate(0%, 0%) scale(1);
+  transition: transform 460ms cubic-bezier(0.2, 0.85, 0.3, 1), opacity 400ms ease-out;
+  transition-delay: calc(560ms + var(--i) * 80ms), calc(560ms + var(--i) * 80ms);
 }
 .sources-cover-note:hover,
 .sources-cover-note:focus-within {
