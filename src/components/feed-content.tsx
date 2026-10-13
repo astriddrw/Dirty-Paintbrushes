@@ -6,7 +6,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArticleRow } from "@/components/article-row"
 import { FadeInHeading } from "@/components/FadeInHeading"
-import { Search, X } from "lucide-react"
+import { Search, X, ChevronDown } from "lucide-react"
 import { cn, FEED_PAGE_SIZE } from "@/lib/utils"
 import { articleTypeLabels } from "@/lib/data"
 import { TypologiesModule } from "@/components/TypologiesModule"
@@ -154,18 +154,26 @@ export function FeedContent({ articles, page, totalPages, totalCount }: FeedCont
                 placeholder="Search articles..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                style={{ borderRadius: "10px" }}
               />
             </div>
-            <select
-              value={sortBy}
-              onChange={(e) => updateParams({ sort: e.target.value === "newest" ? null : e.target.value })}
-              aria-label="Sort articles by"
-              className="px-4 py-2.5 bg-white border border-border rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-            >
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-            </select>
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => updateParams({ sort: e.target.value === "newest" ? null : e.target.value })}
+                aria-label="Sort articles by"
+                className="appearance-none pl-4 pr-10 py-2.5 bg-white border border-border text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+                style={{ borderRadius: "10px" }}
+              >
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+              </select>
+              <ChevronDown
+                aria-hidden="true"
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+              />
+            </div>
           </div>
 
           {/* Article Type + Clear Filters — the generic form controls, grouped

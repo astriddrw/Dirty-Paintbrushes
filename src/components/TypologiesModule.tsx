@@ -101,7 +101,7 @@ export function TypologiesModule({ selected, onSelect, children }: TypologiesMod
 
   return (
     <div style={{ width: "min(1120px, 86vw)", maxWidth: "100%" }}>
-      <div className="relative w-full" style={{ aspectRatio: "743 / 905" }}>
+      <div className="relative w-full" style={{ aspectRatio: "1855 / 2295" }}>
         <img
           src="/binder.webp"
           alt=""
