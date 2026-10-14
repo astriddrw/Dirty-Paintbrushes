@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 import { articleTypeLabels, crimeTypeLabels } from "@/lib/data";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { DEFAULT_EDITOR_NOTE } from "@/lib/newsletter-slots";
 
 // Layout follows the founder's Canva template ("The Monthly Briefing"):
@@ -555,7 +556,7 @@ export default function NewsletterDigest({
                 Website
               </Link>
               {"   ·   "}
-              <Link href="mailto:astriddrw@gmail.com" style={{ color: TOKENS.footerText, textDecoration: "underline" }}>
+              <Link href={`mailto:${CONTACT_EMAIL}`} style={{ color: TOKENS.footerText, textDecoration: "underline" }}>
                 Contact
               </Link>
               {"   ·   "}

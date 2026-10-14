@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createResendClient, NEWSLETTER_FROM } from "@/lib/resend";
+import { createResendClient, NEWSLETTER_FROM, NEWSLETTER_REPLY_TO } from "@/lib/resend";
 
 export const dynamic = "force-dynamic";
 
@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
     const resend = createResendClient();
     await resend.emails.send({
       from: NEWSLETTER_FROM,
+      replyTo: NEWSLETTER_REPLY_TO,
       to: email,
       subject: "Confirm your subscription",
       html: confirmEmailHtml(confirmUrl.toString()),

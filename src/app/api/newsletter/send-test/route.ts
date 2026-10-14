@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import { createResendClient, NEWSLETTER_FROM } from "@/lib/resend";
+import { createResendClient, NEWSLETTER_FROM, NEWSLETTER_REPLY_TO } from "@/lib/resend";
 import { UNSUBSCRIBE_PLACEHOLDER } from "@/emails/NewsletterDigest";
 
 // Reads request.cookies for the admin session — same reasoning as /send.
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
   const siteOrigin = new URL(request.url).origin;
   const { error } = await createResendClient().emails.send({
     from: NEWSLETTER_FROM,
+    replyTo: NEWSLETTER_REPLY_TO,
     to: user.email,
     subject: `[TEST] ${subject}`,
     html: html.split(UNSUBSCRIBE_PLACEHOLDER).join(`${siteOrigin}/newsletter`),
