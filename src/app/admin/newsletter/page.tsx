@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { RefreshCw, Send, Save } from "lucide-react";
+import { RefreshCw, Send, Save, MailCheck } from "lucide-react";
 import { getEditorNote, setEditorNote } from "@/lib/newsletter-slots";
 
 interface NewsletterIssue {
@@ -31,7 +31,7 @@ export default function NewsletterAdminPage() {
   const [draftHtml, setDraftHtml] = useState("");
   const [draftSubject, setDraftSubject] = useState("");
   const [draftNote, setDraftNote] = useState("");
-  const [busy, setBusy] = useState<"generate" | "save" | "send" | null>(null);
+  const [busy, setBusy] = useState<"generate" | "save" | "test" | "send" | null>(null);
   const [message, setMessage] = useState<{ kind: "error" | "ok"; text: string } | null>(null);
 
   const fetchIssues = useCallback(async () => {
@@ -94,6 +94,23 @@ export default function NewsletterAdminPage() {
       setMessage({ kind: "ok", text: "Saved." });
       await fetchIssues();
     }
+    setBusy(null);
+  };
+
+  const sendTest = async () => {
+    setBusy("test");
+    setMessage(null);
+    const res = await fetch("/api/newsletter/send-test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subject: draftSubject, html: draftHtml }),
+    });
+    const body = await res.json().catch(() => ({}));
+    setMessage(
+      res.ok
+        ? { kind: "ok", text: `Test sent to ${body.to}. Check your inbox (and spam folder).` }
+        : { kind: "error", text: body.error ?? "Failed to send test." }
+    );
     setBusy(null);
   };
 
@@ -238,6 +255,14 @@ export default function NewsletterAdminPage() {
                   >
                     <Save className="h-3.5 w-3.5" />
                     Save
+                  </button>
+                  <button
+                    onClick={sendTest}
+                    disabled={busy !== null}
+                    className="flex items-center gap-1.5 px-4 py-2 border border-border text-xs font-medium hover:bg-secondary disabled:opacity-40 transition-colors"
+                  >
+                    <MailCheck className="h-3.5 w-3.5" />
+                    {busy === "test" ? "Sending test…" : "Send test to me"}
                   </button>
                   <button
                     onClick={sendIssue}
