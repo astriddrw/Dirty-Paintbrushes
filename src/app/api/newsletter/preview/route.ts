@@ -13,8 +13,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const supabase = createClient();
-  const { periodLabel, groups } = await buildMonthlyDigest(supabase);
-  const html = await render(NewsletterDigest({ periodLabel, groups }));
+  const digest = await buildMonthlyDigest(supabase);
+  const html = await render(NewsletterDigest(digest));
 
   return new NextResponse(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
