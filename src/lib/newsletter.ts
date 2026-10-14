@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { NewsletterGroup } from "@/emails/NewsletterDigest";
+import type { NewsletterArticle, NewsletterGroup } from "@/emails/NewsletterDigest";
 import { crimeTypeLabels } from "@/lib/data";
 import type { Article } from "@/lib/types";
 
@@ -7,8 +7,25 @@ export interface MonthlyDigestData {
   period: string; // e.g. '2026-08'
   periodLabel: string; // e.g. 'August 2026'
   groups: NewsletterGroup[];
+  leadStory: NewsletterArticle | null;
+  editionNumber: number | null;
+  feedRange: { from: string; to: string };
   articleCount: number;
 }
+
+// October 2026 is Edition 1 (the first issue designed from the Canva
+// template); every calendar month after it counts up by one.
+const FIRST_EDITION = { year: 2026, month: 10 };
+
+function editionFor(periodStart: Date): number | null {
+  const n =
+    (periodStart.getUTCFullYear() - FIRST_EDITION.year) * 12 +
+    (periodStart.getUTCMonth() + 1 - FIRST_EDITION.month) +
+    1;
+  return n >= 1 ? n : null;
+}
+
+const isoDay = (d: Date) => d.toISOString().slice(0, 10);
 
 // Shared by /api/newsletter/generate-draft (writes the draft) and
 // /api/newsletter/preview (renders it without touching the DB) — both need
@@ -30,7 +47,7 @@ export async function buildMonthlyDigest(
 
   const { data: articles, error } = await supabase
     .from("articles")
-    .select("id, title, source_name, published_date, crime_types, article_type")
+    .select("id, title, source_name, published_date, crime_types, article_type, summary, relevance_score")
     .eq("status", "published")
     .gte("published_date", periodStart.toISOString())
     .lt("published_date", periodEnd.toISOString())
@@ -43,27 +60,57 @@ export async function buildMonthlyDigest(
   // than repeating it under every tag it matched. Empty categories are
   // skipped entirely rather than printed with "no stories" (per the
   // founder's direction), so a quiet month doesn't pad the issue out.
-  const grouped = new Map<string, NewsletterGroup["articles"]>();
-  for (const article of (articles ?? []) as Pick<
+  type Row = Pick<
     Article,
-    "id" | "title" | "source_name" | "published_date" | "crime_types" | "article_type"
-  >[]) {
+    | "id"
+    | "title"
+    | "source_name"
+    | "published_date"
+    | "crime_types"
+    | "article_type"
+    | "summary"
+    | "relevance_score"
+  >;
+  const rows = (articles ?? []) as Row[];
+  const toNewsletterArticle = (article: Row): NewsletterArticle => ({
+    id: article.id,
+    title: article.title,
+    source_name: article.source_name,
+    published_date: article.published_date,
+    article_type: article.article_type ?? null,
+    summary: article.summary ?? null,
+    crime_types: article.crime_types ?? null,
+  });
+
+  // The lead is the month's highest-relevance story (ties go to the most
+  // recent, since rows arrive newest-first). It's pulled out of its group
+  // so it doesn't appear twice.
+  const lead = rows.reduce<Row | null>(
+    (best, row) => ((row.relevance_score ?? 0) > (best?.relevance_score ?? -1) ? row : best),
+    null
+  );
+
+  const grouped = new Map<string, NewsletterGroup["articles"]>();
+  for (const article of rows) {
+    if (article.id === lead?.id) continue;
     const key = article.crime_types?.[0] ?? "other";
     const list = grouped.get(key) ?? [];
-    list.push({
-      id: article.id,
-      title: article.title,
-      source_name: article.source_name,
-      published_date: article.published_date,
-      article_type: article.article_type ?? null,
-    });
+    list.push(toNewsletterArticle(article));
     grouped.set(key, list);
   }
 
-  const groups: NewsletterGroup[] = Array.from(grouped.entries()).map(([key, items]) => ({
-    label: crimeTypeLabels[key] ?? "Other",
-    articles: items,
-  }));
+  // Biggest groups first, so the month's dominant theme leads the list.
+  const groups: NewsletterGroup[] = Array.from(grouped.entries())
+    .map(([key, items]) => ({ key, label: crimeTypeLabels[key] ?? "Other", articles: items }))
+    .sort((a, b) => b.articles.length - a.articles.length);
 
-  return { period, periodLabel, groups, articleCount: articles?.length ?? 0 };
+  return {
+    period,
+    periodLabel,
+    groups,
+    leadStory: lead ? toNewsletterArticle(lead) : null,
+    editionNumber: editionFor(periodStart),
+    feedRange: { from: isoDay(periodStart), to: isoDay(periodEnd) },
+    articleCount: rows.length,
+  };
 }

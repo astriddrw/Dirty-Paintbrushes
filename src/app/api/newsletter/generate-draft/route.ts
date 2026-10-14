@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { render } from "@react-email/render";
 import NewsletterDigest from "@/emails/NewsletterDigest";
 import { buildMonthlyDigest } from "@/lib/newsletter";
+import { DEFAULT_EDITOR_NOTE, getEditorNote } from "@/lib/newsletter-slots";
 
 // Reads request.cookies via isAuthorized() — opt out of static rendering
 // explicitly, same reasoning as /api/ingest.
@@ -38,11 +39,11 @@ export async function GET(request: NextRequest) {
 
   const supabase = createAdminClient();
 
-  const { period, periodLabel, groups, articleCount } = await buildMonthlyDigest(supabase);
+  const { period, articleCount, ...digest } = await buildMonthlyDigest(supabase);
 
   const { data: existingIssue } = await supabase
     .from("newsletter_issues")
-    .select("id, status")
+    .select("id, status, html_content")
     .eq("period", period)
     .maybeSingle();
 
@@ -50,8 +51,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ ok: false, error: `${period} was already sent.` }, { status: 409 });
   }
 
-  const html = await render(NewsletterDigest({ periodLabel, groups }));
-  const subject = `Dirty Paintbrushes, ${periodLabel} Edition`;
+  // Re-generating keeps whatever editor's note was already written.
+  const editorNote =
+    (existingIssue?.html_content && getEditorNote(existingIssue.html_content)) || DEFAULT_EDITOR_NOTE;
+  const html = await render(NewsletterDigest({ ...digest, editorNote }));
+  const subject = digest.leadStory
+    ? `The Monthly Briefing, ${digest.periodLabel}: ${digest.leadStory.title}`
+    : `The Monthly Briefing: Dirty Paintbrushes, ${digest.periodLabel}`;
 
   if (existingIssue) {
     // Idempotent re-generation: running the cron (or re-triggering by hand)

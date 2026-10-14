@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { RefreshCw, Send, Save } from "lucide-react";
+import { RefreshCw, Send, Save, MailCheck } from "lucide-react";
+import { getEditorNote, setEditorNote } from "@/lib/newsletter-slots";
 
 interface NewsletterIssue {
   id: string;
@@ -29,7 +30,8 @@ export default function NewsletterAdminPage() {
   const [selected, setSelected] = useState<NewsletterIssue | null>(null);
   const [draftHtml, setDraftHtml] = useState("");
   const [draftSubject, setDraftSubject] = useState("");
-  const [busy, setBusy] = useState<"generate" | "save" | "send" | null>(null);
+  const [draftNote, setDraftNote] = useState("");
+  const [busy, setBusy] = useState<"generate" | "save" | "test" | "send" | null>(null);
   const [message, setMessage] = useState<{ kind: "error" | "ok"; text: string } | null>(null);
 
   const fetchIssues = useCallback(async () => {
@@ -51,6 +53,7 @@ export default function NewsletterAdminPage() {
     setSelected(issue);
     setDraftHtml(issue.html_content ?? "");
     setDraftSubject(issue.subject ?? "");
+    setDraftNote(getEditorNote(issue.html_content ?? "") ?? "");
     setMessage(null);
   };
 
@@ -66,6 +69,13 @@ export default function NewsletterAdminPage() {
       await fetchIssues();
     }
     setBusy(null);
+  };
+
+  // The note box writes straight into the HTML, so the preview and the raw
+  // HTML stay in step and Save only ever stores one thing.
+  const updateNote = (note: string) => {
+    setDraftNote(note);
+    setDraftHtml((html) => setEditorNote(html, note));
   };
 
   const saveDraft = async () => {
@@ -84,6 +94,23 @@ export default function NewsletterAdminPage() {
       setMessage({ kind: "ok", text: "Saved." });
       await fetchIssues();
     }
+    setBusy(null);
+  };
+
+  const sendTest = async () => {
+    setBusy("test");
+    setMessage(null);
+    const res = await fetch("/api/newsletter/send-test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subject: draftSubject, html: draftHtml }),
+    });
+    const body = await res.json().catch(() => ({}));
+    setMessage(
+      res.ok
+        ? { kind: "ok", text: `Test sent to ${body.to}. Check your inbox (and spam folder).` }
+        : { kind: "error", text: body.error ?? "Failed to send test." }
+    );
     setBusy(null);
   };
 
@@ -184,16 +211,40 @@ export default function NewsletterAdminPage() {
                 />
               </div>
 
+              {getEditorNote(draftHtml) !== null && (
+                <div>
+                  <label className="block text-xs text-muted-foreground mb-1.5">Editor&apos;s note</label>
+                  <textarea
+                    value={draftNote}
+                    onChange={(e) => updateNote(e.target.value)}
+                    disabled={selected.status === "sent"}
+                    rows={5}
+                    placeholder="A few lines on this month: what stood out, what to watch."
+                    className="w-full border border-border px-3 py-2.5 text-sm bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y disabled:opacity-50"
+                  />
+                </div>
+              )}
+
               <div>
-                <label className="block text-xs text-muted-foreground mb-1.5">HTML content</label>
+                <label className="block text-xs text-muted-foreground mb-1.5">Preview</label>
+                <iframe
+                  title="Newsletter preview"
+                  srcDoc={draftHtml}
+                  sandbox=""
+                  className="w-full h-[720px] border border-border bg-white"
+                />
+              </div>
+
+              <details>
+                <summary className="text-xs text-muted-foreground cursor-pointer">Edit raw HTML</summary>
                 <textarea
                   value={draftHtml}
                   onChange={(e) => setDraftHtml(e.target.value)}
                   disabled={selected.status === "sent"}
                   rows={20}
-                  className="w-full border border-border px-3 py-2.5 text-xs font-mono bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y disabled:opacity-50"
+                  className="mt-2 w-full border border-border px-3 py-2.5 text-xs font-mono bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y disabled:opacity-50"
                 />
-              </div>
+              </details>
 
               {selected.status === "draft" && (
                 <div className="flex items-center gap-2">
@@ -204,6 +255,14 @@ export default function NewsletterAdminPage() {
                   >
                     <Save className="h-3.5 w-3.5" />
                     Save
+                  </button>
+                  <button
+                    onClick={sendTest}
+                    disabled={busy !== null}
+                    className="flex items-center gap-1.5 px-4 py-2 border border-border text-xs font-medium hover:bg-secondary disabled:opacity-40 transition-colors"
+                  >
+                    <MailCheck className="h-3.5 w-3.5" />
+                    {busy === "test" ? "Sending test…" : "Send test to me"}
                   </button>
                   <button
                     onClick={sendIssue}
