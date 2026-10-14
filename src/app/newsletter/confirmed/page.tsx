@@ -17,8 +17,8 @@ export default function NewsletterConfirmedPage({
     <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
 
-      <main className="flex-1 px-6 lg:px-8 py-16 lg:py-24">
-        <div className="max-w-2xl mx-auto text-center">
+      <main className="flex-1 px-6 lg:px-8 py-12 lg:py-16">
+        <div className="max-w-2xl mx-auto">
           <FadeInHeading className="text-4xl lg:text-5xl font-semibold tracking-tight text-oxblood mb-6 font-headline">
             {failed ? "Link expired" : "Subscribed"}
           </FadeInHeading>
