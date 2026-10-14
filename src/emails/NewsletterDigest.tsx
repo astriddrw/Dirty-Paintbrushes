@@ -114,7 +114,7 @@ const RESPONSIVE_CSS = `
     .dp-pad { padding-left: 20px !important; padding-right: 20px !important; }
     .dp-stack { display: block !important; width: 100% !important; text-align: left !important; }
     .dp-stack-gap { padding-top: 6px !important; }
-    .dp-wordmark { font-size: 40px !important; }
+    .dp-wordmark { width: 280px !important; }
   }
 `;
 
@@ -308,20 +308,26 @@ export default function NewsletterDigest({
             >
               INSIDE THE STORY:
             </Text>
-            <Text
+            {/* An image, not live text: Gmail and Outlook ignore web fonts,
+                so the Instrument Serif wordmark would fall back to Georgia.
+                public/newsletter/wordmark.png is 2x for sharp screens. */}
+            <Img
               className="dp-wordmark"
+              src={`${siteUrl}/newsletter/wordmark.png`}
+              width="360"
+              alt="Dirty Paintbrushes"
               style={{
+                display: "block",
+                margin: "0 auto 22px",
+                width: 360,
+                maxWidth: "100%",
+                height: "auto",
+                color: TOKENS.agedPaper,
                 fontFamily: FONT_SERIF,
                 fontStyle: "italic",
-                fontSize: 56,
-                letterSpacing: "-0.035em",
-                lineHeight: 1,
-                color: TOKENS.agedPaper,
-                margin: "0 0 22px",
+                fontSize: 40,
               }}
-            >
-              Dirty Paintbrushes
-            </Text>
+            />
             <Text
               style={{
                 fontFamily: FONT_BODY,

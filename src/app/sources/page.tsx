@@ -44,7 +44,7 @@ export default async function SourcesPage() {
               How we source and filter
             </h2>
             <p className="text-base leading-relaxed text-foreground">
-              Dirty Paintbrushes aggregates articles from approximately 30 curated RSS feeds across five editorial tiers: Investigative &amp; Research, Art Industry, News &amp; Investigations, Legal &amp; Regulatory, and Google Alerts. The feed refreshes every six hours. Each article is filtered through a relevance classifier to identify coverage of financial crime in the art market: fraud, money laundering, sanctions evasion, terrorist financing, antiquities trafficking, and regulatory enforcement. Articles are then manually reviewed before publication. This approach prioritises precision over volume: we reject a high proportion of submissions to maintain editorial quality and avoid signal loss in noise.
+              Dirty Paintbrushes aggregates articles from approximately 30 curated RSS feeds across five editorial tiers: Investigative &amp; Research, Art Industry, News &amp; Investigations, Legal &amp; Regulatory, and Google Alerts. The feed refreshes daily. Each article is filtered through a relevance classifier to identify coverage of financial crime in the art market: fraud, money laundering, sanctions evasion, terrorist financing, antiquities trafficking, and regulatory enforcement. Articles are then manually reviewed before publication. This approach prioritises precision over volume: we reject a high proportion of submissions to maintain editorial quality and avoid signal loss in noise.
             </p>
           </section>
 
