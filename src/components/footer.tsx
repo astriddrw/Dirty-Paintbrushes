@@ -67,7 +67,7 @@ export function Footer() {
               Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.
             </p>
             <p>
-              This platform reflects personal research and views only, and is not affiliated with any employer or organisation.
+              Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.
             </p>
           </div>
 
