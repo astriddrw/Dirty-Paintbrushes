@@ -39,23 +39,19 @@ export default async function SourcesPage() {
               so this doesn't need to render on screen too. */}
           <h1 className="sr-only">Sources</h1>
 
-          <section className="mb-12 max-w-3xl animate-fade-in-up">
-            <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight text-oxblood mb-4 font-headline">
-              How we source and filter
-            </h2>
-            <p className="text-base leading-relaxed text-foreground">
-              Dirty Paintbrushes aggregates articles from approximately 30 curated RSS feeds across five editorial tiers: Investigative &amp; Research, Art Industry, News &amp; Investigations, Legal &amp; Regulatory, and Google Alerts. The feed refreshes daily. Each article is filtered through a relevance classifier to identify coverage of financial crime in the art market: fraud, money laundering, sanctions evasion, terrorist financing, antiquities trafficking, and regulatory enforcement. Articles are then manually reviewed before publication. This approach prioritises precision over volume: we reject a high proportion of submissions to maintain editorial quality and avoid signal loss in noise.
-            </p>
-          </section>
-
           <div className="flex flex-wrap items-start gap-10">
             <div
               className="flex-1 min-w-[240px] basis-[300px] animate-fade-in-up"
               style={{ paddingTop: "clamp(24px, 6vw, 64px)", animationDelay: "100ms" }}
             >
-              <p className="text-indigo leading-relaxed max-w-[26ch]" style={{ fontSize: "clamp(18px, 2.4vw, 25px)" }}>
-                We aggregate content from trusted publications, government agencies,
-                and research institutions covering art market financial crime.
+              {/* Same treatment as the feed page's "Latest News" heading,
+                  in the folder label's indigo; body in the site's muted
+                  text colour (--muted-foreground). */}
+              <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-indigo mb-6 font-headline">
+                How we source and filter
+              </h2>
+              <p className="text-base leading-relaxed text-muted-foreground max-w-prose">
+                Dirty Paintbrushes aggregates articles from approximately 30 curated RSS feeds across five editorial tiers: Investigative &amp; Research, Art Industry, News &amp; Investigations, Legal &amp; Regulatory, and Google Alerts. The feed refreshes daily. Each article is filtered through a relevance classifier to identify coverage of financial crime in the art market: fraud, money laundering, sanctions evasion, terrorist financing, antiquities trafficking, and regulatory enforcement. Articles are then manually reviewed before publication. This approach prioritises precision over volume: we reject a high proportion of submissions to maintain editorial quality and avoid signal loss in noise.
               </p>
             </div>
             <div
