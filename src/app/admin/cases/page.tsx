@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Plus, Pencil, Trash2, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -82,6 +83,7 @@ function toggle(arr: string[], val: string) {
 }
 
 export default function CasesPage() {
+  const router = useRouter();
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<Mode>("list");
@@ -201,6 +203,8 @@ export default function CasesPage() {
     setSaving(false);
     await fetchCases();
     setMode("list");
+    // Keep the dashboard's case count current (see admin/review/page.tsx).
+    router.refresh();
   };
 
   const deleteCase = async (id: string) => {
@@ -208,6 +212,7 @@ export default function CasesPage() {
     const supabase = createClient();
     await supabase.from("cases").delete().eq("id", id);
     setCases((prev) => prev.filter((c) => c.id !== id));
+    router.refresh();
   };
 
   const linkArticle = async (article: SearchArticle) => {

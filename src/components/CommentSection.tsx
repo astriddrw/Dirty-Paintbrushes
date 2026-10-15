@@ -67,7 +67,13 @@ export default function CommentSection({ articleId }: CommentSectionProps) {
       .insert({ article_id: articleId, display_name: displayName.trim(), body: body.trim() });
 
     if (insertError) {
-      setError("Failed to post comment. Please try again.");
+      // 42501 = refused by the database's comment limit (3 per name per
+      // hour, 30 site-wide per hour — supabase/migrations.sql §12).
+      setError(
+        insertError.code === "42501"
+          ? "Too many comments right now. Please try again later."
+          : "Failed to post comment. Please try again."
+      );
     } else {
       // Not appended to the visible list — new comments are pending review
       // once the moderation migration is live, so an optimistic add would

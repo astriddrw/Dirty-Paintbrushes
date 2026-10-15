@@ -1,39 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { render } from "@react-email/render";
 import NewsletterDigest from "@/emails/NewsletterDigest";
 import { buildMonthlyDigest } from "@/lib/newsletter";
 import { DEFAULT_EDITOR_NOTE, getEditorNote } from "@/lib/newsletter-slots";
+import { isCronOrAdmin } from "@/lib/admin-auth";
 
-// Reads request.cookies via isAuthorized() — opt out of static rendering
+// Reads request.cookies via isCronOrAdmin() — opt out of static rendering
 // explicitly, same reasoning as /api/ingest.
 export const dynamic = "force-dynamic";
 
-// Same shape as /api/ingest's isAuthorized(): Vercel cron secret, dev
+// isCronOrAdmin() (src/lib/admin-auth.ts): Vercel cron secret, dev
 // bypass, or an admin session — so this can also be triggered by hand from
 // /admin/newsletter without a second auth mechanism.
-async function isAuthorized(request: NextRequest): Promise<boolean> {
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (cronSecret) {
-    const authHeader = request.headers.get("authorization");
-    if (authHeader === `Bearer ${cronSecret}`) return true;
-  }
-
-  if (!cronSecret && process.env.NODE_ENV !== "production") return true;
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
-  );
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
-}
 
 export async function GET(request: NextRequest) {
-  if (!(await isAuthorized(request))) {
+  if (!(await isCronOrAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

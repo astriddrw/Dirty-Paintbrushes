@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createServerClient } from "@supabase/ssr";
 import he from "he";
+import { isCronOrAdmin } from "@/lib/admin-auth";
 
-// isAuthorized() reads request.cookies, which opts this route out of static
+// isCronOrAdmin() reads request.cookies, which opts this route out of static
 // rendering — declare it dynamic explicitly rather than relying on Next's
 // (unreliable, in this version) automatic bailout.
 export const dynamic = "force-dynamic";
@@ -42,25 +42,8 @@ function isIrrelevant(title: string, summary: string | null): boolean {
   return IRRELEVANT_PATTERNS.some((p) => text.includes(p.toLowerCase()));
 }
 
-async function isAuthorized(request: NextRequest): Promise<boolean> {
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const authHeader = request.headers.get("authorization");
-    if (authHeader === `Bearer ${cronSecret}`) return true;
-  }
-  if (!cronSecret && process.env.NODE_ENV !== "production") return true;
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
-  );
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
-}
-
 export async function POST(request: NextRequest) {
-  if (!(await isAuthorized(request))) {
+  if (!(await isCronOrAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -100,6 +100,11 @@ function LoginForm() {
                 {submitting ? "Sending…" : "Send login link"}
               </button>
             </form>
+            <p className="text-xs text-aged-vellum mt-4">
+              <a href="/privacy" className="underline underline-offset-4 hover:opacity-70 transition-opacity">
+                Privacy notice
+              </a>
+            </p>
           </>
         )}
       </div>

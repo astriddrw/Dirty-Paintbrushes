@@ -1,25 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { forwardToPage, readPostedToken, updateByToken, validToken } from "@/lib/newsletter-tokens";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
-  const token = request.nextUrl.searchParams.get("token");
-  if (!token) {
-    return NextResponse.redirect(new URL("/newsletter/unsubscribed?error=1", request.url));
+// GET never unsubscribes (see src/lib/newsletter-tokens.ts) — it forwards
+// to the page with the "Unsubscribe" button.
+export function GET(request: NextRequest) {
+  return forwardToPage(request, "/newsletter/unsubscribe");
+}
+
+// Two callers: the page's button (form post → redirect to the result page),
+// and Gmail/Apple Mail's one-click unsubscribe, which posts the body
+// "List-Unsubscribe=One-Click" to the List-Unsubscribe URL in each issue's
+// headers (src/app/api/newsletter/send) and only needs a 200.
+export async function POST(request: NextRequest) {
+  const isOneClick = (await request.clone().text().catch(() => "")).includes("List-Unsubscribe=One-Click");
+  const token = await readPostedToken(request);
+  const ok = validToken(token) && (await updateByToken("unsubscribe_token", token, { status: "unsubscribed" }));
+
+  if (isOneClick) {
+    return new NextResponse(ok ? "Unsubscribed" : "Invalid link", { status: ok ? 200 : 400 });
   }
-
-  const supabase = createAdminClient();
-  const { data, error } = await supabase
-    .from("subscribers")
-    .update({ status: "unsubscribed" })
-    .eq("unsubscribe_token", token)
-    .select("id")
-    .maybeSingle();
-
-  if (error || !data) {
-    return NextResponse.redirect(new URL("/newsletter/unsubscribed?error=1", request.url));
-  }
-
-  return NextResponse.redirect(new URL("/newsletter/unsubscribed", request.url));
+  const target = ok ? "/newsletter/unsubscribed" : "/newsletter/unsubscribed?error=1";
+  return NextResponse.redirect(new URL(target, request.url), 303);
 }

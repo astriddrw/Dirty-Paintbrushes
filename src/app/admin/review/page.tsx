@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { Check, X, ExternalLink } from "lucide-react";
 import { formatTag } from "@/lib/utils";
 import type { Article } from "@/lib/types";
@@ -16,6 +17,7 @@ export default function ReviewQueuePage() {
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const router = useRouter();
 
   const fetchQueue = useCallback(async () => {
     setLoading(true);
@@ -51,6 +53,10 @@ export default function ReviewQueuePage() {
     }
     setArticles((prev) => prev.filter((a) => a.id !== id));
     setActing(null);
+    // The browser keeps a copy of each visited page for ~30s (Next's router
+    // cache), so the dashboard would otherwise show the old counts. This
+    // drops those copies; the next visit fetches fresh numbers.
+    router.refresh();
   };
 
   return (

@@ -128,6 +128,9 @@ export default function SubmitArticlePage() {
       setError(insertError.message);
       return;
     }
+    // Drop cached copies of other admin pages so the dashboard counts
+    // include this article (see admin/review/page.tsx).
+    router.refresh();
     setSuccess(`Article ${status === "published" ? "published" : "saved as draft"}.`);
     setForm(empty);
   };

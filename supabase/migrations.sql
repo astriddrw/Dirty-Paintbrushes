@@ -283,3 +283,155 @@ CREATE POLICY "Authenticated users can manage newsletter_issues"
   ON newsletter_issues FOR ALL
   USING (auth.role() = 'authenticated')
   WITH CHECK (auth.role() = 'authenticated');
+
+-- ── 11. ADMIN-ONLY ACCESS ──────────────────────────────────────────────────
+-- Until now every policy above granted full access to auth.role() =
+-- 'authenticated' — but the public /login magic link lets anyone create an
+-- account (to save articles), so "logged in" included every reader: they
+-- could read the subscriber list, edit articles, approve comments, etc.
+-- This section limits all of that to accounts listed in admin_users.
+-- src/lib/admin-auth.ts and src/middleware.ts call the same is_admin()
+-- function, so the app and the database apply one rule.
+--
+-- HOW TO RUN: in step A, replace the placeholder with the email you sign in
+-- to /admin with, then run this whole section in the Supabase SQL editor.
+-- If that email doesn't match an account, the safety check stops the script
+-- before any permission is changed. Safe to run more than once.
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  user_id uuid PRIMARY KEY REFERENCES auth.users (id) ON DELETE CASCADE,
+  created_at timestamptz DEFAULT now()
+);
+-- No policies on purpose: only the service role and is_admin() read it.
+ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (SELECT 1 FROM public.admin_users WHERE user_id = auth.uid());
+$$;
+REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.is_admin() TO anon, authenticated;
+
+-- Step A: add the admin account (edit the email).
+INSERT INTO admin_users (user_id)
+SELECT id FROM auth.users WHERE lower(email) = lower('YOUR-ADMIN-EMAIL@example.com')
+ON CONFLICT DO NOTHING;
+
+-- Safety check: never tighten permissions without at least one admin.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM admin_users) THEN
+    RAISE EXCEPTION 'No admin account found. Put the email you use for /admin into step A and run again. No permissions were changed.';
+  END IF;
+END $$;
+
+-- Remove every "any logged-in user" policy on these tables. Public read
+-- policies (published articles, approved comments, sources, cases), the
+-- public comment/feedback insert policies and "Users can manage own
+-- bookmarks" don't mention 'authenticated' and are left untouched.
+DO $$
+DECLARE r record;
+BEGIN
+  FOR r IN
+    SELECT tablename, policyname FROM pg_policies
+    WHERE schemaname = 'public'
+      AND tablename IN ('articles', 'cases', 'case_articles', 'rss_sources', 'comments',
+                        'ingestion_runs', 'subscribers', 'newsletter_issues')
+      AND (coalesce(qual, '') ILIKE '%authenticated%' OR coalesce(with_check, '') ILIKE '%authenticated%')
+  LOOP
+    EXECUTE format('DROP POLICY %I ON public.%I', r.policyname, r.tablename);
+  END LOOP;
+END $$;
+
+-- …and give the same access to admins only.
+DO $$
+DECLARE t text;
+BEGIN
+  FOREACH t IN ARRAY ARRAY['articles', 'cases', 'case_articles', 'rss_sources', 'comments',
+                           'ingestion_runs', 'subscribers', 'newsletter_issues']
+  LOOP
+    IF to_regclass('public.' || t) IS NOT NULL THEN
+      EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I', 'Admins can manage ' || t, t);
+      EXECUTE format(
+        'CREATE POLICY %I ON public.%I FOR ALL USING (public.is_admin()) WITH CHECK (public.is_admin())',
+        'Admins can manage ' || t, t
+      );
+    END IF;
+  END LOOP;
+END $$;
+
+-- ── 12. ABUSE LIMITS + SAFE NEWSLETTER SENDS ──────────────────────────────
+-- Run after section 11. Safe to run more than once.
+
+-- a) Newsletter sign-ups: remember when the last confirmation email went
+--    out, so /api/newsletter/subscribe can refuse to re-send to the same
+--    address more than once every 10 minutes (stops someone flooding a
+--    stranger's inbox with confirmation emails from our domain).
+ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS last_confirmation_sent_at timestamptz;
+
+-- b) Comments: the old rate-limit policy never worked — its unqualified
+--    display_name compared each row with itself, and RLS hid pending
+--    comments from the count anyway. This function runs with full
+--    visibility (SECURITY DEFINER) and enforces: max 3 comments per display
+--    name per hour, and max 30 new comments site-wide per hour (every
+--    comment waits for moderation, so this caps how fast spam can pile up).
+CREATE OR REPLACE FUNCTION public.comment_rate_ok(name text)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    (SELECT count(*) FROM public.comments
+       WHERE lower(display_name) = lower(name) AND created_at > now() - interval '1 hour') < 3
+    AND
+    (SELECT count(*) FROM public.comments WHERE created_at > now() - interval '1 hour') < 30;
+$$;
+REVOKE ALL ON FUNCTION public.comment_rate_ok(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.comment_rate_ok(text) TO anon, authenticated;
+
+DROP POLICY IF EXISTS "Public can insert comments with rate limit" ON comments;
+DROP POLICY IF EXISTS "Public can insert comments" ON comments;
+CREATE POLICY "Public can insert comments with rate limit"
+  ON comments FOR INSERT
+  WITH CHECK (status = 'pending' AND public.comment_rate_ok(display_name));
+
+-- Length limits (match the form: 80-character name, 2,000-character
+-- comment). NOT VALID = only checked for new comments, existing ones are
+-- left alone.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'comments_body_length') THEN
+    ALTER TABLE comments ADD CONSTRAINT comments_body_length
+      CHECK (char_length(body) BETWEEN 1 AND 2000) NOT VALID;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'comments_name_length') THEN
+    ALTER TABLE comments ADD CONSTRAINT comments_name_length
+      CHECK (char_length(display_name) BETWEEN 1 AND 80) NOT VALID;
+  END IF;
+END $$;
+
+-- c) Newsletter sends: one row per subscriber who has been sent an issue,
+--    so retrying a send that failed halfway only emails the people who
+--    haven't had it yet. sending_started_at stops two sends of the same
+--    issue running at once (e.g. a double-click).
+CREATE TABLE IF NOT EXISTS newsletter_deliveries (
+  issue_id uuid NOT NULL REFERENCES newsletter_issues (id) ON DELETE CASCADE,
+  subscriber_id uuid NOT NULL REFERENCES subscribers (id) ON DELETE CASCADE,
+  sent_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (issue_id, subscriber_id)
+);
+ALTER TABLE newsletter_deliveries ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Admins can manage newsletter_deliveries" ON newsletter_deliveries;
+CREATE POLICY "Admins can manage newsletter_deliveries"
+  ON newsletter_deliveries FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+ALTER TABLE newsletter_issues ADD COLUMN IF NOT EXISTS sending_started_at timestamptz;

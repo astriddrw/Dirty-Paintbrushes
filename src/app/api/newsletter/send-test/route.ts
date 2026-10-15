@@ -1,21 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { getAdminUser } from "@/lib/admin-auth";
 import { createResendClient, NEWSLETTER_FROM, NEWSLETTER_REPLY_TO } from "@/lib/resend";
 import { UNSUBSCRIBE_PLACEHOLDER } from "@/emails/NewsletterDigest";
 
-// Reads request.cookies for the admin session — same reasoning as /send.
+// Reads request.cookies via getAdminUser() — same reasoning as /send.
 export const dynamic = "force-dynamic";
 
 // Sends whatever is currently in the /admin/newsletter editor (saved or not)
-// to the logged-in admin only. The recipient is never taken from the
-// request body, so this can't be used to mail anyone else.
+// to the logged-in admin's own address only — readers with an account
+// can't use it. The recipient is never taken from the request body, so
+// this can't be used to mail anyone else.
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
-  );
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getAdminUser(request);
   if (!user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

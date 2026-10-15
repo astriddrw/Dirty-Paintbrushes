@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 
 const BASE_URL = "https://dirtypaintbrushes.com"
 
-const STATIC_ROUTES = ["", "/feed", "/sources", "/about", "/newsletter", "/cases"]
+const STATIC_ROUTES = ["", "/feed", "/sources", "/about", "/newsletter", "/cases", "/privacy"]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createClient()

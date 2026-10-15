@@ -1,25 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { forwardToPage, readPostedToken, updateByToken, validToken } from "@/lib/newsletter-tokens";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest) {
-  const token = request.nextUrl.searchParams.get("token");
-  if (!token) {
-    return NextResponse.redirect(new URL("/newsletter/confirmed?error=1", request.url));
-  }
+// GET never confirms (see src/lib/newsletter-tokens.ts) — it forwards to
+// the page with the "Confirm subscription" button.
+export function GET(request: NextRequest) {
+  return forwardToPage(request, "/newsletter/confirm");
+}
 
-  const supabase = createAdminClient();
-  const { data, error } = await supabase
-    .from("subscribers")
-    .update({ status: "confirmed", confirmed_at: new Date().toISOString() })
-    .eq("confirm_token", token)
-    .select("id")
-    .maybeSingle();
-
-  if (error || !data) {
-    return NextResponse.redirect(new URL("/newsletter/confirmed?error=1", request.url));
-  }
-
-  return NextResponse.redirect(new URL("/newsletter/confirmed", request.url));
+export async function POST(request: NextRequest) {
+  const token = await readPostedToken(request);
+  const ok =
+    validToken(token) &&
+    (await updateByToken("confirm_token", token, {
+      status: "confirmed",
+      confirmed_at: new Date().toISOString(),
+    }));
+  const target = ok ? "/newsletter/confirmed" : "/newsletter/confirmed?error=1";
+  return NextResponse.redirect(new URL(target, request.url), 303);
 }

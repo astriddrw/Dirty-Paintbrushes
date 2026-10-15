@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { RefreshCw, Send, Save, MailCheck } from "lucide-react";
 import { getEditorNote, setEditorNote } from "@/lib/newsletter-slots";
+import { SUBSCRIBER_LIMIT, SUBSCRIBER_WARNING_AT } from "@/lib/plan-limits";
 
 interface NewsletterIssue {
   id: string;
@@ -142,8 +143,10 @@ export default function NewsletterAdminPage() {
       <div className="mb-10 flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-serif mb-1">Newsletter</h1>
-          <p className="text-sm text-muted-foreground">
-            {loading ? "Loading…" : `${confirmedCount} confirmed subscriber${confirmedCount !== 1 ? "s" : ""}`}
+          <p className={`text-sm ${confirmedCount >= SUBSCRIBER_WARNING_AT ? "text-amber-700" : "text-muted-foreground"}`}>
+            {loading
+              ? "Loading…"
+              : `${confirmedCount} confirmed subscriber${confirmedCount !== 1 ? "s" : ""} of ${SUBSCRIBER_LIMIT.toLocaleString("en-GB")}`}
           </p>
         </div>
         <button

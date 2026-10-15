@@ -1,3 +1,7 @@
+-- ⚠ SUPERSEDED — do not run. These policies give EVERY logged-in user
+-- (including readers who signed up via the public /login link) full access.
+-- Admin-only access is set up in supabase/migrations.sql §11.
+--
 -- Admin RLS policies — run this in the Supabase SQL editor
 -- Allows all authenticated users full CRUD access.
 -- Scope this to specific admin UIDs once the admin user is created.
