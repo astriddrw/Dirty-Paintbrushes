@@ -2,6 +2,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { IngestButton } from "@/components/ingest-button";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import { SUBSCRIBER_LIMIT, SUBSCRIBER_WARNING_AT } from "@/lib/plan-limits";
 
 // Queries live data with the service-role client on every request — Next
 // otherwise tries to prerender this at build time, when that env var isn't
@@ -17,24 +18,36 @@ export default async function AdminDashboardPage() {
     { data: sourceRows },
     { data: caseRows },
     { data: recent },
+    { count: confirmedSubscribers },
+    { count: pendingSubscribers },
   ] = await Promise.all([
     supabase.from("articles").select("id").eq("status", "published"),
     supabase.from("articles").select("id").eq("status", "review_queue"),
     supabase.from("rss_sources").select("id").eq("active", true),
     supabase.from("cases").select("id"),
     supabase.from("articles").select("title, source_name, published_date, status, created_at").order("created_at", { ascending: false }).limit(8),
+    supabase.from("subscribers").select("id", { count: "exact", head: true }).eq("status", "confirmed"),
+    supabase.from("subscribers").select("id", { count: "exact", head: true }).eq("status", "pending"),
   ]);
 
   const published = publishedRows?.length ?? 0;
   const reviewQueue = reviewQueueRows?.length ?? 0;
   const sources = sourceRows?.length ?? 0;
   const cases = caseRows?.length ?? 0;
+  const subscribers = confirmedSubscribers ?? 0;
+  const pending = pendingSubscribers ?? 0;
 
   const stats = [
     { label: "Published",    value: published,   href: "/feed" },
     { label: "Review Queue", value: reviewQueue,  href: "/admin/review" },
     { label: "Active Sources", value: sources,   href: "/sources" },
     { label: "Cases",        value: cases,        href: "/admin/cases" },
+    {
+      label: `Subscribers of ${SUBSCRIBER_LIMIT.toLocaleString("en-GB")}${pending ? ` · ${pending} unconfirmed` : ""}`,
+      value: subscribers,
+      href: "/admin/newsletter",
+      warn: subscribers >= SUBSCRIBER_WARNING_AT,
+    },
   ];
 
   const quickLinks = [
@@ -51,14 +64,14 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
-        {stats.map(({ label, value, href }) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
+        {stats.map(({ label, value, href, warn }) => (
           <Link
             key={label}
             href={href}
             className="border border-border p-5 hover:border-foreground hover:bg-secondary transition-all"
           >
-            <p className="text-2xl font-serif mb-1">{value}</p>
+            <p className={`text-2xl font-serif mb-1 ${warn ? "text-amber-700" : ""}`}>{value}</p>
             <p className="text-xs text-muted-foreground">{label}</p>
           </Link>
         ))}
