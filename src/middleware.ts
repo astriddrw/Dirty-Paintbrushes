@@ -30,10 +30,17 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session) {
+  // Verified user (getUser, not the unverified cookie via getSession) AND
+  // listed in admin_users — a reader's account from the public /login
+  // magic link is a session too, but must not open /admin.
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
+  }
+
+  const { data: isAdmin, error } = await supabase.rpc("is_admin");
+  if (error || isAdmin !== true) {
+    return NextResponse.redirect(new URL("/admin/login?denied=1", request.url));
   }
 
   return response;

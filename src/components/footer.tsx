@@ -56,6 +56,9 @@ export function Footer() {
             <a href="/newsletter" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
               Newsletter
             </a>
+            <a href="/privacy" className="text-sm font-light text-aged-vellum hover:opacity-70 transition-opacity">
+              Privacy
+            </a>
           </div>
         </div>
 

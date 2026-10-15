@@ -4,6 +4,17 @@ import { useId, useState } from "react";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Every form that collects an email links the privacy notice (UK GDPR).
+function PrivacyLink({ className }: { className: string }) {
+  return (
+    <p className={`text-xs mt-2 ${className}`}>
+      <a href="/privacy" className="underline underline-offset-4 hover:opacity-70 transition-opacity">
+        Privacy notice
+      </a>
+    </p>
+  );
+}
+
 type Status = "idle" | "submitting" | "sent" | "error";
 
 interface NewsletterSignupProps {
@@ -77,6 +88,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
           </form>
         )}
         {error && <p className="text-xs text-aged-vellum mt-1.5">{error}</p>}
+        <PrivacyLink className="text-aged-vellum" />
       </div>
     );
   }
@@ -91,37 +103,42 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
           <h2 className="text-2xl lg:text-3xl font-serif italic text-aged-vellum">Stay briefed</h2>
         </div>
 
-        {doneMessage ? (
-          <p className="text-sm text-aged-vellum" role="status">
-            {doneMessage}
-          </p>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto lg:min-w-[380px]"
-          >
-            <label htmlFor={emailId} className="sr-only">
-              Email address
-            </label>
-            <input
-              id={emailId}
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="min-w-0 flex-1 border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40"
-            />
-            <button
-              type="submit"
-              disabled={status === "submitting"}
-              className="flex-shrink-0 px-5 py-2.5 bg-white text-indigo text-sm font-serif italic hover:opacity-80 disabled:opacity-30 transition-opacity"
+        {/* Form, error and privacy link stacked as one column so the link
+            sits under the form instead of becoming a third flex item. */}
+        <div className="w-full lg:w-auto">
+          {doneMessage ? (
+            <p className="text-sm text-aged-vellum" role="status">
+              {doneMessage}
+            </p>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto lg:min-w-[380px]"
             >
-              {status === "submitting" ? "…" : "Subscribe"}
-            </button>
-          </form>
-        )}
-        {error && <p className="text-xs text-aged-vellum mt-1.5">{error}</p>}
+              <label htmlFor={emailId} className="sr-only">
+                Email address
+              </label>
+              <input
+                id={emailId}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                className="min-w-0 flex-1 border border-white/20 bg-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-aged-vellum/60 focus:outline-none focus:ring-2 focus:ring-white/40"
+              />
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="flex-shrink-0 px-5 py-2.5 bg-white text-indigo text-sm font-serif italic hover:opacity-80 disabled:opacity-30 transition-opacity"
+              >
+                {status === "submitting" ? "…" : "Subscribe"}
+              </button>
+            </form>
+          )}
+          {error && <p className="text-xs text-aged-vellum mt-1.5">{error}</p>}
+          <PrivacyLink className="text-aged-vellum" />
+        </div>
       </div>
     );
   }
@@ -156,6 +173,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
         </form>
       )}
       {error && <p className="text-xs text-destructive mt-2">{error}</p>}
+      <PrivacyLink className="text-muted-foreground" />
     </div>
   );
 }

@@ -1,50 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import Parser from "rss-parser";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createServerClient } from "@supabase/ssr";
 import he from "he";
 import { classifyArticle } from "@/lib/tagging";
 import { classifyWithHaiku, FilterResult } from "@/lib/haiku-classifier";
 import { extractSummary, cleanGoogleUrl, parsePublishedDate } from "@/lib/feed-parsing";
+import { isCronOrAdmin } from "@/lib/admin-auth";
 
-// isAuthorized() reads request.cookies, which opts this route out of static
+// isCronOrAdmin() reads request.cookies, which opts this route out of static
 // rendering — declare it dynamic explicitly rather than relying on Next's
 // (unreliable, in this version) automatic bailout.
 export const dynamic = "force-dynamic";
 
-// ─── Auth check ─────────────────────────────────────────────────────────────
-
-async function isAuthorized(request: NextRequest): Promise<boolean> {
-  const cronSecret = process.env.CRON_SECRET;
-
-  // Allow if CRON_SECRET matches (Vercel cron)
-  if (cronSecret) {
-    const authHeader = request.headers.get("authorization");
-    if (authHeader === `Bearer ${cronSecret}`) return true;
-  }
-
-  // Allow in development without a secret set
-  if (!cronSecret && process.env.NODE_ENV !== "production") return true;
-
-  // Allow if admin session cookie present
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => request.cookies.getAll(),
-        setAll: () => {},
-      },
-    }
-  );
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
-}
-
 // ─── Route handler ───────────────────────────────────────────────────────────
 
 export async function GET(request: NextRequest) {
-  if (!(await isAuthorized(request))) {
+  if (!(await isCronOrAdmin(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

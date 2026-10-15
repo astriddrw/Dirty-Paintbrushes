@@ -1,27 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createServerClient } from "@supabase/ssr";
+import { isAdminRequest } from "@/lib/admin-auth";
 
 // Reads request.cookies to check the admin session — opt out of static
 // rendering explicitly rather than relying on Next's automatic bailout.
 export const dynamic = "force-dynamic";
 
-async function requireSession(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
-  );
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
-}
-
 // GET/PATCH both use the service-role client so the review queue reflects
 // every article regardless of RLS policy state — /admin/* is already gated
-// on having a valid session, so this doesn't widen the trust boundary.
+// on an admin session, so this doesn't widen the trust boundary.
 
 export async function GET(request: NextRequest) {
-  if (!(await requireSession(request))) {
+  if (!(await isAdminRequest(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -40,7 +30,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  if (!(await requireSession(request))) {
+  if (!(await isAdminRequest(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -283,3 +283,84 @@ CREATE POLICY "Authenticated users can manage newsletter_issues"
   ON newsletter_issues FOR ALL
   USING (auth.role() = 'authenticated')
   WITH CHECK (auth.role() = 'authenticated');
+
+-- ── 11. ADMIN-ONLY ACCESS ──────────────────────────────────────────────────
+-- Until now every policy above granted full access to auth.role() =
+-- 'authenticated' — but the public /login magic link lets anyone create an
+-- account (to save articles), so "logged in" included every reader: they
+-- could read the subscriber list, edit articles, approve comments, etc.
+-- This section limits all of that to accounts listed in admin_users.
+-- src/lib/admin-auth.ts and src/middleware.ts call the same is_admin()
+-- function, so the app and the database apply one rule.
+--
+-- HOW TO RUN: in step A, replace the placeholder with the email you sign in
+-- to /admin with, then run this whole section in the Supabase SQL editor.
+-- If that email doesn't match an account, the safety check stops the script
+-- before any permission is changed. Safe to run more than once.
+
+CREATE TABLE IF NOT EXISTS admin_users (
+  user_id uuid PRIMARY KEY REFERENCES auth.users (id) ON DELETE CASCADE,
+  created_at timestamptz DEFAULT now()
+);
+-- No policies on purpose: only the service role and is_admin() read it.
+ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (SELECT 1 FROM public.admin_users WHERE user_id = auth.uid());
+$$;
+REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.is_admin() TO anon, authenticated;
+
+-- Step A: add the admin account (edit the email).
+INSERT INTO admin_users (user_id)
+SELECT id FROM auth.users WHERE lower(email) = lower('YOUR-ADMIN-EMAIL@example.com')
+ON CONFLICT DO NOTHING;
+
+-- Safety check: never tighten permissions without at least one admin.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM admin_users) THEN
+    RAISE EXCEPTION 'No admin account found. Put the email you use for /admin into step A and run again. No permissions were changed.';
+  END IF;
+END $$;
+
+-- Remove every "any logged-in user" policy on these tables. Public read
+-- policies (published articles, approved comments, sources, cases), the
+-- public comment/feedback insert policies and "Users can manage own
+-- bookmarks" don't mention 'authenticated' and are left untouched.
+DO $$
+DECLARE r record;
+BEGIN
+  FOR r IN
+    SELECT tablename, policyname FROM pg_policies
+    WHERE schemaname = 'public'
+      AND tablename IN ('articles', 'cases', 'case_articles', 'rss_sources', 'comments',
+                        'ingestion_runs', 'subscribers', 'newsletter_issues')
+      AND (coalesce(qual, '') ILIKE '%authenticated%' OR coalesce(with_check, '') ILIKE '%authenticated%')
+  LOOP
+    EXECUTE format('DROP POLICY %I ON public.%I', r.policyname, r.tablename);
+  END LOOP;
+END $$;
+
+-- …and give the same access to admins only.
+DO $$
+DECLARE t text;
+BEGIN
+  FOREACH t IN ARRAY ARRAY['articles', 'cases', 'case_articles', 'rss_sources', 'comments',
+                           'ingestion_runs', 'subscribers', 'newsletter_issues']
+  LOOP
+    IF to_regclass('public.' || t) IS NOT NULL THEN
+      EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I', 'Admins can manage ' || t, t);
+      EXECUTE format(
+        'CREATE POLICY %I ON public.%I FOR ALL USING (public.is_admin()) WITH CHECK (public.is_admin())',
+        'Admins can manage ' || t, t
+      );
+    END IF;
+  END LOOP;
+END $$;

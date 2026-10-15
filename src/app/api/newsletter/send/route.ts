@@ -1,24 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createResendClient, NEWSLETTER_FROM, NEWSLETTER_REPLY_TO } from "@/lib/resend";
 import { UNSUBSCRIBE_PLACEHOLDER } from "@/emails/NewsletterDigest";
+import { isAdminRequest } from "@/lib/admin-auth";
 
-// Reads request.cookies via requireSession() — opt out of static rendering
+// Reads request.cookies via isAdminRequest() — opt out of static rendering
 // explicitly, same reasoning as /api/ingest.
 export const dynamic = "force-dynamic";
 
 // No CRON_SECRET path here, unlike generate-draft — sending is the one
 // irreversible step in the flow and stays a deliberate, logged-in action.
-async function requireSession(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
-  );
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
-}
 
 // Resend's batch endpoint takes up to 100 distinct payloads per call, so
 // this stays correct well past the "a few hundred subscribers" point where
@@ -32,7 +23,7 @@ function chunk<T>(items: T[], size: number): T[][] {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await requireSession(request))) {
+  if (!(await isAdminRequest(request))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

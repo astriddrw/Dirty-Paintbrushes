@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AdminLoginPage() {
@@ -8,6 +8,13 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Middleware sends signed-in non-admins back here with ?denied=1.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("denied") === "1") {
+      setError("This account doesn't have admin access.");
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
