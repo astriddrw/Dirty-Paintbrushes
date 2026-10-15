@@ -44,9 +44,8 @@ export default function PrivacyPage() {
           <div className="space-y-10 text-base leading-relaxed text-foreground">
             <Section title="Who we are">
               <p>
-                Dirty Paintbrushes (dirtypaintbrushes.com) is an independent platform run by Astrid de Rohan
-                Willner, who is responsible for the personal information described here. For any privacy
-                question or request, email {mail}.
+                Dirty Paintbrushes (dirtypaintbrushes.com) is an independent platform and is responsible for the
+                personal information described here. For any privacy question or request, email {mail}.
               </p>
             </Section>
 
