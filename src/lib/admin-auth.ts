@@ -11,11 +11,17 @@ import type { User } from "@supabase/supabase-js";
 // getUser() (not getSession()) because it verifies the session with
 // Supabase instead of trusting whatever the cookie says.
 
+// no-store: an admin check must never be answered from Next's Data Cache.
+const noStoreFetch: typeof fetch = (input, init) => fetch(input, { ...init, cache: "no-store" });
+
 function cookieClient(request: NextRequest) {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} } }
+    {
+      global: { fetch: noStoreFetch },
+      cookies: { getAll: () => request.cookies.getAll(), setAll: () => {} },
+    }
   );
 }
 
