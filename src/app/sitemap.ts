@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { createClient } from "@/lib/supabase/server"
+import { listSentIssues } from "@/lib/newsletter-archive"
 
 const BASE_URL = "https://dirtypaintbrushes.com"
 
@@ -21,5 +22,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${BASE_URL}${route}`,
   }))
 
-  return [...staticEntries, ...articleEntries]
+  const issueEntries: MetadataRoute.Sitemap = (await listSentIssues()).map((issue) => ({
+    url: `${BASE_URL}/newsletter/issues/${issue.period}`,
+    lastModified: issue.sent_at ?? undefined,
+  }))
+
+  return [...staticEntries, ...articleEntries, ...issueEntries]
 }

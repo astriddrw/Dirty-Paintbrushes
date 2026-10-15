@@ -73,6 +73,9 @@ export interface NewsletterDigestProps {
   feedRange?: { from: string; to: string }; // YYYY-MM-DD, for "more" links
   siteUrl?: string;
   unsubscribeUrl?: string;
+  // e.g. "2026-10" — adds a "View in browser" link to the issue's page on
+  // the site (/newsletter/issues/2026-10), which exists once it's sent.
+  period?: string;
 }
 
 function formatDate(dateString: string | null) {
@@ -223,6 +226,7 @@ export default function NewsletterDigest({
   feedRange,
   siteUrl = "https://dirtypaintbrushes.com",
   unsubscribeUrl = UNSUBSCRIBE_PLACEHOLDER,
+  period,
 }: NewsletterDigestProps) {
   const storyCount = groups.reduce((n, g) => n + g.articles.length, 0) + (leadStory ? 1 : 0);
   const editionLine = [periodLabel, editionNumber ? `Edition ${editionNumber}` : null]
@@ -558,6 +562,17 @@ export default function NewsletterDigest({
               Dirty Paintbrushes
             </Text>
             <Text style={{ fontFamily: FONT_BODY, fontSize: 12, lineHeight: "19px", color: TOKENS.footerText, margin: "0 0 14px" }}>
+              {period && (
+                <>
+                  <Link
+                    href={`${siteUrl}/newsletter/issues/${period}`}
+                    style={{ color: TOKENS.footerText, textDecoration: "underline" }}
+                  >
+                    View in browser
+                  </Link>
+                  {"   ·   "}
+                </>
+              )}
               <Link href={siteUrl} style={{ color: TOKENS.footerText, textDecoration: "underline" }}>
                 Website
               </Link>

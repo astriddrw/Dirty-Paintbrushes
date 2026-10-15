@@ -34,7 +34,10 @@ const isoDay = (d: Date) => d.toISOString().slice(0, 10);
 // about what the cron actually generates.
 export async function buildMonthlyDigest(
   supabase: SupabaseClient,
-  referenceDate: Date = new Date()
+  referenceDate: Date = new Date(),
+  // Only for the sample on /newsletter: if last month had no published
+  // stories, fill the sample with this many of the most recent ones instead.
+  { fallbackToLatest = 0 }: { fallbackToLatest?: number } = {}
 ): Promise<MonthlyDigestData> {
   const periodStart = new Date(Date.UTC(referenceDate.getUTCFullYear(), referenceDate.getUTCMonth() - 1, 1));
   const periodEnd = new Date(Date.UTC(referenceDate.getUTCFullYear(), referenceDate.getUTCMonth(), 1));
@@ -55,6 +58,18 @@ export async function buildMonthlyDigest(
 
   if (error) throw new Error(error.message);
 
+  let source = articles ?? [];
+  if (source.length === 0 && fallbackToLatest > 0) {
+    const { data: latest, error: latestError } = await supabase
+      .from("articles")
+      .select("id, title, source_name, published_date, crime_types, article_type, summary, relevance_score")
+      .eq("status", "published")
+      .order("published_date", { ascending: false, nullsFirst: false })
+      .limit(fallbackToLatest);
+    if (latestError) throw new Error(latestError.message);
+    source = latest ?? [];
+  }
+
   // Grouped by an article's first crime_type — a story with several tags
   // only needs to appear once, and this keeps the digest scannable rather
   // than repeating it under every tag it matched. Empty categories are
@@ -71,7 +86,7 @@ export async function buildMonthlyDigest(
     | "summary"
     | "relevance_score"
   >;
-  const rows = (articles ?? []) as Row[];
+  const rows = source as Row[];
   const toNewsletterArticle = (article: Row): NewsletterArticle => ({
     id: article.id,
     title: article.title,

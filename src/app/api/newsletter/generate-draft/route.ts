@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
   // Re-generating keeps whatever editor's note was already written.
   const editorNote =
     (existingIssue?.html_content && getEditorNote(existingIssue.html_content)) || DEFAULT_EDITOR_NOTE;
-  const html = await render(NewsletterDigest({ ...digest, editorNote }));
+  const html = await render(NewsletterDigest({ ...digest, editorNote, period }));
   const subject = digest.leadStory
     ? `The Monthly Briefing, ${digest.periodLabel}: ${digest.leadStory.title}`
     : `The Monthly Briefing: Dirty Paintbrushes, ${digest.periodLabel}`;
