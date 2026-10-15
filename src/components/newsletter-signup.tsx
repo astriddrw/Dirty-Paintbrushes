@@ -4,6 +4,23 @@ import { useId, useState } from "react";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Off-screen field people never see or reach by keyboard; bots that fill
+// every input fill this too, and the API quietly ignores those sign-ups.
+function Honeypot({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
 // Every form that collects an email links the privacy notice (UK GDPR).
 function PrivacyLink({ className }: { className: string }) {
   return (
@@ -30,6 +47,8 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  // Honeypot — see Honeypot below and /api/newsletter/subscribe.
+  const [company, setCompany] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +62,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
     const res = await fetch("/api/newsletter/subscribe", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, company }),
     });
     const body = await res.json().catch(() => ({}));
 
@@ -69,6 +88,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
             <label htmlFor={emailId} className="sr-only">
               Email address
             </label>
+            <Honeypot value={company} onChange={setCompany} />
             <input
               id={emailId}
               type="email"
@@ -118,6 +138,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
               <label htmlFor={emailId} className="sr-only">
                 Email address
               </label>
+              <Honeypot value={company} onChange={setCompany} />
               <input
                 id={emailId}
                 type="email"
@@ -154,6 +175,7 @@ export function NewsletterSignup({ variant = "full", onSubscribed }: NewsletterS
           <label htmlFor={emailId} className="sr-only">
             Email address
           </label>
+          <Honeypot value={company} onChange={setCompany} />
           <input
             id={emailId}
             type="email"

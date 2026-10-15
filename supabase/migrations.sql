@@ -364,3 +364,74 @@ BEGIN
     END IF;
   END LOOP;
 END $$;
+
+-- ── 12. ABUSE LIMITS + SAFE NEWSLETTER SENDS ──────────────────────────────
+-- Run after section 11. Safe to run more than once.
+
+-- a) Newsletter sign-ups: remember when the last confirmation email went
+--    out, so /api/newsletter/subscribe can refuse to re-send to the same
+--    address more than once every 10 minutes (stops someone flooding a
+--    stranger's inbox with confirmation emails from our domain).
+ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS last_confirmation_sent_at timestamptz;
+
+-- b) Comments: the old rate-limit policy never worked — its unqualified
+--    display_name compared each row with itself, and RLS hid pending
+--    comments from the count anyway. This function runs with full
+--    visibility (SECURITY DEFINER) and enforces: max 3 comments per display
+--    name per hour, and max 30 new comments site-wide per hour (every
+--    comment waits for moderation, so this caps how fast spam can pile up).
+CREATE OR REPLACE FUNCTION public.comment_rate_ok(name text)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT
+    (SELECT count(*) FROM public.comments
+       WHERE lower(display_name) = lower(name) AND created_at > now() - interval '1 hour') < 3
+    AND
+    (SELECT count(*) FROM public.comments WHERE created_at > now() - interval '1 hour') < 30;
+$$;
+REVOKE ALL ON FUNCTION public.comment_rate_ok(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.comment_rate_ok(text) TO anon, authenticated;
+
+DROP POLICY IF EXISTS "Public can insert comments with rate limit" ON comments;
+DROP POLICY IF EXISTS "Public can insert comments" ON comments;
+CREATE POLICY "Public can insert comments with rate limit"
+  ON comments FOR INSERT
+  WITH CHECK (status = 'pending' AND public.comment_rate_ok(display_name));
+
+-- Length limits (match the form: 80-character name, 2,000-character
+-- comment). NOT VALID = only checked for new comments, existing ones are
+-- left alone.
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'comments_body_length') THEN
+    ALTER TABLE comments ADD CONSTRAINT comments_body_length
+      CHECK (char_length(body) BETWEEN 1 AND 2000) NOT VALID;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'comments_name_length') THEN
+    ALTER TABLE comments ADD CONSTRAINT comments_name_length
+      CHECK (char_length(display_name) BETWEEN 1 AND 80) NOT VALID;
+  END IF;
+END $$;
+
+-- c) Newsletter sends: one row per subscriber who has been sent an issue,
+--    so retrying a send that failed halfway only emails the people who
+--    haven't had it yet. sending_started_at stops two sends of the same
+--    issue running at once (e.g. a double-click).
+CREATE TABLE IF NOT EXISTS newsletter_deliveries (
+  issue_id uuid NOT NULL REFERENCES newsletter_issues (id) ON DELETE CASCADE,
+  subscriber_id uuid NOT NULL REFERENCES subscribers (id) ON DELETE CASCADE,
+  sent_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (issue_id, subscriber_id)
+);
+ALTER TABLE newsletter_deliveries ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Admins can manage newsletter_deliveries" ON newsletter_deliveries;
+CREATE POLICY "Admins can manage newsletter_deliveries"
+  ON newsletter_deliveries FOR ALL
+  USING (public.is_admin())
+  WITH CHECK (public.is_admin());
+
+ALTER TABLE newsletter_issues ADD COLUMN IF NOT EXISTS sending_started_at timestamptz;
