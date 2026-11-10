@@ -5,5 +5,5 @@ Design-canvas mockups of every public page in one combined style: Option A's pal
 and handwritten notes on taped slips (used for the existing Editor's note field).
 Live canvas: https://claude.ai/artifact/PhdVe72tzKYx3iit9V8xRi (private to the owner).
 
-Pages: Main (home), Feed, Article, Sources, About, Newsletter, Saved, Cases, Login, NotFound.
+Pages: Main (home), Feed, Article, Sources, About, Newsletter, Saved, Login, NotFound.
 Headlines, summaries, dates and editor's notes are placeholder samples. Source names come from supabase/schema.sql.
