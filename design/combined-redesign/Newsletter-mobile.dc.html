@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Newsletter</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFEDBB}
+a{color:#253B59}a:hover{color:#65322C}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
+.nav a:hover{opacity:.7}
+.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .8s cubic-bezier(.4,0,.2,1) .9s both}
+@keyframes sweep{from{background-size:0% 64%}to{background-size:100% 64%}}
+.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:9px 18px 7px;border:3px solid currentColor;border-radius:7px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-9deg);animation:press .55s cubic-bezier(.3,1.4,.5,1) 1.2s both}
+.stamp::before{content:'';position:absolute;inset:3px;border:1px solid currentColor;border-radius:4px}
+.stamp small{font-size:.5em;letter-spacing:.22em;border-top:1.5px solid currentColor;padding-top:4px;margin-top:1px}
+@keyframes press{0%{transform:rotate(-9deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.9}}
+.tape{position:absolute;width:110px;height:30px;background:rgba(232,222,186,.8);box-shadow:0 1px 2px rgba(0,0,0,.14);clip-path:polygon(2% 10%,9% 0,20% 8%,33% 1%,48% 7%,62% 0,76% 7%,89% 1%,100% 10%,98% 90%,89% 100%,75% 93%,61% 100%,47% 92%,33% 100%,19% 93%,7% 100%,0 88%)}
+.fade{animation:fade 1s cubic-bezier(.4,0,.2,1) both}
+@keyframes fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #253B59;outline-offset:3px}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible{outline-color:#E6E2C5}
+.btn{transition:opacity .2s}.btn:hover{opacity:.82}
+@media (prefers-reduced-motion: reduce){.hl,.stamp,.fade{animation:none}}
+</style>
+</helmet>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="ink" x="-6%" y="-12%" width="112%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="n"></feTurbulence>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.8 0 0 0 2.15" result="m"></feColorMatrix>
+    <feComposite in="SourceGraphic" in2="m" operator="in" result="w"></feComposite>
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="d"></feTurbulence>
+    <feDisplacementMap in="w" in2="d" scale="2.6" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
+
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
+  <header style="background:#FFEDBB">
+    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
+      <a href="Main-mobile.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
+        <a href="Feed-mobile.dc.html">Feed</a>
+        <a href="Sources-mobile.dc.html">Sources</a>
+        <a href="About-mobile.dc.html">About</a>
+        <a href="Login-mobile.dc.html">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <main style="padding:64px 24px 96px">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
+      <div class="fade" style="flex:1 1 420px;min-width:0">
+        <div style="border-top:1px solid #1A1A1A;border-bottom:4px double #1A1A1A;padding:14px 0;margin-bottom:28px">
+          <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:1;color:#65322C">Monthly digest</h1>
+        </div>
+        <p style="margin:0 0 14px;font-size:17px;line-height:1.7;max-width:520px">Once a month, a roundup of what mattered in art market financial crime, grouped by case type, <span class="hl">reviewed by hand before it goes out.</span></p>
+        <p style="margin:0 0 32px;font-size:14px;color:#5C5C5C">No spam, unsubscribe any time.</p>
+        <form style="display:flex;flex-wrap:wrap;gap:10px;max-width:520px">
+          <label for="em" style="flex-basis:100%;font-size:13px;font-weight:500">Email address</label>
+          <input id="em" type="email" placeholder="you@example.com" style="flex:1 1 240px;min-height:48px;border:1px solid #1A1A1A;background:#FFF8E2;padding:0 14px;font-size:16px;font-family:inherit;color:#1A1A1A">
+          <button type="button" class="btn" style="min-height:48px;padding:0 26px;background:#354A89;color:#FFEDBB;border:0;font-family:'Noto Sans';text-transform:uppercase;font-size:15px;font-weight:300;cursor:pointer">Subscribe</button>
+          <a href="#" style="flex-basis:100%;font-size:12px;text-underline-offset:4px;margin-top:4px">Privacy notice</a>
+        </form>
+      </div>
+
+      <div class="fade" style="flex:1 1 400px;min-width:0;display:flex;justify-content:center;animation-delay:.25s">
+        <figure style="position:relative;margin:0;background:#FBF6E8;padding:14px 14px 56px;transform:rotate(2.5deg);box-shadow:0 2px 3px rgba(60,40,10,.12),0 26px 36px -12px rgba(60,40,10,.45);width:min(460px,100%)">
+          <span class="tape" style="top:-14px;left:50%;margin-left:-55px;transform:rotate(-3deg)"></span>
+          <img src="/_blob/2cfcb817753ce56744fa055e617923c9" alt="Paint-splattered studio sink" style="display:block;width:100%;aspect-ratio:4/3;object-fit:cover">
+          <span class="stamp" style="position:absolute;right:18px;bottom:16px;font-size:16px">Once a month<small>Monthly digest</small></span>
+        </figure>
+      </div>
+    </div>
+  </main>
+
+  <section class="dark" style="background:#65322C;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
+      <div style="flex:1 1 260px">
+        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
+        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
+      </div>
+      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
+        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
+        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
+        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
+      </form>
+    </div>
+  </section>
+  <footer class="dark" style="background:#354A89;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
+        <div style="font-size:14px;line-height:1.6">
+          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
+          <p style="margin:0">Tracking financial crime in the art world</p>
+          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
+          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
+          <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
+          <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
+          <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
+          <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
+          <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
+          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
+        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
+        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+        <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2700}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFEDBB}
+a{color:#253B59}a:hover{color:#65322C}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
+.nav a:hover{opacity:.7}
+.nav a.on{font-weight:500;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;animation:type 2.2s steps(23) .3s forwards}
+@keyframes type{to{width:23ch}}
+.cursor{display:inline-block;margin-left:2px;animation:blink .9s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.para{animation:fade .9s cubic-bezier(.4,0,.2,1) both}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .8s cubic-bezier(.4,0,.2,1) 3s both}
+@keyframes sweep{from{background-size:0% 64%}to{background-size:100% 64%}}
+.sig{font-family:'Caveat',cursive;font-weight:600;font-size:40px;line-height:1;color:#22346B;text-decoration:none;text-shadow:0 0 .7px rgba(34,52,107,.55);filter:url(#pen);display:inline-block;transform:rotate(-3deg)}
+.sig:hover{color:#65322C}
+.draw{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s ease-out 4.2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #253B59;outline-offset:3px}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible,.dark textarea:focus-visible{outline-color:#E6E2C5}
+.btn{transition:opacity .2s}.btn:hover{opacity:.82}
+@media (max-width:700px){.paper{margin-left:0 !important;margin-right:0 !important;padding:36px 20px 26px !important}.paper h1{font-size:22px !important}.paper .mono{font-size:14.5px}}
+@media (prefers-reduced-motion: reduce){.typed{animation:none;width:auto}.cursor,.para,.hl,.draw{animation:none;stroke-dashoffset:0}}
+</style>
+</helmet>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="pen" x="-2%" y="-5%" width="104%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="2" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.3" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
+
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
+  <header style="background:#FFEDBB">
+    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
+      <a href="Main-mobile.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
+        <a href="Feed-mobile.dc.html">Feed</a>
+        <a href="Sources-mobile.dc.html">Sources</a>
+        <a href="About-mobile.dc.html" class="on" aria-current="page">About</a>
+        <a href="Login-mobile.dc.html">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <main style="padding:48px 24px 80px">
+    <div style="max-width:1040px;margin:0 auto">
+      <div>
+        <!-- Paper in the typewriter: edges line up with the photo's sheet -->
+        <div class="paper" style="margin-left:19%;margin-right:14%;padding:52px 6% 30px;background:#F7F3EA;background-image:linear-gradient(rgba(0,0,0,.035),rgba(0,0,0,0) 40px),radial-gradient(rgba(120,100,60,.06) 1px,transparent 1.2px);background-size:100% 100%,5px 5px;box-shadow:inset 1px 0 0 rgba(0,0,0,.05),inset -1px 0 0 rgba(0,0,0,.05)">
+          <h1 class="mono" aria-label="Why Dirty Paintbrushes?" style="margin:0 0 40px;font-weight:700;font-size:clamp(28px,3.6vw,44px);line-height:1.1;color:#65322C;letter-spacing:-.01em"><span aria-hidden="true"><span class="typed">Why Dirty Paintbrushes?</span><span class="cursor">|</span></span></h1>
+          <div class="mono" style="font-size:15.5px;line-height:1.75;display:flex;flex-direction:column;gap:22px">
+            <p class="para" style="margin:0;animation-delay:2.5s">The art market is a sector that has long been overlooked from a regulatory perspective. It is <span class="hl">highly opaque and inherently cross-border</span>, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.</p>
+            <p class="para" style="margin:0;animation-delay:2.65s">Dirty Paintbrushes started as a research question. How can something as cultural and subjective as art be used to move and obscure illicit finance?</p>
+            <p class="para" style="margin:0;animation-delay:2.8s">While studying International Relations at King's College London, I focused on financial crime and non-traditional assets. During my exchange at Georgetown University, I developed a research paper titled “Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity”, looking at recent case studies in the UK and US, from NFTs to antiquities.</p>
+            <p class="para" style="margin:0;animation-delay:2.95s">That work led me to focus more closely on the art market as a financial crime risk area, and made it clear how fragmented this space is. Information is difficult to track, often reactive, and rarely brought together in one place.</p>
+            <p class="para" style="margin:0;animation-delay:3.1s">This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.</p>
+          </div>
+          <div class="para" style="margin-top:30px;animation-delay:3.6s">
+            <a class="sig" href="https://www.linkedin.com/in/astrid-de-rohan-willner/">Astrid de Rohan Willner</a>
+            <svg width="240" height="16" viewBox="0 0 240 16" aria-hidden="true" style="display:block;margin-top:2px"><path class="draw" pathLength="100" d="M4 10 C 50 4, 120 14, 236 6" fill="none" stroke="#22346B" stroke-width="1.6" stroke-linecap="round"></path></svg>
+          </div>
+        </div>
+        <img src="/_blob/c8ac341c80dec18103fbd84fee02cb96" alt="" style="display:block;width:100%;height:auto">
+      </div>
+
+      <!-- Feedback box (unchanged content) -->
+      <section class="dark" style="max-width:672px;margin:40px auto 0;background:#354A89;color:#E6E2C5;padding:28px">
+        <h2 style="margin:0 0 4px;font-size:14px;font-weight:700">Have feedback?</h2>
+        <p style="margin:0 0 16px;font-size:13px">Submit anonymously. No name or account required.</p>
+        <label for="fb" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feedback message</label>
+        <textarea id="fb" rows="4" placeholder="Share your thoughts..." style="width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:12px 14px;font-size:14px;font-family:inherit;resize:none"></textarea>
+        <button type="button" class="btn" style="margin-top:12px;min-height:44px;padding:0 22px;background:#fff;color:#354A89;border:0;font-weight:500;font-family:inherit;cursor:pointer">Send</button>
+      </section>
+    </div>
+  </main>
+
+  <section class="dark" style="background:#65322C;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
+      <div style="flex:1 1 260px">
+        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
+        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
+      </div>
+      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
+        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
+        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
+        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
+      </form>
+    </div>
+  </section>
+  <footer class="dark" style="background:#354A89;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
+        <div style="font-size:14px;line-height:1.6">
+          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
+          <p style="margin:0">Tracking financial crime in the art world</p>
+          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
+          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
+          <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
+          <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
+          <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
+          <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
+          <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
+          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
+        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
+        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+        <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":4300}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
