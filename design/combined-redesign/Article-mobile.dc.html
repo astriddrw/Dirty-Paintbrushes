@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Article</title>
+<title>Article (mobile)</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -12,34 +12,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#FFEDBB}
-a{color:#253B59}a:hover{color:#65322C}
+a{color:#253B59}
 .serif{font-family:'Instrument Serif',Georgia,serif}
 .mono{font-family:'Courier Prime','Courier New',monospace}
-.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
-.nav a:hover{opacity:.7}
-.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 4px;margin:0 -4px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .9s cubic-bezier(.4,0,.2,1) .8s both}
+.mh{position:sticky;top:0;z-index:20;background:rgba(255,237,187,.96);backdrop-filter:blur(6px);border-bottom:1px solid rgba(26,26,26,.12)}
+.iconbtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;color:#354A89;cursor:pointer}
+.menu{position:absolute;left:0;right:0;top:0;z-index:30;background:#FFEDBB;display:flex;flex-direction:column;padding:6px 8px 28px 20px;box-shadow:0 24px 40px rgba(26,26,26,.3);animation:menu .28s cubic-bezier(.3,0,.2,1) both}
+@keyframes menu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.menu a.big{font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1.1;color:#354A89;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(26,26,26,.15)}
+.sheet{position:relative;background-color:#FDFBF6;background-image:radial-gradient(circle at 18px 50%,#FFEDBB 6.5px,rgba(0,0,0,.14) 7px,transparent 8.5px);background-size:36px 84px;background-repeat:repeat-y;box-shadow:0 1px 2px rgba(60,40,10,.12),0 18px 26px -10px rgba(60,40,10,.35);padding:26px 18px 30px 44px}
+.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .9s cubic-bezier(.4,0,.2,1) .7s both}
 @keyframes sweep{from{background-size:0% 64%}to{background-size:100% 64%}}
-.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:9px 18px 7px;border:3px solid currentColor;border-radius:7px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-11deg);animation:press .5s cubic-bezier(.3,1.4,.5,1) both}
+.slip{position:relative;background:#FFFBEA;background-image:repeating-linear-gradient(transparent 0 25px,rgba(53,74,137,.2) 25px 26px);background-position:0 16px;padding:22px 18px 14px;box-shadow:0 1px 1px rgba(60,40,10,.1),0 14px 20px -10px rgba(60,40,10,.45)}
+.slip::before{content:'';position:absolute;top:-12px;left:50%;width:90px;height:26px;margin-left:-45px;background:rgba(232,222,186,.8);box-shadow:0 1px 2px rgba(0,0,0,.14);transform:rotate(-4deg);clip-path:polygon(2% 10%,9% 0,20% 8%,33% 1%,48% 7%,62% 0,76% 7%,89% 1%,100% 10%,98% 90%,89% 100%,75% 93%,61% 100%,47% 92%,33% 100%,19% 93%,7% 100%,0 88%)}
+.ink{color:#22346B;font-family:'Caveat',cursive;font-weight:500;font-size:23px;line-height:26px;text-shadow:0 0 .7px rgba(34,52,107,.55);filter:url(#pen)}
+.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:7px 14px 6px;border:3px solid currentColor;border-radius:7px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-10deg);animation:press .5s cubic-bezier(.3,1.4,.5,1) both}
 .stamp::before{content:'';position:absolute;inset:3px;border:1px solid currentColor;border-radius:4px}
-.stamp small{font-size:.48em;letter-spacing:.22em;border-top:1.5px solid currentColor;padding-top:4px;margin-top:1px}
-@keyframes press{0%{transform:rotate(-11deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-11deg) scale(1);opacity:.9}}
-.slip{position:relative;background:#FFFBEA;background-image:repeating-linear-gradient(transparent 0 27px,rgba(53,74,137,.2) 27px 28px);background-position:0 18px;padding:26px 24px 20px;box-shadow:0 1px 1px rgba(60,40,10,.1),0 3px 6px rgba(60,40,10,.1),0 18px 24px -10px rgba(60,40,10,.45)}
-.slip::before{content:'';position:absolute;top:-13px;left:50%;width:104px;height:28px;margin-left:-52px;background:rgba(232,222,186,.78);box-shadow:0 1px 2px rgba(0,0,0,.14);transform:rotate(-4deg);clip-path:polygon(2% 10%,9% 0,20% 8%,33% 1%,48% 7%,62% 0,76% 7%,89% 1%,100% 10%,98% 90%,89% 100%,75% 93%,61% 100%,47% 92%,33% 100%,19% 93%,7% 100%,0 88%)}
-.ink{color:#22346B;font-family:'Caveat',cursive;font-weight:500;font-size:25px;line-height:28px;text-shadow:0 0 .7px rgba(34,52,107,.55);filter:url(#pen)}
-.oval{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:20px 46px;font:inherit;font-size:14px;font-weight:500;color:#1A1A1A;text-decoration:none;background:none;border:0;cursor:pointer;transition:transform .18s cubic-bezier(.3,0,.2,1),color .2s}
-.oval:hover{transform:scale(1.05);color:#65322C}
-.oval.on{color:#65322C}
-.oval svg.o{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.draw{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s ease-out .3s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.fade{animation:fade 1s cubic-bezier(.4,0,.2,1) both}
-@keyframes fade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #253B59;outline-offset:3px}
-.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible,.dark textarea:focus-visible{outline-color:#E6E2C5}
-.btn{transition:opacity .2s}.btn:hover{opacity:.82}
-@media (prefers-reduced-motion: reduce){.hl,.stamp,.draw,.fade{animation:none;stroke-dashoffset:0}}
-@media (max-width:700px){.sheet{aspect-ratio:auto !important;background-color:#FDFBF6;background-image:radial-gradient(circle at 20px 50%,#FFEDBB 7px,rgba(0,0,0,.12) 7.5px,transparent 8.5px);background-size:40px 72px;background-repeat:repeat-y;box-shadow:0 14px 22px rgba(60,40,10,.22)}.sheet > img{display:none}.sheet article{padding:28px 20px 40px 48px !important}}
-@media (max-width:1100px){.side-note{position:static !important;width:auto !important;margin:28px 0 0 !important;transform:rotate(1.5deg) !important}}
+.stamp small{font-size:.5em;letter-spacing:.22em;border-top:1.5px solid currentColor;padding-top:4px;margin-top:1px}
+@keyframes press{0%{transform:rotate(-10deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-10deg) scale(1);opacity:.9}}
+.bar{position:sticky;bottom:0;z-index:15;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,237,187,.97);border-top:1px solid rgba(26,26,26,.15);box-shadow:0 -10px 20px rgba(60,40,10,.12)}
+.bar a,.bar button{min-height:50px;display:flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-size:15px;font-weight:500;text-decoration:none;border:0;cursor:pointer}
+details summary{cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center;justify-content:space-between}
+details summary::-webkit-details-marker{display:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #253B59;outline-offset:2px}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible,.dark textarea:focus-visible,.dark summary:focus-visible{outline-color:#E6E2C5}
+@media (prefers-reduced-motion: reduce){.hl,.stamp,.menu{animation:none}}
 </style>
 </helmet>
 
@@ -49,138 +46,123 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
     <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.8 0 0 0 2.15" result="m"></feColorMatrix>
     <feComposite in="SourceGraphic" in2="m" operator="in" result="w"></feComposite>
     <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="d"></feTurbulence>
-    <feDisplacementMap in="w" in2="d" scale="2.6" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    <feDisplacementMap in="w" in2="d" scale="2.4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
   </filter>
   <filter id="pen" x="-2%" y="-5%" width="104%" height="110%">
     <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="2" result="n"></feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.3" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
   </filter>
 </svg>
 
-<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
-  <header style="background:#FFEDBB">
-    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
-      <a href="Main-mobile.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
-      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
-        <a href="Feed-mobile.dc.html">Feed</a>
-        <a href="Sources-mobile.dc.html">Sources</a>
-        <a href="About-mobile.dc.html">About</a>
-        <a href="Login-mobile.dc.html">Login</a>
-      </div>
-    </nav>
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif;overflow-x:clip">
+  <header class="mh">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px 6px 4px">
+      <a href="Feed-mobile.dc.html" aria-label="Back to feed" class="iconbtn" style="color:#5C5C5C"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg></a>
+      <a href="Main-mobile.dc.html" class="serif" style="font-style:italic;font-size:21px;color:#354A89;text-decoration:none">Dirty Paintbrushes</a>
+      <button class="iconbtn" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+    </div>
   </header>
-
-  <main style="padding:48px 24px 80px">
-    <div style="max-width:760px;margin:0 auto">
-      <a href="Feed-mobile.dc.html" class="fade" style="display:inline-flex;align-items:center;gap:6px;font-size:14px;color:#5C5C5C;text-decoration:none;margin-bottom:36px;min-height:44px">
-        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
-        Back to feed
-      </a>
-
-      <!-- Ring-punched sheet -->
-      <div class="fade sheet" style="position:relative;width:min(660px,100%);aspect-ratio:1095/1420;margin:0 auto;animation-delay:.1s">
-        <img src="/_blob/29474773f678b6c47ae4f78d32e56fd3" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill;filter:drop-shadow(0 18px 22px rgba(60,40,10,.22))">
-        <article style="position:relative;padding:7% 7% 3.5rem 10%">
-          <div style="display:flex;flex-wrap:wrap;gap:10px;font-size:14px;color:#5C5C5C;margin-bottom:22px">
-            <span>Regulator release</span><span aria-hidden="true">·</span><span>10 November 2026</span>
-          </div>
-          <h1 class="serif" style="margin:0 0 28px;font-weight:400;font-size:clamp(32px,4vw,42px);line-height:1.08">Regulator fines auction house over gaps in buyer due diligence</h1>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:26px;margin-bottom:26px;border-bottom:1px solid rgba(26,26,26,.15)">
-            <span style="padding:3px 9px;font-size:12px;font-weight:500;background:#F2DCD8;color:#65322C">Money laundering</span>
-            <span style="padding:3px 9px;font-size:12px;font-weight:500;background:#DCE1F0;color:#354A89">Regulation</span>
-          </div>
-          <p style="margin:0 0 30px;font-size:18px;line-height:1.7">A national regulator found the house accepted high-value bids <span class="hl">without verifying who ultimately paid</span>, and ordered an independent review of its client checks before its next major sale. The firm said it had already strengthened its onboarding process.</p>
-
-          <div style="position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-top:26px;border-top:1px solid rgba(26,26,26,.15)">
-            <a class="oval" href="#">
-              <svg class="o" viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true"><path class="draw" pathLength="100" d="M22,48 C20,24 58,7 101,6 C148,5 182,16 183,39 C184,58 151,78 100,81 C56,83 20,70 21,49" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path><path class="draw" pathLength="100" d="M17,52 C16,27 54,10 97,9 C142,8 178,19 181,41 C183,60 149,79 96,81" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="animation-delay:.6s"></path></svg>
-              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="position:relative" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>
-              <span style="position:relative">Read original</span>
-            </a>
-            <button class="{{saveCls}}" onClick="{{toggle}}" aria-pressed="{{savedStr}}">
-              <svg class="o" viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true"><path class="draw" pathLength="100" d="M24,46 C23,22 60,8 103,8 C150,8 181,20 180,42 C179,62 147,79 99,80 C55,81 22,68 24,47" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="animation-delay:.9s"></path></svg>
-              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="position:relative" fill="{{fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg>
-              <span style="position:relative">{{saveLabel}}</span>
-            </button>
-            <sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
-              <span class="stamp" style="position:absolute;right:2%;top:-8px;font-size:19px">Saved<small>10 Nov 2026</small></span>
-            </sc-if>
-          </div>
-        </article>
-
-        <!-- Editor's note: taped to the sheet's margin -->
-        <aside class="slip side-note fade" aria-label="Editor's note" style="position:absolute;right:-250px;top:38%;width:250px;transform:rotate(3deg);animation-delay:.6s">
-          <p class="mono" style="margin:0 0 4px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#65322C">Editor's note</p>
-          <p class="ink" style="margin:0">Worth reading alongside last spring’s guidance on beneficial ownership checks.</p>
-          <svg width="70" height="30" viewBox="0 0 70 30" aria-hidden="true" style="display:block;margin-top:6px"><path d="M66 6 C 48 4, 22 10, 6 22 M6 22 l 10 -1 M6 22 l 3 -9" fill="none" stroke="#22346B" stroke-width="2" stroke-linecap="round"></path></svg>
-        </aside>
+  <sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+    <nav class="menu" aria-label="Main">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px">
+        <span class="serif" style="font-style:italic;font-size:21px;color:#354A89">Dirty Paintbrushes</span>
+        <button class="iconbtn" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       </div>
+      <a class="big" href="Main-mobile.dc.html">Home</a>
+      <a class="big" href="Feed-mobile.dc.html">Feed</a>
+      <a class="big" href="Sources-mobile.dc.html">Sources</a>
+      <a class="big" href="About-mobile.dc.html">About</a>
+      <a class="big" href="Newsletter-mobile.dc.html">Newsletter</a>
+      <a href="Login-mobile.dc.html" style="margin:28px 12px 0 0;display:flex;align-items:center;justify-content:center;min-height:52px;background:#354A89;color:#FFEDBB;text-decoration:none;text-transform:uppercase;font-size:15px;font-weight:300">Login</a>
+    </nav>
+  </sc-if>
 
-      <!-- Comments -->
-      <section class="dark" style="margin-top:56px;background:#354A89;color:#E6E2C5;padding:36px 32px">
-        <h2 class="serif" style="margin:0 0 16px;font-weight:400;font-size:30px">Comments</h2>
-        <div style="border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);padding:12px 16px;margin-bottom:28px;max-width:460px">
-          <p style="margin:0;font-size:12px;line-height:1.6">Comments reflect individual views and do not constitute verified intelligence. New comments are reviewed before they appear publicly.</p>
-        </div>
-        <form style="display:flex;flex-direction:column;gap:14px;max-width:560px">
-          <label for="dn" style="font-size:12px">Display name</label>
-          <input id="dn" type="text" placeholder="Anonymous researcher" style="min-height:44px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:14px;font-family:inherit;margin-top:-8px">
-          <label for="cm" style="font-size:12px">Comment</label>
-          <textarea id="cm" rows="4" placeholder="Add analysis, flag connections, or share context..." style="border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:12px 14px;font-size:14px;font-family:inherit;resize:none;margin-top:-8px"></textarea>
-          <button type="button" class="btn" style="align-self:flex-start;min-height:44px;padding:0 22px;background:#fff;color:#354A89;border:0;font-weight:500;font-family:inherit;cursor:pointer">Post comment</button>
-        </form>
-      </section>
+  <main style="padding:20px 14px 0">
+    <article class="sheet">
+      <p style="margin:0 0 14px;font-size:13px;color:#5C5C5C">Regulator release · 10 November 2026</p>
+      <h1 class="serif" style="margin:0 0 18px;font-weight:400;font-size:32px;line-height:1.08">Regulator fines auction house over gaps in buyer due diligence</h1>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid rgba(26,26,26,.15)">
+        <span style="padding:3px 9px;font-size:12px;font-weight:500;background:#F2DCD8;color:#65322C">Money laundering</span>
+        <span style="padding:3px 9px;font-size:12px;font-weight:500;background:#DCE1F0;color:#354A89">Regulation</span>
+      </div>
+      <p style="margin:0;font-size:17px;line-height:1.7">A national regulator found the house accepted high-value bids <span class="hl">without verifying who ultimately paid</span>, and ordered an independent review of its client checks before its next major sale. The firm said it had already strengthened its onboarding process.</p>
+      <sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
+        <div style="text-align:right;margin-top:18px"><span class="stamp" style="font-size:17px">Saved<small>10 Nov 2026</small></span></div>
+      </sc-if>
+    </article>
+
+    <aside class="slip" aria-label="Editor's note" style="margin:30px 12px 0 30px;transform:rotate(-1.8deg)">
+      <p class="mono" style="margin:0 0 2px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#65322C">Editor's note</p>
+      <p class="ink" style="margin:0">Worth reading alongside last spring’s guidance on beneficial ownership checks.</p>
+    </aside>
+
+    <section class="dark" style="margin:36px -14px 0;background:#354A89;color:#E6E2C5;padding:28px 20px">
+      <h2 class="serif" style="margin:0 0 14px;font-weight:400;font-size:28px">Comments</h2>
+      <div style="border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);padding:10px 14px;margin-bottom:22px">
+        <p style="margin:0;font-size:12px;line-height:1.6">Comments reflect individual views and do not constitute verified intelligence. New comments are reviewed before they appear publicly.</p>
+      </div>
+      <form style="display:flex;flex-direction:column;gap:8px">
+        <label for="dn" style="font-size:12px">Display name</label>
+        <input id="dn" type="text" placeholder="Anonymous researcher" style="min-height:48px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:16px;font-family:inherit;margin-bottom:8px">
+        <label for="cm" style="font-size:12px">Comment</label>
+        <textarea id="cm" rows="4" placeholder="Add analysis, flag connections, or share context..." style="border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:12px 14px;font-size:16px;font-family:inherit;resize:none"></textarea>
+        <button type="button" style="margin-top:6px;min-height:48px;background:#fff;color:#354A89;border:0;font-weight:500;font-size:15px;font-family:inherit">Post comment</button>
+      </form>
+    </section>
+
+    <div class="bar" style="margin:0 -14px">
+      <a href="#" style="background:#354A89;color:#FFEDBB">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>
+        Read original
+      </a>
+      <button onClick="{{toggle}}" aria-pressed="{{savedStr}}" style="{{saveStyle}}">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="{{fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg>
+        {{saveLabel}}
+      </button>
     </div>
   </main>
 
-  <section class="dark" style="background:#65322C;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
-      <div style="flex:1 1 260px">
-        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
-        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
-      </div>
-      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
-        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
-        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
-        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
-        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
-      </form>
-    </div>
+  <section class="dark" style="background:#65322C;color:#E6E2C5;padding:32px 20px">
+    <p style="margin:0 0 4px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
+    <h2 class="serif" style="margin:0 0 18px;font-weight:400;font-style:italic;font-size:36px">Stay briefed</h2>
+    <form style="display:flex;flex-direction:column;gap:10px">
+      <label for="nl" style="font-size:12px">Email address</label>
+      <input id="nl" type="email" placeholder="you@example.com" style="min-height:48px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:16px;font-family:inherit">
+      <button type="button" style="min-height:48px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;font-size:15px;font-family:inherit">Subscribe</button>
+      <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
+    </form>
   </section>
-  <footer class="dark" style="background:#354A89;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
-        <div style="font-size:14px;line-height:1.6">
-          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
-          <p style="margin:0">Tracking financial crime in the art world</p>
-          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
-          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
-          <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
-          <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
-          <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
-          <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
-          <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
-          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
-        </div>
-      </div>
-      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
-        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
-        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+  <footer class="dark" style="background:#354A89;color:#E6E2C5;padding:32px 20px 28px;font-size:14px">
+    <p class="serif" style="margin:0 0 4px;font-size:22px;font-style:italic">Dirty Paintbrushes</p>
+    <p style="margin:0 0 22px">Tracking financial crime in the art world</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.2)">
+      <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Home</a>
+      <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Feed</a>
+      <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">About</a>
+      <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Sources</a>
+      <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Newsletter</a>
+      <a href="#" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Privacy</a>
+    </div>
+    <details style="border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2);margin-top:8px">
+      <summary style="font-size:13px;font-weight:700">Disclaimer <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <div style="font-size:12px;line-height:1.7;padding-bottom:16px">
+        <p style="margin:0 0 12px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
         <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
       </div>
-    </div>
+    </details>
+    <p style="margin:18px 0 0;font-size:12px">© 2026 All rights reserved. · <a href="#" style="color:#E6E2C5">Contact</a></p>
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":3700}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2900}}'>
 class Component extends DCLogic {
-  constructor(p){ super(p); this.state = { saved: false }; }
+  constructor(p){ super(p); this.state = { saved: false, menu: false }; }
   renderVals() {
-    const s = this.state.saved;
-    return { saved: s, savedStr: s ? 'true' : 'false', saveCls: s ? 'oval on' : 'oval', fill: s ? 'currentColor' : 'none',
-      saveLabel: s ? 'Saved' : 'Save', toggle: () => this.setState({ saved: !s }) };
+    const s = this.state.saved; const m = this.state.menu;
+    return { saved: s, savedStr: s ? 'true' : 'false', fill: s ? 'currentColor' : 'none', saveLabel: s ? 'Saved' : 'Save',
+      saveStyle: s ? 'background:#65322C;color:#FFEDBB' : 'background:transparent;color:#1A1A1A;box-shadow:inset 0 0 0 1.5px #1A1A1A',
+      toggle: () => this.setState({ saved: !s }),
+      menu: m, menuStr: m ? 'true' : 'false', openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false }) };
   }
 }
 </script>

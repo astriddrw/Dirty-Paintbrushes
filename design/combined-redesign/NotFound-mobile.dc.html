@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Page not found</title>
+<title>Page not found (mobile)</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -12,19 +12,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#FFEDBB}
-a{color:#253B59}a:hover{color:#65322C}
+a{color:#253B59}
 .serif{font-family:'Instrument Serif',Georgia,serif}
 .mono{font-family:'Courier Prime','Courier New',monospace}
-.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
-.nav a:hover{opacity:.7}
-.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:12px 24px 9px;border:4px solid currentColor;border-radius:8px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-8deg);animation:press .6s cubic-bezier(.3,1.4,.5,1) .5s both}
+.mh{position:sticky;top:0;z-index:20;background:rgba(255,237,187,.96);backdrop-filter:blur(6px);border-bottom:1px solid rgba(26,26,26,.12)}
+.iconbtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;color:#354A89;cursor:pointer}
+.menu{position:absolute;left:0;right:0;top:0;z-index:30;background:#FFEDBB;display:flex;flex-direction:column;padding:6px 8px 28px 20px;box-shadow:0 24px 40px rgba(26,26,26,.3);animation:menu .28s cubic-bezier(.3,0,.2,1) both}
+@keyframes menu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.menu a.big{font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1.1;color:#354A89;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(26,26,26,.15)}
+.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:11px 20px 8px;border:4px solid currentColor;border-radius:8px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-8deg);animation:press .6s cubic-bezier(.3,1.4,.5,1) .5s both}
 .stamp::before{content:'';position:absolute;inset:4px;border:1.5px solid currentColor;border-radius:4px}
 .stamp small{font-size:.42em;letter-spacing:.24em;border-top:2px solid currentColor;padding-top:5px;margin-top:2px}
 @keyframes press{0%{transform:rotate(-8deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-8deg) scale(1);opacity:.9}}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #253B59;outline-offset:3px}
-.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible{outline-color:#E6E2C5}
-.btn{transition:opacity .2s}.btn:hover{opacity:.82}
-@media (prefers-reduced-motion: reduce){.stamp{animation:none}}
+details summary{cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center;justify-content:space-between}
+details summary::-webkit-details-marker{display:none}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid #253B59;outline-offset:2px}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible,.dark summary:focus-visible{outline-color:#E6E2C5}
+@media (prefers-reduced-motion: reduce){.stamp,.menu{animation:none}}
 </style>
 </helmet>
 
@@ -34,79 +38,71 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #253B
     <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.8 0 0 0 2.15" result="m"></feColorMatrix>
     <feComposite in="SourceGraphic" in2="m" operator="in" result="w"></feComposite>
     <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="d"></feTurbulence>
-    <feDisplacementMap in="w" in2="d" scale="3" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    <feDisplacementMap in="w" in2="d" scale="2.8" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
   </filter>
 </svg>
 
-<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
-  <header style="background:#FFEDBB">
-    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
-      <a href="Main-mobile.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
-      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
-        <a href="Feed-mobile.dc.html">Feed</a>
-        <a href="Sources-mobile.dc.html">Sources</a>
-        <a href="About-mobile.dc.html">About</a>
-        <a href="Login-mobile.dc.html">Login</a>
-      </div>
-    </nav>
-  </header>
-
-  <main style="padding:96px 24px 112px;text-align:center">
-    <div style="max-width:640px;margin:0 auto;position:relative">
-      <p class="mono" style="margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.2em;color:#5C5C5C">404</p>
-      <div style="border-top:1px solid #1A1A1A;border-bottom:4px double #1A1A1A;padding:14px 0;margin-bottom:18px">
-        <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:1;color:#65322C">Page not found</h1>
-      </div>
-      <p style="margin:0 0 36px;font-size:15px;color:#5C5C5C">This page doesn't exist or has been moved.</p>
-      <div aria-hidden="true" style="margin:0 0 40px"><span class="stamp" style="font-size:30px">Not on file<small>Return to sender</small></span></div>
-      <a class="btn" href="Main-mobile.dc.html" style="display:inline-flex;padding:14px 30px;background:#1A1A1A;color:#FFEDBB;text-decoration:none;font-size:14px;font-weight:500">Return to home</a>
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif;overflow-x:hidden">
+  <header class="mh">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px 6px 20px">
+      <a href="Main-mobile.dc.html" class="serif" style="font-style:italic;font-size:21px;color:#354A89;text-decoration:none">Dirty Paintbrushes</a>
+      <button class="iconbtn" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
     </div>
+  </header>
+  <sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+    <nav class="menu" aria-label="Main">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px">
+        <span class="serif" style="font-style:italic;font-size:21px;color:#354A89">Dirty Paintbrushes</span>
+        <button class="iconbtn" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      </div>
+      <a class="big" href="Main-mobile.dc.html">Home</a>
+      <a class="big" href="Feed-mobile.dc.html">Feed</a>
+      <a class="big" href="Sources-mobile.dc.html">Sources</a>
+      <a class="big" href="About-mobile.dc.html">About</a>
+      <a class="big" href="Newsletter-mobile.dc.html">Newsletter</a>
+      <a href="Login-mobile.dc.html" style="margin:28px 12px 0 0;display:flex;align-items:center;justify-content:center;min-height:52px;background:#354A89;color:#FFEDBB;text-decoration:none;text-transform:uppercase;font-size:15px;font-weight:300">Login</a>
+    </nav>
+  </sc-if>
+
+  <main style="padding:64px 20px 72px;text-align:center">
+    <p class="mono" style="margin:0 0 10px;font-size:13px;font-weight:700;letter-spacing:.2em;color:#5C5C5C">404</p>
+    <div style="border-top:1px solid #1A1A1A;border-bottom:4px double #1A1A1A;padding:10px 0;margin-bottom:14px">
+      <h1 class="serif" style="margin:0;font-weight:400;font-size:46px;line-height:1;color:#65322C">Page not found</h1>
+    </div>
+    <p style="margin:0 0 32px;font-size:15px;color:#5C5C5C">This page doesn't exist or has been moved.</p>
+    <div aria-hidden="true" style="margin:0 0 36px"><span class="stamp" style="font-size:24px">Not on file<small>Return to sender</small></span></div>
+    <a href="Main-mobile.dc.html" style="display:flex;align-items:center;justify-content:center;min-height:52px;background:#1A1A1A;color:#FFEDBB;text-decoration:none;font-size:15px;font-weight:500">Return to home</a>
   </main>
 
-  <section class="dark" style="background:#65322C;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
-      <div style="flex:1 1 260px">
-        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
-        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
-      </div>
-      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
-        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
-        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
-        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
-        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
-      </form>
+  <footer class="dark" style="background:#354A89;color:#E6E2C5;padding:32px 20px 28px;font-size:14px">
+    <p class="serif" style="margin:0 0 4px;font-size:22px;font-style:italic">Dirty Paintbrushes</p>
+    <p style="margin:0 0 22px">Tracking financial crime in the art world</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.2)">
+      <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Home</a>
+      <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Feed</a>
+      <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">About</a>
+      <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Sources</a>
+      <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Newsletter</a>
+      <a href="#" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Privacy</a>
     </div>
-  </section>
-  <footer class="dark" style="background:#354A89;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
-        <div style="font-size:14px;line-height:1.6">
-          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
-          <p style="margin:0">Tracking financial crime in the art world</p>
-          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
-          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
-          <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
-          <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
-          <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
-          <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
-          <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
-          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
-        </div>
-      </div>
-      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
-        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
-        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+    <details style="border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2);margin-top:8px">
+      <summary style="font-size:13px;font-weight:700">Disclaimer <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></summary>
+      <div style="font-size:12px;line-height:1.7;padding-bottom:16px">
+        <p style="margin:0 0 12px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
         <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
       </div>
-    </div>
+    </details>
+    <p style="margin:18px 0 0;font-size:12px">© 2026 All rights reserved. · <a href="#" style="color:#E6E2C5">Contact</a></p>
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1400}}'>
 class Component extends DCLogic {
-  renderVals() { return {}; }
+  constructor(p){ super(p); this.state = { menu: false }; }
+  renderVals() {
+    const m = this.state.menu;
+    return { menu: m, menuStr: m ? 'true' : 'false', openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false }) };
+  }
 }
 </script>
 </body>
