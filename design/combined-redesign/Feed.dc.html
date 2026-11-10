@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Feed</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#354A89}
+a{color:#253B59}a:hover{color:#65322C}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
+.nav a:hover{opacity:.7}
+.nav a.on{font-weight:500;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+mark.q{color:inherit;background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.62) 3%,rgba(214,180,100,.5) 8%,rgba(187,149,73,.45) 90%,rgba(187,149,73,.65) 96%,rgba(187,149,73,0) 99.5%);background-color:transparent;background-repeat:no-repeat;background-size:100% 66%;background-position:0 82%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;animation:sweep .4s ease-out both}
+@keyframes sweep{from{background-size:0% 66%}to{background-size:100% 66%}}
+.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px 5px;border:2.5px solid currentColor;border-radius:6px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-9deg);animation:press .5s cubic-bezier(.3,1.4,.5,1) both}
+.stamp::before{content:'';position:absolute;inset:2.5px;border:1px solid currentColor;border-radius:3px}
+.stamp small{font-size:.6em;letter-spacing:.2em;border-top:1.5px solid currentColor;padding-top:3px}
+@keyframes press{0%{transform:rotate(-9deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.9}}
+.row .t{color:#1A1A1A;text-decoration:none;transition:color .2s}
+.row:hover .t{color:#65322C}
+.row{transition:background .2s}
+.row:hover{background:rgba(255,255,255,.28)}
+.ib{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:#5C5C5C;cursor:pointer;transition:color .2s,background .2s}
+.ib:hover{color:#1A1A1A;background:rgba(26,26,26,.06)}
+.ib.on{color:#253B59;background:rgba(37,59,89,.1)}
+.atype{font:inherit;cursor:pointer;background:none;border:0;padding:8px 4px;font-style:italic;font-size:14px;font-weight:500;color:#D8C297;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;transition:text-decoration-color .2s}
+.tab{position:absolute;display:flex;align-items:center;justify-content:center;border:0;background:transparent;padding:0;cursor:pointer;transition:transform .18s cubic-bezier(.3,0,.2,1)}
+.tab:hover,.tab:focus-visible{transform:translateX(7%)}
+.tab span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:15px;font-weight:500;color:rgba(26,26,26,.6);transition:color .2s}
+.tab:hover span{color:rgba(26,26,26,.82)}
+.panel{scrollbar-width:thin;scrollbar-color:rgba(26,26,26,.25) transparent}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #E6E2C5;outline-offset:3px}
+.paper a:focus-visible,.paper button:focus-visible{outline-color:#65322C}
+.btn{transition:opacity .2s}.btn:hover{opacity:.82}
+@media (prefers-reduced-motion: reduce){mark.q,.stamp{animation:none}}
+</style>
+</helmet>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <filter id="ink" x="-6%" y="-12%" width="112%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="4" result="n"></feTurbulence>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.8 0 0 0 2.15" result="m"></feColorMatrix>
+    <feComposite in="SourceGraphic" in2="m" operator="in" result="w"></feComposite>
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="d"></feTurbulence>
+    <feDisplacementMap in="w" in2="d" scale="2.4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
+
+<div style="min-height:100vh;background:#354A89;color:#E6E2C5;font-family:'Noto Sans',Arial,sans-serif">
+
+  <header style="background:#FFEDBB">
+    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
+      <a href="Main.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
+        <a href="Feed.dc.html" class="on" aria-current="page">Feed</a>
+        <a href="Sources.dc.html">Sources</a>
+        <a href="About.dc.html">About</a>
+        <a href="Login.dc.html">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <main style="padding:56px 0 72px">
+    <div style="max-width:1040px;margin:0 auto;padding:0 24px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:4px double rgba(230,226,197,.7);padding-bottom:14px;margin-bottom:28px">
+        <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(48px,6vw,72px);line-height:1;color:#E6E2C5">Latest News</h1>
+        <span class="mono" style="font-size:13px;letter-spacing:.06em;color:#D8C297">Tuesday 10 November 2026</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px">
+        <div style="position:relative;flex:1 1 320px">
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute;left:14px;top:50%;margin-top:-8px" fill="none" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <label for="fq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search articles</label>
+          <input id="fq" type="text" value="{{query}}" onChange="{{onQuery}}" placeholder="Search articles..." style="width:100%;box-sizing:border-box;min-height:46px;padding:0 14px 0 42px;background:#fff;border:1px solid #E8E6E3;border-radius:10px;font-size:15px;font-family:inherit;color:#1A1A1A">
+        </div>
+        <label for="fs" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Sort articles by</label>
+        <select id="fs" style="min-height:46px;padding:0 16px;background:#fff;border:1px solid #E8E6E3;border-radius:10px;font-size:15px;font-family:inherit;color:#1A1A1A">
+          <option>Newest first</option>
+          <option>Oldest first</option>
+        </select>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-bottom:24px">
+        <span style="font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(230,226,197,.8);margin-right:6px">Article Type</span>
+        <sc-for list="{{types}}" as="t" hint-placeholder-count="6">
+          <button class="atype" aria-pressed="{{t.pressed}}" onClick="{{t.toggle}}" style="{{t.style}}">{{t.label}}</button>
+        </sc-for>
+        <sc-if value="{{hasFilters}}" hint-placeholder-val="{{false}}">
+          <button onClick="{{clear}}" style="margin-left:auto;font:inherit;font-size:13px;background:none;border:0;color:rgba(230,226,197,.8);cursor:pointer;min-height:44px">× Clear filters</button>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- Binder: photographed page with typology tabs on its die-cut flaps -->
+    <div class="paper" style="width:min(1120px,86vw);max-width:100%">
+      <div style="position:relative;width:100%;aspect-ratio:1855/2295;filter:drop-shadow(0 24px 30px rgba(0,0,0,.35))">
+        <img src="/_blob/5fe26aa2c50f2d4faf78e8f5293dad25" alt="" style="position:absolute;inset:0;width:100%;height:100%;display:block">
+
+        <div class="panel" style="position:absolute;left:23.4%;right:18%;top:8.2%;bottom:7.5%;overflow-y:auto;overflow-x:hidden;color:#1A1A1A">
+          <div style="padding-right:8%">
+            <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
+              <div class="row" style="display:flex;gap:16px;align-items:flex-start;padding:20px 8px;margin:0 -8px;border-bottom:1px solid rgba(26,26,26,.14)">
+                <div style="flex:1;min-width:0">
+                  <a class="t serif" href="Article.dc.html" style="display:block;font-size:22px;line-height:1.2;margin-bottom:10px"><sc-for list="{{a.parts}}" as="p" hint-placeholder-count="1"><sc-if value="{{p.hl}}" hint-placeholder-val="{{false}}"><mark class="q">{{p.t}}</mark></sc-if><sc-if value="{{p.plain}}" hint-placeholder-val="{{true}}"><span>{{p.t}}</span></sc-if></sc-for></a>
+                  <div style="display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;font-size:13px">
+                    <sc-for list="{{a.crimes}}" as="c" hint-placeholder-count="1"><span style="font-style:italic;font-weight:500;color:#354A89">{{c}}</span></sc-for>
+                    <span style="font-style:italic;font-weight:500;color:#775E2C">{{a.type}}</span>
+                    <span style="color:#5C5C5C">{{a.source}}</span>
+                    <span style="color:#5C5C5C">{{a.date}}</span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:none">
+                  <div style="display:flex">
+                    <button class="{{a.cls}}" onClick="{{a.toggle}}" aria-label="{{a.aria}}" aria-pressed="{{a.savedStr}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="{{a.fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg></button>
+                    <a class="ib" href="#" aria-label="Open original article"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></a>
+                  </div>
+                  <sc-if value="{{a.saved}}" hint-placeholder-val="{{false}}"><span class="stamp" style="font-size:12px">Saved</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+              <div style="padding:64px 0;text-align:center">
+                <p style="margin:0;color:#5C5C5C">No articles found matching your criteria.</p>
+                <button onClick="{{clear}}" style="margin-top:12px;font:inherit;font-size:14px;color:#253B59;background:none;border:0;cursor:pointer;min-height:44px">Clear filters</button>
+              </div>
+            </sc-if>
+
+            <p style="margin:28px 0 0;font-size:14px;color:#5C5C5C">{{countLabel}}</p>
+            <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px;font-size:14px;color:#5C5C5C">
+              <button disabled style="font:inherit;background:none;border:0;opacity:.4;min-height:44px">← Previous</button>
+              <span>Page 1 of 1</span>
+              <button disabled style="font:inherit;background:none;border:0;opacity:.4;min-height:44px">Next →</button>
+            </div>
+          </div>
+        </div>
+
+        <div role="group" aria-label="Filter by typology">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+            <button class="tab" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}"><span style="{{t.labelStyle}}">{{t.label}}</span></button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section style="background:#65322C;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
+      <div style="flex:1 1 260px">
+        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
+        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
+      </div>
+      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
+        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
+        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
+        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
+      </form>
+    </div>
+  </section>
+  <footer style="background:#354A89;color:#E6E2C5;border-top:1px solid rgba(230,226,197,.15)">
+    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
+        <div style="font-size:14px;line-height:1.6">
+          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
+          <p style="margin:0">Tracking financial crime in the art world</p>
+          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
+          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
+          <a href="Main.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
+          <a href="Feed.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
+          <a href="About.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
+          <a href="Sources.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
+          <a href="Newsletter.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
+          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
+        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
+        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+        <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3100}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { query: '', typ: '', types: [], saved: ['a3'] }; }
+  renderVals() {
+    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions', terror_financing: 'Terror financing', forgery: 'Forgery', looting: 'Looting', tax_evasion: 'Tax evasion' };
+    const A = [
+      { id: 'a1', title: 'Regulator fines auction house over gaps in buyer due diligence', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov 2026' },
+      { id: 'a2', title: 'Dealer charged with routing sanctioned funds through private art sales', c: ['sanctions_evasion','money_laundering'], type: 'News', source: 'National daily', date: '10 Nov 2026' },
+      { id: 'a3', title: 'Investigators trace forged provenance documents across three galleries', c: ['forgery','fraud'], type: 'Investigation', source: 'Trade press', date: '9 Nov 2026' },
+      { id: 'a4', title: 'Antiquities seized at border linked to conflict-zone looting network', c: ['looting','terror_financing'], type: 'Investigation', source: 'Wire service', date: '9 Nov 2026' },
+      { id: 'a5', title: 'Court upholds forfeiture of paintings bought with laundered proceeds', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '8 Nov 2026' },
+      { id: 'a6', title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '7 Nov 2026' },
+      { id: 'a7', title: 'Opinion: why art-market due diligence still lags behind banking', c: ['money_laundering'], type: 'Opinion', source: 'Trade press', date: '7 Nov 2026' },
+      { id: 'a8', title: 'Shell companies used to obscure ownership of high-value works, report finds', c: ['money_laundering','sanctions_evasion'], type: 'Analysis', source: 'NGO report', date: '5 Nov 2026' },
+      { id: 'a9', title: 'Collector admits undeclared artwork transfers in fraud case', c: ['tax_evasion','fraud'], type: 'Ruling', source: 'Court filing', date: '4 Nov 2026' }
+    ];
+    const s = this.state;
+    const q = s.query.trim().toLowerCase();
+    const split = (t) => {
+      if (!q) return [{ t, hl: false, plain: true }];
+      const out = []; const lo = t.toLowerCase(); let i = 0;
+      while (i < t.length) { const j = lo.indexOf(q, i); if (j < 0) { out.push({ t: t.slice(i), hl: false, plain: true }); break; } if (j > i) out.push({ t: t.slice(i, j), hl: false, plain: true }); out.push({ t: t.slice(j, j + q.length), hl: true, plain: false }); i = j + q.length; }
+      return out;
+    };
+    const res = A.filter((a) => (!q || a.title.toLowerCase().includes(q)) && (!s.typ || a.c.includes(s.typ)) && (s.types.length === 0 || s.types.includes(a.type)));
+    const items = res.map((a) => {
+      const saved = s.saved.includes(a.id);
+      return { ...a, parts: split(a.title), crimes: a.c.map((k) => L[k]), saved, savedStr: saved ? 'true' : 'false',
+        cls: saved ? 'ib on' : 'ib', fill: saved ? 'currentColor' : 'none', aria: saved ? 'Remove bookmark' : 'Add bookmark',
+        toggle: () => this.setState({ saved: saved ? s.saved.filter((x) => x !== a.id) : s.saved.concat(a.id) }) };
+    });
+    const BANDS = [[6.85, 24.09], [24.09, 41.33], [41.33, 58.57], [58.57, 75.8], [75.8, 93.04]];
+    const TV = ['', 'fraud', 'money_laundering', 'sanctions_evasion', 'terror_financing'];
+    const TL = ['all', 'fraud', 'money laundering', 'sanctions', 'terror financing'];
+    const tabs = TV.map((v, i) => {
+      const on = s.typ === v;
+      return { label: TL[i], pressed: on ? 'true' : 'false', pick: () => this.setState({ typ: on && v ? '' : v }),
+        style: 'left:87.5%;right:6.5%;top:' + BANDS[i][0] + '%;height:' + (BANDS[i][1] - BANDS[i][0]) + '%;transform:translateX(' + (on ? '4%' : '0') + ')',
+        labelStyle: on ? 'color:#65322C;font-weight:700' : '' };
+    });
+    const types = ['News', 'Opinion', 'Regulation', 'Investigation', 'Ruling', 'Analysis'].map((t) => {
+      const on = s.types.includes(t);
+      return { label: t, pressed: on ? 'true' : 'false', toggle: () => this.setState({ types: on ? s.types.filter((x) => x !== t) : s.types.concat(t) }),
+        style: 'text-decoration-color:' + (on ? '#D8C297' : 'transparent') };
+    });
+    const n = res.length;
+    return {
+      query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
+      items, tabs, types, none: n === 0,
+      hasFilters: Boolean(q || s.typ || s.types.length),
+      clear: () => this.setState({ query: '', typ: '', types: [] }),
+      countLabel: n ? 'Showing 1–' + n + ' of ' + n + (n === 1 ? ' article' : ' articles') : ''
+    };
+  }
+}
+</script>
+</body>
+</html>
