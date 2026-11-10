@@ -1,0 +1,23 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-10T12:00:00Z"},
+  "title": "Dirty Paintbrushes Redesign Options",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1440, "h": 2900, "title": "Option A · The Broadsheet · Homepage", "expand": "fill", "is_interactive": true},
+    "A-Feed.dc.html": {"x": 1520, "y": 0, "w": 1440, "h": 2300, "title": "Option A · The Broadsheet · Feed", "expand": "fill", "is_interactive": true},
+    "B-Home.dc.html": {"x": 0, "y": 3400, "w": 1440, "h": 3000, "title": "Option B · The Investigation Desk · Homepage", "expand": "fill", "is_interactive": true},
+    "B-Feed.dc.html": {"x": 1520, "y": 3400, "w": 1440, "h": 2300, "title": "Option B · The Investigation Desk · Feed", "expand": "fill", "is_interactive": true}
+  },
+  "order": ["Main.dc.html", "A-Feed.dc.html", "B-Home.dc.html", "B-Feed.dc.html"],
+  "notes": {
+    "titleA": {"x": 0, "y": -300, "text": "Option A: The Broadsheet (safe, keeps your palette)", "kind": "title1", "maxW": 2960},
+    "titleB": {"x": 0, "y": 3100, "text": "Option B: The Investigation Desk (bold, newsroom at night)", "kind": "title1", "maxW": 2960},
+    "audit": {"x": -700, "y": 0, "w": 560, "fill": "orange", "size": "m", "text": "AUDIT: what I found\n\n1. The homepage hero is a thin indigo strip, so the first screen has no story, no lead and no hierarchy.\n2. The best ideas (binder tabs, folder, typewriter) live on inner pages. The homepage carries none of them.\n3. Five articles in one list means every story looks equally important.\n4. The case-file theme is decorative, not functional: nothing you can do with it.\n5. The 'filtered and classified' trust story is one line of grey text. It is your main selling point.\n\nBoth options fix these by making the theme do work: filtering, connecting and explaining."},
+    "sample": {"x": -700, "y": 900, "w": 560, "fill": "gray", "size": "s", "text": "All headlines, sources and dates in these mockups are placeholder samples written for layout only. They are not real cases. The build would pull live published articles from Supabase as today.\n\nPress Play on any artboard to try the interactions."},
+    "aNotes": {"x": -700, "y": 1500, "w": 560, "fill": "blue", "size": "s", "text": "OPTION A interactions\n\n- Live wire ticker under the masthead (pauses on hover)\n- Typology tabs filter the front page\n- Ochre highlighter sweeps across key phrases as they scroll into view\n- Handwritten analyst notes in the margin\n- 'FILED' rubber stamps thump onto new items\n- Feed: type in search and matches get highlighted live; Save stamps the clipping"},
+    "bNotes": {"x": -700, "y": 3400, "w": 560, "fill": "red", "size": "s", "text": "OPTION B interactions\n\n- Evidence board: pick a crime type and red string ties it to every matching clipping; the others dim\n- Click a clipping to open its dossier panel\n- Teleprinter wire at the top\n- Chain-of-custody strip explains your review pipeline\n- Feed: folder tabs, index cards with stamps, switch between Cards and Ledger views, pin to save"}
+  },
+  "designSystems": []
+}

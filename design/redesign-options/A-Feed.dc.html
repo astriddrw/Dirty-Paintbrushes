@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option A: Broadsheet feed</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;600&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFEDBB}
+a{color:#253B59}a:hover{color:#65322C}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.hand{font-family:'Caveat',cursive}
+mark.q{background:linear-gradient(transparent 50%,rgba(187,149,73,.6) 50%,rgba(187,149,73,.6) 92%,transparent 92%);color:inherit;padding:0 1px;animation:sweep .35s ease-out both}
+@keyframes sweep{from{background-size:0% 100%;background-repeat:no-repeat}to{background-size:100% 100%;background-repeat:no-repeat}}
+.row a.headline{color:#1A1A1A;text-decoration:none;transition:color .2s}
+.row:hover a.headline{color:#65322C}
+.row{transition:background .2s}
+.row:hover{background:rgba(255,255,255,.35)}
+.chk{display:flex;align-items:center;gap:10px;min-height:40px;cursor:pointer;font-size:15px}
+.chk input{width:18px;height:18px;accent-color:#65322C;margin:0}
+.save{font:inherit;cursor:pointer;background:none;border:1px solid rgba(26,26,26,.4);min-height:44px;min-width:92px;padding:0 12px;transition:border-color .2s,color .2s}
+.save:hover{border-color:#65322C;color:#65322C}
+.save:focus-visible,.chip:focus-visible,input:focus-visible{outline:2px solid #65322C;outline-offset:2px}
+.chip{font:inherit;cursor:pointer;min-height:40px;padding:0 14px;border:1px solid rgba(26,26,26,.35);background:transparent}
+.stampin{display:inline-block;color:#65322C;border:2px solid #65322C;padding:2px 8px;font-weight:700;letter-spacing:.16em;transform:rotate(-7deg);animation:thump .45s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes thump{from{transform:rotate(-7deg) scale(2.2);opacity:0}to{transform:rotate(-7deg) scale(1);opacity:1}}
+@media (prefers-reduced-motion: reduce){mark.q,.stampin{animation:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
+
+  <!-- Compact masthead -->
+  <header style="max-width:1240px;margin:0 auto;padding:18px 24px 0">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:4px double #1A1A1A;padding-bottom:12px">
+      <a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none">
+        <img src="/_blob/6955d79f52a9b8ced70c1d9229962dcb" alt="" style="height:48px;width:auto">
+        <span class="serif" style="font-style:italic;font-size:36px;color:#354A89;line-height:1">Dirty Paintbrushes</span>
+      </a>
+      <nav aria-label="Main" style="display:flex;flex-wrap:wrap;gap:4px 28px">
+        <a href="Main.dc.html" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:8px 0">Front page</a>
+        <a href="A-Feed.dc.html" aria-current="page" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:8px 0;color:#65322C;text-decoration:underline;text-underline-offset:6px">Feed</a>
+        <a href="#" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:8px 0">Sources</a>
+        <a href="#" style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:8px 0">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Title row -->
+  <div style="max-width:1240px;margin:0 auto;padding:28px 24px 8px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 32px;justify-content:space-between">
+    <div>
+      <span class="mono" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#775E2C;font-weight:700">The index</span>
+      <h1 class="serif" style="margin:4px 0 0;font-weight:400;font-size:clamp(44px,6vw,72px);line-height:1;color:#354A89">The Feed</h1>
+    </div>
+    <p class="hand" style="margin:0;font-size:24px;color:#65322C;transform:rotate(-2deg);max-width:360px">{{note}}</p>
+  </div>
+
+  <div style="max-width:1240px;margin:0 auto;padding:16px 24px 64px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+    <!-- Filters -->
+    <aside aria-label="Filters" style="flex:1 1 260px;max-width:100%;border-top:1px solid #1A1A1A;padding-top:16px">
+      <label for="q" class="mono" style="display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px">Search headlines</label>
+      <input id="q" type="search" value="{{query}}" onChange="{{onQuery}}" placeholder="Try ‘freeport’ or ‘provenance’" style="width:100%;box-sizing:border-box;min-height:48px;border:1px solid #1A1A1A;background:#FFF6DC;padding:0 14px;font-size:16px;font-family:inherit;color:#1A1A1A">
+
+      <fieldset style="border:0;margin:24px 0 0;padding:0">
+        <legend class="mono" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px;padding:0">Crime type</legend>
+        <sc-for list="{{crimeOpts}}" as="c" hint-placeholder-count="5">
+          <label class="chk serif" style="font-size:19px"><input type="checkbox" checked="{{c.checked}}" onChange="{{c.toggle}}"> {{c.label}} <span class="mono" style="margin-left:auto;font-size:13px;color:#5C5C5C">{{c.n}}</span></label>
+        </sc-for>
+      </fieldset>
+
+      <fieldset style="border:0;margin:20px 0 0;padding:0">
+        <legend class="mono" style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;padding:0">Kind of reporting</legend>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{typeOpts}}" as="t" hint-placeholder-count="5">
+            <button class="chip serif" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <div style="margin-top:28px;padding:16px;border:1px dashed rgba(26,26,26,.45);background:rgba(255,255,255,.3)">
+        <p class="mono" style="margin:0 0 6px;font-size:12px;letter-spacing:.16em;text-transform:uppercase">Your clippings</p>
+        <p class="serif" style="margin:0;font-size:22px">{{savedLabel}}</p>
+        <p style="margin:6px 0 0;font-size:13px;color:#5C5C5C">Saved on this device. No account needed.</p>
+      </div>
+    </aside>
+
+    <!-- Results -->
+    <main style="flex:999 1 560px;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid #1A1A1A;border-bottom:1px solid rgba(26,26,26,.25);padding:10px 0">
+        <span class="mono" style="font-size:13px">{{countLabel}}</span>
+        <span class="mono" style="font-size:13px;color:#5C5C5C">Newest first</span>
+      </div>
+
+      <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+        <div style="padding:56px 0;text-align:center">
+          <p class="serif" style="font-size:30px;font-style:italic;margin:0">No clippings match.</p>
+          <button class="chip mono" onClick="{{reset}}" style="margin-top:16px;font-size:13px;letter-spacing:.12em;text-transform:uppercase">Clear filters</button>
+        </div>
+      </sc-if>
+
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+        <section style="margin-top:28px">
+          <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:26px;color:#354A89;padding-bottom:8px;border-bottom:2px solid #354A89">{{g.day}}</h2>
+          <sc-for list="{{g.items}}" as="a" hint-placeholder-count="2">
+            <article class="row" style="display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;padding:18px 8px;border-bottom:1px solid rgba(26,26,26,.2);align-items:start">
+              <span class="mono" style="font-size:14px;font-weight:700;color:#65322C;padding-top:4px">{{a.time}}</span>
+              <div style="min-width:0">
+                <h3 class="serif" style="margin:0 0 8px;font-weight:400;font-size:25px;line-height:1.15"><a class="headline" href="#"><sc-for list="{{a.parts}}" as="p" hint-placeholder-count="1"><sc-if value="{{p.hl}}" hint-placeholder-val="{{false}}"><mark class="q">{{p.t}}</mark></sc-if><sc-if value="{{p.plain}}" hint-placeholder-val="{{true}}"><span>{{p.t}}</span></sc-if></sc-for></a></h3>
+                <p style="margin:0 0 8px;font-size:15px;line-height:1.6;color:rgba(26,26,26,.82);max-width:660px">{{a.summary}}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline">
+                  <sc-for list="{{a.crimes}}" as="c" hint-placeholder-count="1">
+                    <span class="serif" style="font-style:italic;font-size:17px;color:#354A89">{{c}}</span>
+                  </sc-for>
+                  <span class="serif" style="font-style:italic;font-size:17px;color:#775E2C">{{a.type}}</span>
+                  <span class="mono" style="font-size:12px;color:#5C5C5C">{{a.source}}</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                <button class="save mono" aria-pressed="{{a.savedStr}}" onClick="{{a.toggle}}" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase">{{a.saveLabel}}</button>
+                <sc-if value="{{a.saved}}" hint-placeholder-val="{{false}}"><span class="stampin mono" style="font-size:11px">Clipped</span></sc-if>
+              </div>
+            </article>
+          </sc-for>
+        </section>
+      </sc-for>
+
+      <nav aria-label="Pages" class="mono" style="display:flex;justify-content:center;gap:8px;margin-top:36px;font-size:14px">
+        <a href="#" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#1A1A1A;color:#FFEDBB;text-decoration:none">1</a>
+        <a href="#" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #1A1A1A;text-decoration:none">2</a>
+        <a href="#" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid #1A1A1A;text-decoration:none">3</a>
+        <a href="#" style="min-height:44px;display:flex;align-items:center;padding:0 16px;border:1px solid #1A1A1A;text-decoration:none">Next page →</a>
+      </nav>
+    </main>
+  </div>
+
+  <footer style="background:#354A89;color:#E6E2C5">
+    <div style="max-width:1240px;margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:12px 40px;justify-content:space-between;font-size:13px">
+      <span class="serif" style="font-style:italic;font-size:20px">Dirty Paintbrushes</span>
+      <span>Every item credits its source and links to the original publication.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { query: '', crimes: [], type: '', saved: ['a3'] }; }
+  renderVals() {
+    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions evasion', terror_financing: 'Terror financing', forgery: 'Forgery' };
+    const A = [
+      { id: 'a1', title: 'Regulator fines auction house over gaps in buyer due diligence', summary: 'The house accepted high-value bids without verifying who ultimately paid.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', day: 'Tuesday 10 November', time: '09:42' },
+      { id: 'a2', title: 'Dealer charged with routing sanctioned funds through private art sales', summary: 'Prosecutors allege private-treaty sales concealed a designated person.', c: ['sanctions_evasion','money_laundering'], type: 'News', source: 'National daily', day: 'Tuesday 10 November', time: '08:15' },
+      { id: 'a3', title: 'Investigators trace forged provenance documents across three galleries', summary: 'Letterheads and stamps matched on certificates attached to works sold over five years.', c: ['forgery','fraud'], type: 'Investigation', source: 'Trade press', day: 'Monday 9 November', time: '17:30' },
+      { id: 'a4', title: 'Antiquities seized at border linked to conflict-zone looting network', summary: 'Objects were shipped with false export papers via two transit countries.', c: ['terror_financing'], type: 'Investigation', source: 'Wire service', day: 'Monday 9 November', time: '14:05' },
+      { id: 'a5', title: 'Court upholds forfeiture of paintings bought with laundered proceeds', summary: 'The appeal court rejected the argument that the buyer acted in good faith.', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', day: 'Sunday 8 November', time: '11:20' },
+      { id: 'a6', title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', summary: 'Storage operators asked to identify the beneficial owners of what they hold.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', day: 'Sunday 8 November', time: '10:00' },
+      { id: 'a7', title: 'Opinion: why art-market due diligence still lags behind banking', summary: 'A former compliance officer argues the gap is cultural, not technical.', c: ['money_laundering'], type: 'Opinion', source: 'Trade press', day: 'Saturday 7 November', time: '12:30' },
+      { id: 'a8', title: 'Shell companies used to obscure ownership of high-value works, report finds', summary: 'A review of public filings found layered ownership in a sample of recent sales.', c: ['money_laundering','sanctions_evasion'], type: 'Analysis', source: 'NGO report', day: 'Saturday 7 November', time: '09:10' }
+    ];
+    const s = this.state;
+    const q = s.query.trim().toLowerCase();
+    const match = (a) => (!q || a.title.toLowerCase().includes(q)) && (s.crimes.length === 0 || a.c.some((k) => s.crimes.includes(k))) && (!s.type || a.type === s.type);
+    const split = (t) => {
+      if (!q) return [{ t, hl: false, plain: true }];
+      const out = []; const lower = t.toLowerCase(); let i = 0;
+      while (i < t.length) { const j = lower.indexOf(q, i); if (j < 0) { out.push({ t: t.slice(i), hl: false, plain: true }); break; } if (j > i) out.push({ t: t.slice(i, j), hl: false, plain: true }); out.push({ t: t.slice(j, j + q.length), hl: true, plain: false }); i = j + q.length; }
+      return out;
+    };
+    const res = A.filter(match).map((a) => {
+      const saved = s.saved.includes(a.id);
+      return { ...a, parts: split(a.title), crimes: a.c.map((k) => L[k]), saved, savedStr: saved ? 'true' : 'false', saveLabel: saved ? 'Saved' : 'Save',
+        toggle: () => this.setState({ saved: saved ? s.saved.filter((x) => x !== a.id) : s.saved.concat(a.id) }) };
+    });
+    const days = []; res.forEach((a) => { let g = days.find((d) => d.day === a.day); if (!g) { g = { day: a.day, items: [] }; days.push(g); } g.items.push(a); });
+    const crimeOpts = Object.keys(L).map((k) => {
+      const on = s.crimes.includes(k);
+      return { label: L[k], n: A.filter((a) => a.c.includes(k)).length, checked: on, toggle: () => this.setState({ crimes: on ? s.crimes.filter((x) => x !== k) : s.crimes.concat(k) }) };
+    });
+    const typeOpts = ['', 'News', 'Investigation', 'Regulation', 'Ruling', 'Analysis', 'Opinion'].map((t) => {
+      const on = s.type === t;
+      return { label: t || 'All', pressed: on ? 'true' : 'false', pick: () => this.setState({ type: t }),
+        style: 'font-size:17px;' + (on ? 'background:#1A1A1A;color:#FFEDBB;border-color:#1A1A1A' : 'color:#1A1A1A') };
+    });
+    const n = res.length;
+    return {
+      query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
+      crimeOpts, typeOpts, groups: days, none: n === 0,
+      reset: () => this.setState({ query: '', crimes: [], type: '' }),
+      countLabel: n + ' of ' + A.length + ' clippings',
+      savedLabel: s.saved.length === 0 ? 'Nothing clipped yet' : s.saved.length + (s.saved.length === 1 ? ' clipping saved' : ' clippings saved'),
+      note: q ? 'Highlighting every “' + s.query.trim() + '” →' : 'Search and I’ll mark it up for you →'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option B: Evidence locker feed</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;600&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#11152A}
+a{color:#D8C297}a:hover{color:#FFEDBB}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.ftab{font:inherit;cursor:pointer;border:0;min-height:48px;padding:12px 22px 10px;clip-path:polygon(0 100%,7% 0,93% 0,100% 100%);transition:transform .2s,background .2s}
+.ftab:hover{transform:translateY(-3px)}
+.ftab:focus-visible,.vbtn:focus-visible,.pinbtn:focus-visible,input:focus-visible{outline:3px solid #D8C297;outline-offset:2px}
+.vbtn{font:inherit;cursor:pointer;min-height:44px;padding:0 16px;border:1px solid rgba(230,226,197,.5);background:transparent;color:#E6E2C5}
+.card{position:relative;background:#F4ECD2;color:#1A1A1A;box-shadow:0 12px 22px rgba(0,0,0,.45);background-image:repeating-linear-gradient(transparent 0 27px,rgba(53,74,137,.16) 27px 28px);background-position:0 64px;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s}
+.card:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:0 22px 34px rgba(0,0,0,.5)}
+.card a.h{color:#1A1A1A;text-decoration:none}
+.card:hover a.h{text-decoration:underline;text-decoration-color:#C8473B;text-underline-offset:4px}
+.pinbtn{font:inherit;cursor:pointer;min-height:44px;padding:0 14px;background:transparent;border:1px solid rgba(26,26,26,.45);color:#1A1A1A}
+.pinbtn:hover{border-color:#65322C;color:#65322C}
+.pin{position:absolute;left:50%;top:-8px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F08A7E,#B23A2E 55%,#6E1F18);box-shadow:0 3px 4px rgba(0,0,0,.5);animation:drop .35s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes drop{from{transform:translateY(-18px) scale(1.4);opacity:0}to{transform:none;opacity:1}}
+.stamp{position:absolute;right:16px;top:58px;border:3px solid #65322C;color:#65322C;padding:3px 10px;font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:13px;transform:rotate(-10deg);opacity:.85;animation:thump .45s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes thump{from{transform:rotate(-10deg) scale(2.4);opacity:0}to{transform:rotate(-10deg) scale(1);opacity:.85}}
+.ledger tr{transition:background .2s}
+.ledger tbody tr:hover{background:rgba(230,226,197,.07)}
+@media (prefers-reduced-motion: reduce){.pin,.stamp{animation:none}.card,.ftab{transition:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#11152A;color:#E6E2C5;font-family:'Noto Sans',Arial,sans-serif">
+
+  <header style="border-bottom:1px solid rgba(230,226,197,.15)">
+    <div style="max-width:1320px;margin:0 auto;padding:18px 24px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:space-between">
+      <a href="B-Home.dc.html" style="display:flex;align-items:baseline;gap:14px;text-decoration:none;color:#E6E2C5">
+        <span class="serif" style="font-style:italic;font-size:30px;line-height:1">Dirty Paintbrushes</span>
+        <span class="mono" style="font-size:12px;letter-spacing:.16em;color:#D8C297">DESK FILE</span>
+      </a>
+      <nav aria-label="Main" class="mono" style="display:flex;flex-wrap:wrap;gap:4px 26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase">
+        <a href="B-Home.dc.html" style="text-decoration:none;padding:8px 0">The board</a>
+        <a href="B-Feed.dc.html" aria-current="page" style="padding:8px 0;color:#F08A7E;text-underline-offset:6px">Evidence locker</a>
+        <a href="#" style="text-decoration:none;padding:8px 0">Sources</a>
+        <a href="#" style="text-decoration:none;padding:8px 0">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <section style="max-width:1320px;margin:0 auto;padding:44px 24px 0">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
+      <div>
+        <p class="mono" style="margin:0;font-size:13px;letter-spacing:.18em;color:#D8C297">ALL PUBLISHED CLIPPINGS</p>
+        <h1 class="serif" style="margin:6px 0 0;font-weight:400;font-size:clamp(48px,6.5vw,88px);line-height:.95">The evidence locker</h1>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+        <div>
+          <label for="bq" class="mono" style="display:block;font-size:12px;letter-spacing:.16em;margin-bottom:6px">SEARCH THE LOCKER</label>
+          <input id="bq" type="search" value="{{query}}" onChange="{{onQuery}}" placeholder="Name, place, keyword" style="width:280px;max-width:80vw;box-sizing:border-box;min-height:44px;border:1px solid rgba(230,226,197,.5);background:#0A0D1C;color:#E6E2C5;padding:0 14px;font-size:16px;font-family:inherit">
+        </div>
+        <div role="group" aria-label="View" style="display:flex">
+          <sc-for list="{{views}}" as="v" hint-placeholder-count="2">
+            <button class="vbtn mono" aria-pressed="{{v.pressed}}" onClick="{{v.pick}}" style="{{v.style}}">{{v.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- Folder tabs -->
+    <div role="group" aria-label="Filter by crime type" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:36px;align-items:flex-end">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="6">
+        <button class="ftab mono" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}} · {{t.n}}</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- Drawer -->
+  <section style="background:#E3C98E">
+    <div style="max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;color:#1A1A1A">
+      <span class="mono" style="font-size:14px;font-weight:700;letter-spacing:.08em">{{countLabel}}</span>
+      <span class="mono" style="font-size:14px">{{pinLabel}}</span>
+    </div>
+  </section>
+
+  <main style="max-width:1320px;margin:0 auto;padding:48px 24px 72px">
+
+    <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+      <div style="text-align:center;padding:48px 0">
+        <p class="serif" style="font-size:34px;font-style:italic;margin:0">Nothing in this drawer matches.</p>
+        <button class="vbtn mono" onClick="{{reset}}" style="margin-top:16px;letter-spacing:.12em">CLEAR SEARCH AND TABS</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isCards}}" hint-placeholder-val="{{true}}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:44px 28px">
+        <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
+          <article class="card" style="{{a.tilt}}">
+            <sc-if value="{{a.pinned}}" hint-placeholder-val="{{false}}"><span class="pin" aria-hidden="true"></span></sc-if>
+            <div style="display:flex;justify-content:space-between;gap:8px;padding:16px 18px 12px;border-bottom:2px solid #C8473B">
+              <span class="mono" style="font-size:12px;font-weight:700;letter-spacing:.14em;color:#65322C">EXHIBIT {{a.ex}}</span>
+              <span class="mono" style="font-size:12px;color:#3D3D3D">{{a.date}}</span>
+            </div>
+            <sc-if value="{{a.pinned}}" hint-placeholder-val="{{false}}"><span class="stamp" aria-hidden="true">Pinned</span></sc-if>
+            <div style="padding:14px 18px 18px">
+              <p class="mono" style="margin:0 0 6px;font-size:12px;letter-spacing:.12em;color:#354A89;font-weight:700">{{a.crimeLine}}</p>
+              <h2 class="serif" style="margin:0 0 10px;font-weight:400;font-size:26px;line-height:1.1"><a class="h" href="#">{{a.title}}</a></h2>
+              <p style="margin:0 0 16px;font-size:14px;line-height:2;color:rgba(26,26,26,.85)">{{a.summary}}</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+                <span class="mono" style="font-size:12px;color:#3D3D3D">{{a.type}} · {{a.source}}</span>
+                <button class="pinbtn mono" aria-pressed="{{a.pinnedStr}}" onClick="{{a.toggle}}" style="font-size:12px;letter-spacing:.12em">{{a.pinLabel}}</button>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isLedger}}" hint-placeholder-val="{{false}}">
+      <div style="overflow-x:auto;border:1px solid rgba(230,226,197,.25)">
+        <table class="ledger mono" style="width:100%;min-width:880px;border-collapse:collapse;font-size:14px">
+          <thead>
+            <tr style="background:#0A0D1C;text-align:left;color:#D8C297;letter-spacing:.12em;font-size:12px">
+              <th scope="col" style="padding:14px 16px">NO.</th>
+              <th scope="col" style="padding:14px 16px">FILED</th>
+              <th scope="col" style="padding:14px 16px">HEADLINE</th>
+              <th scope="col" style="padding:14px 16px">TYPOLOGY</th>
+              <th scope="col" style="padding:14px 16px">REPORTING</th>
+              <th scope="col" style="padding:14px 16px">SOURCE</th>
+              <th scope="col" style="padding:14px 16px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Pin</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
+              <tr style="border-top:1px solid rgba(230,226,197,.15)">
+                <td style="padding:14px 16px;color:#F08A7E;font-weight:700">{{a.ex}}</td>
+                <td style="padding:14px 16px;white-space:nowrap">{{a.date}}</td>
+                <td style="padding:14px 16px"><a href="#" class="serif" style="font-size:19px;color:#E6E2C5;text-decoration:none">{{a.title}}</a></td>
+                <td style="padding:14px 16px">{{a.crimeLine}}</td>
+                <td style="padding:14px 16px">{{a.type}}</td>
+                <td style="padding:14px 16px;color:rgba(230,226,197,.75)">{{a.source}}</td>
+                <td style="padding:8px 16px"><button class="vbtn mono" aria-pressed="{{a.pinnedStr}}" onClick="{{a.toggle}}" style="font-size:12px">{{a.pinLabel}}</button></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </sc-if>
+
+    <nav aria-label="Pages" class="mono" style="display:flex;justify-content:center;gap:8px;margin-top:56px;font-size:14px">
+      <a href="#" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;background:#E6E2C5;color:#11152A;text-decoration:none">1</a>
+      <a href="#" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(230,226,197,.5);text-decoration:none">2</a>
+      <a href="#" style="min-height:44px;display:flex;align-items:center;padding:0 16px;border:1px solid rgba(230,226,197,.5);text-decoration:none">Next drawer →</a>
+    </nav>
+  </main>
+
+  <footer style="border-top:1px solid rgba(230,226,197,.15)">
+    <div style="max-width:1320px;margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:12px 40px;justify-content:space-between;font-size:13px;color:rgba(230,226,197,.8)">
+      <span class="serif" style="font-style:italic;font-size:20px;color:#E6E2C5">Dirty Paintbrushes</span>
+      <span>Every item credits its source and links to the original publication.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2300}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { typ: '', view: 'cards', query: '', pins: ['a2'] }; }
+  renderVals() {
+    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions evasion', terror_financing: 'Terror financing', forgery: 'Forgery' };
+    const A = [
+      { id: 'a1', title: 'Regulator fines auction house over gaps in buyer due diligence', summary: 'The house accepted high-value bids without verifying who ultimately paid.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov 2026' },
+      { id: 'a2', title: 'Dealer charged with routing sanctioned funds through private art sales', summary: 'Prosecutors allege private-treaty sales concealed a designated person.', c: ['sanctions_evasion', 'money_laundering'], type: 'News', source: 'National daily', date: '10 Nov 2026' },
+      { id: 'a3', title: 'Investigators trace forged provenance documents across three galleries', summary: 'Letterheads and stamps matched on certificates attached to works sold over five years.', c: ['forgery', 'fraud'], type: 'Investigation', source: 'Trade press', date: '09 Nov 2026' },
+      { id: 'a4', title: 'Antiquities seized at border linked to conflict-zone looting network', summary: 'Objects were shipped with false export papers via two transit countries.', c: ['terror_financing'], type: 'Investigation', source: 'Wire service', date: '09 Nov 2026' },
+      { id: 'a5', title: 'Court upholds forfeiture of paintings bought with laundered proceeds', summary: 'The appeal court rejected the argument that the buyer acted in good faith.', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '08 Nov 2026' },
+      { id: 'a6', title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', summary: 'Storage operators asked to identify the beneficial owners of what they hold.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '08 Nov 2026' },
+      { id: 'a7', title: 'Opinion: why art-market due diligence still lags behind banking', summary: 'A former compliance officer argues the gap is cultural, not technical.', c: ['money_laundering'], type: 'Opinion', source: 'Trade press', date: '07 Nov 2026' },
+      { id: 'a8', title: 'Shell companies used to obscure ownership of high-value works, report finds', summary: 'A review of public filings found layered ownership in a sample of recent sales.', c: ['money_laundering', 'sanctions_evasion'], type: 'Analysis', source: 'NGO report', date: '07 Nov 2026' },
+      { id: 'a9', title: 'Collector admits undeclared artwork transfers in fraud case', summary: 'The plea covers transfers between companies the collector controlled.', c: ['fraud'], type: 'Ruling', source: 'Court filing', date: '06 Nov 2026' }
+    ];
+    const s = this.state;
+    const q = s.query.trim().toLowerCase();
+    const res = A.filter((a) => (!s.typ || a.c.includes(s.typ)) && (!q || (a.title + ' ' + a.summary).toLowerCase().includes(q)));
+    const tilts = [-1.2, .8, -.4, 1.1, -.9, .5];
+    const items = res.map((a) => {
+      const i = A.indexOf(a);
+      const pinned = s.pins.includes(a.id);
+      return { ...a, ex: 'DP-' + String(412 - i).padStart(4, '0'), crimeLine: a.c.map((k) => L[k]).join(' · ').toUpperCase(),
+        pinned, pinnedStr: pinned ? 'true' : 'false', pinLabel: pinned ? 'Unpin' : 'Pin to board',
+        tilt: 'transform:rotate(' + tilts[i % tilts.length] + 'deg)',
+        toggle: () => this.setState({ pins: pinned ? s.pins.filter((x) => x !== a.id) : s.pins.concat(a.id) }) };
+    });
+    const tabColors = ['#E3C98E', '#D9BE80', '#CFB373', '#C6A866', '#BC9D5A', '#B39350'];
+    const keys = ['', 'fraud', 'money_laundering', 'sanctions_evasion', 'terror_financing', 'forgery'];
+    const tabs = keys.map((k, i) => {
+      const on = s.typ === k;
+      return { label: k ? L[k] : 'All', n: k ? A.filter((a) => a.c.includes(k)).length : A.length, pressed: on ? 'true' : 'false',
+        pick: () => this.setState({ typ: k }),
+        style: 'font-size:13px;letter-spacing:.06em;color:#1A1A1A;font-weight:' + (on ? 700 : 400) + ';background:' + (on ? '#E3C98E' : tabColors[i]) + ';transform:translateY(' + (on ? '0' : '6px') + ');opacity:' + (on ? 1 : .82) };
+    });
+    const views = [['cards', 'Cards'], ['ledger', 'Ledger']].map(([k, l]) => {
+      const on = s.view === k;
+      return { label: l, pressed: on ? 'true' : 'false', pick: () => this.setState({ view: k }), style: 'font-size:13px;letter-spacing:.12em;' + (on ? 'background:#E6E2C5;color:#11152A' : '') };
+    });
+    const n = res.length;
+    return {
+      query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
+      tabs, views, items, none: n === 0,
+      isCards: s.view === 'cards' && n > 0, isLedger: s.view === 'ledger' && n > 0,
+      reset: () => this.setState({ query: '', typ: '' }),
+      countLabel: n + (n === 1 ? ' clipping' : ' clippings') + ' in this drawer',
+      pinLabel: s.pins.length + ' pinned to your board (saved on this device)'
+    };
+  }
+}
+</script>
+</body>
+</html>

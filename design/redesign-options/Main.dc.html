@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option A: Broadsheet homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;600&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFEDBB}
+a{color:#253B59}a:hover{color:#65322C}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.hand{font-family:'Caveat',cursive}
+.wire-track{display:flex;width:max-content;animation:wire 60s linear infinite}
+.wire:hover .wire-track{animation-play-state:paused}
+@keyframes wire{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hl{background-image:linear-gradient(transparent 52%,rgba(187,149,73,.55) 52%,rgba(187,149,73,.55) 90%,transparent 90%);background-repeat:no-repeat;background-size:100% 100%;padding:0 2px}
+@supports (animation-timeline: view()){
+.hl{animation:sweep linear both;animation-timeline:view();animation-range:entry 30% cover 40%}
+.reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 25%}
+}
+@keyframes sweep{from{background-size:0% 100%}to{background-size:100% 100%}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.stamp{display:inline-block;border:3px solid #65322C;color:#65322C;padding:4px 12px;font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transform:rotate(-9deg);opacity:.85;animation:thump .55s cubic-bezier(.2,1.5,.4,1) both;animation-delay:.9s;mix-blend-mode:multiply}
+@keyframes thump{from{transform:rotate(-9deg) scale(2.6);opacity:0}to{transform:rotate(-9deg) scale(1);opacity:.85}}
+.story a.headline{color:#1A1A1A;text-decoration:none;background-image:linear-gradient(#65322C,#65322C);background-size:0% 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .35s ease,color .2s}
+.story:hover a.headline{color:#65322C;background-size:100% 1px}
+.tab{font:inherit;cursor:pointer;background:none;border:0;padding:10px 14px;min-height:44px;transition:color .2s}
+.tab:hover{color:#65322C}
+.tab:focus-visible,.cta:focus-visible{outline:2px solid #65322C;outline-offset:2px}
+.cta{transition:background .2s,color .2s}
+.cta:hover{background:#1A1A1A;color:#FFEDBB}
+@media (prefers-reduced-motion: reduce){.wire-track,.stamp,.hl,.reveal{animation:none}}
+@media (max-width:720px){.hide-sm{display:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
+
+  <!-- Utility bar -->
+  <div style="background:#253B59;color:#E6E2C5">
+    <div class="mono" style="max-width:1240px;margin:0 auto;padding:8px 24px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13px;letter-spacing:.04em">
+      <span>Tuesday 10 November 2026 · London</span>
+      <span class="hide-sm">Every article filtered, classified and reviewed by hand</span>
+      <span style="display:flex;gap:16px"><a href="#" style="color:#E6E2C5">Log in</a><a href="#newsletter" style="color:#D8C297">Monthly Digest</a></span>
+    </div>
+  </div>
+
+  <!-- Masthead -->
+  <header style="max-width:1240px;margin:0 auto;padding:28px 24px 0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+      <span class="mono hide-sm" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5C5C5C;width:200px">Vol. I · Est. Georgetown</span>
+      <div style="display:flex;align-items:center;gap:16px;justify-content:center;flex:1 1 auto">
+        <img src="/_blob/6955d79f52a9b8ced70c1d9229962dcb" alt="" style="height:88px;width:auto">
+        <h1 class="serif" style="margin:0;font-style:italic;font-weight:400;font-size:clamp(48px,8vw,104px);line-height:.95;color:#354A89;letter-spacing:-.01em">Dirty Paintbrushes</h1>
+      </div>
+      <span class="mono hide-sm" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5C5C5C;width:200px;text-align:right">Intelligence edition</span>
+    </div>
+    <p class="serif" style="text-align:center;font-style:italic;font-size:20px;margin:10px 0 18px;color:#253B59">Curated intelligence and news tracking art market financial crime.</p>
+    <nav aria-label="Main" style="border-top:1px solid #1A1A1A;border-bottom:4px double #1A1A1A;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 36px;padding:10px 0">
+      <a href="A-Feed.dc.html" style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:6px 0">Feed</a>
+      <a href="#" style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:6px 0">Sources</a>
+      <a href="#" style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:6px 0">Case files</a>
+      <a href="#" style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:6px 0">About</a>
+      <a href="#newsletter" style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:6px 0">Newsletter</a>
+    </nav>
+  </header>
+
+  <!-- Wire ticker -->
+  <div class="wire" style="max-width:1240px;margin:0 auto;padding:0 24px">
+    <div style="display:flex;align-items:stretch;border-bottom:1px solid #1A1A1A;overflow:hidden">
+      <span class="mono" style="flex:none;background:#65322C;color:#FFEDBB;font-weight:700;font-size:13px;letter-spacing:.16em;padding:10px 14px;display:flex;align-items:center;gap:8px;z-index:1">
+        <span style="width:8px;height:8px;border-radius:50%;background:#FFEDBB;display:inline-block"></span>THE WIRE
+      </span>
+      <div style="overflow:hidden;flex:1;display:flex;align-items:center" aria-label="Latest headlines">
+        <div class="wire-track">
+          <sc-for list="{{wire}}" as="w" hint-placeholder-count="6">
+            <span class="mono" style="white-space:nowrap;font-size:14px;padding:10px 0 10px 28px"><b style="color:#65322C">{{w.time}}</b>  {{w.crime}} · {{w.title}}  <span style="color:#BB9549">✱</span></span>
+          </sc-for>
+          <sc-for list="{{wire}}" as="w" hint-placeholder-count="6">
+            <span class="mono" aria-hidden="true" style="white-space:nowrap;font-size:14px;padding:10px 0 10px 28px"><b style="color:#65322C">{{w.time}}</b>  {{w.crime}} · {{w.title}}  <span style="color:#BB9549">✱</span></span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typology tabs -->
+  <div style="max-width:1240px;margin:0 auto;padding:18px 24px 0">
+    <div role="group" aria-label="Filter the front page by crime type" style="display:flex;flex-wrap:wrap;align-items:center;gap:0 4px;border-bottom:1px solid rgba(26,26,26,.25)">
+      <span class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#5C5C5C;margin-right:8px">Typology</span>
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+        <button class="tab serif" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+      </sc-for>
+      <span class="mono" style="margin-left:auto;font-size:13px;color:#5C5C5C">{{countLabel}}</span>
+    </div>
+  </div>
+
+  <!-- Front page -->
+  <main style="max-width:1240px;margin:0 auto;padding:28px 24px 56px">
+    <div style="display:flex;flex-wrap:wrap;gap:40px">
+
+      <!-- Lead + seconds -->
+      <div style="flex:999 1 560px;min-width:0">
+        <sc-if value="{{lead}}" hint-placeholder-val="{{true}}">
+          <article class="story" style="position:relative;padding-bottom:28px;border-bottom:1px solid rgba(26,26,26,.25)">
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+              <span class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#65322C;font-weight:700">Lead · {{lead.type}}</span>
+              <span class="mono" style="font-size:12px;color:#5C5C5C">{{lead.source}} · {{lead.date}}</span>
+            </div>
+            <h2 class="serif" style="margin:0 0 16px;font-weight:400;font-size:clamp(36px,4.6vw,60px);line-height:1.02;letter-spacing:-.01em;max-width:780px"><a class="headline" href="#">{{lead.title}}</a></h2>
+            <div style="display:flex;gap:32px;flex-wrap:wrap">
+              <p style="flex:1 1 380px;margin:0;font-size:17px;line-height:1.65;max-width:620px">{{lead.pre}}<span class="hl">{{lead.hl}}</span>{{lead.post}}</p>
+              <aside class="hand reveal" style="flex:0 1 220px;color:#65322C;font-size:22px;line-height:1.15;transform:rotate(-3deg);position:relative;padding-top:8px">
+                <svg width="60" height="34" viewBox="0 0 60 34" aria-hidden="true" style="display:block;margin-bottom:2px"><path d="M56 30 C 40 30, 18 26, 6 6 M6 6 l 2 12 M6 6 l 11 4" fill="none" stroke="#65322C" stroke-width="2" stroke-linecap="round"/></svg>
+                Analyst note: second time this year the same gap in buyer checks has come up.
+              </aside>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:20px">
+              <sc-for list="{{lead.crimes}}" as="c" hint-placeholder-count="2">
+                <span class="serif" style="font-style:italic;font-size:17px;color:#354A89">{{c}}</span>
+              </sc-for>
+              <span class="stamp" style="margin-left:auto;font-size:15px">Filed</span>
+            </div>
+          </article>
+        </sc-if>
+        <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+          <p class="serif" style="font-size:24px;font-style:italic;padding:40px 0">Nothing filed under this typology yet.</p>
+        </sc-if>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 32px">
+          <sc-for list="{{seconds}}" as="s" hint-placeholder-count="2">
+            <article class="story reveal" style="padding:22px 0;border-bottom:1px solid rgba(26,26,26,.25)">
+              <span class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#775E2C;font-weight:700">{{s.type}}</span>
+              <h3 class="serif" style="margin:6px 0 10px;font-weight:400;font-size:28px;line-height:1.1"><a class="headline" href="#">{{s.title}}</a></h3>
+              <p style="margin:0 0 10px;font-size:15px;line-height:1.6;color:rgba(26,26,26,.82)">{{s.summary}}</p>
+              <span class="mono" style="font-size:12px;color:#5C5C5C">{{s.crimeLine}} · {{s.date}}</span>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Right rail: Latest in brief -->
+      <aside style="flex:1 1 300px;min-width:0;border-left:1px solid rgba(26,26,26,.25);padding-left:28px" aria-label="In brief">
+        <h2 class="mono" style="margin:0 0 4px;font-size:13px;letter-spacing:.18em;text-transform:uppercase">In brief</h2>
+        <p class="serif" style="margin:0 0 12px;font-style:italic;color:#5C5C5C;font-size:16px">The last 48 hours, newest first</p>
+        <ol style="list-style:none;margin:0;padding:0">
+          <sc-for list="{{brief}}" as="b" hint-placeholder-count="5">
+            <li class="story" style="padding:14px 0;border-top:1px solid rgba(26,26,26,.18);display:grid;grid-template-columns:56px 1fr;gap:12px">
+              <span class="mono" style="font-size:13px;color:#65322C;font-weight:700">{{b.time}}</span>
+              <span>
+                <a class="headline serif" href="#" style="font-size:19px;line-height:1.2">{{b.title}}</a>
+                <span class="mono" style="display:block;font-size:12px;color:#5C5C5C;margin-top:4px">{{b.crime}}</span>
+              </span>
+            </li>
+          </sc-for>
+        </ol>
+        <a class="cta mono" href="A-Feed.dc.html" style="display:block;text-align:center;margin-top:16px;border:1px solid #1A1A1A;color:#1A1A1A;text-decoration:none;padding:14px;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Open the full feed →</a>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Desk sections by article type -->
+  <section style="background:#CFE6F0">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 24px">
+      <div style="display:flex;align-items:baseline;gap:16px;border-bottom:4px double #1A1A1A;padding-bottom:10px;margin-bottom:8px;flex-wrap:wrap">
+        <h2 class="serif" style="margin:0;font-weight:400;font-size:40px;color:#354A89">The desks</h2>
+        <span class="serif" style="font-style:italic;font-size:18px;color:#253B59">Every story is tagged by what kind of reporting it is</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 36px">
+        <sc-for list="{{desks}}" as="d" hint-placeholder-count="3">
+          <div class="reveal" style="padding-top:20px">
+            <h3 class="mono" style="margin:0 0 6px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#65322C">{{d.name}}</h3>
+            <sc-for list="{{d.items}}" as="i" hint-placeholder-count="2">
+              <div class="story" style="padding:14px 0;border-top:1px solid #C9D4D9">
+                <a class="headline serif" href="#" style="font-size:22px;line-height:1.15">{{i.title}}</a>
+                <div class="mono" style="font-size:12px;color:#5C5C5C;margin-top:6px">{{i.source}} · {{i.date}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method box -->
+  <section style="max-width:1240px;margin:0 auto;padding:64px 24px">
+    <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+      <div style="flex:1 1 320px">
+        <span class="mono" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#775E2C;font-weight:700">Methodology</span>
+        <h2 class="serif" style="margin:8px 0 14px;font-weight:400;font-size:48px;line-height:1.02">How a story <span class="hl">makes the paper</span></h2>
+        <p style="font-size:16px;line-height:1.65;max-width:440px;margin:0">Signal over noise. Every claim traces back to a cited source, and nothing is published until a person has read it.</p>
+        <a href="#" class="serif" style="display:inline-block;margin-top:16px;font-style:italic;font-size:19px">See every source we read →</a>
+      </div>
+      <ol style="flex:2 1 560px;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid #1A1A1A">
+        <sc-for list="{{steps}}" as="st" hint-placeholder-count="4">
+          <li class="reveal" style="padding:18px 18px 18px 0;border-bottom:1px solid rgba(26,26,26,.25)">
+            <span class="serif" style="font-size:56px;line-height:1;color:#BB9549;font-style:italic">{{st.n}}</span>
+            <h3 class="mono" style="margin:8px 0 6px;font-size:14px;letter-spacing:.14em;text-transform:uppercase">{{st.t}}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.55;color:rgba(26,26,26,.82)">{{st.d}}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Case files teaser -->
+  <section style="max-width:1240px;margin:0 auto;padding:0 24px 64px">
+    <div style="border:1px solid #1A1A1A;padding:32px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;background:#FFF6DC">
+      <div style="flex:1 1 420px">
+        <span class="mono" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#65322C;font-weight:700">Coming soon · Case files</span>
+        <p class="serif" style="margin:8px 0 0;font-size:30px;line-height:1.15">The feed is today's news. Case files will be the long memory: every story on the same matter, in one dossier.</p>
+      </div>
+      <span class="stamp" style="font-size:20px;animation-delay:0s">In preparation</span>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section id="newsletter" style="background:#65322C;color:#FFEDBB">
+    <div style="max-width:1240px;margin:0 auto;padding:48px 24px;display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center;justify-content:space-between">
+      <div style="flex:1 1 380px">
+        <span class="mono" style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#D8C297">Monthly Digest · Stay briefed</span>
+        <h2 class="serif" style="margin:6px 0 0;font-weight:400;font-style:italic;font-size:44px;line-height:1.05">The month in art-market crime, on one page.</h2>
+      </div>
+      <form style="flex:1 1 360px;display:flex;flex-wrap:wrap;gap:10px">
+        <label for="a-email" class="mono" style="flex-basis:100%;font-size:13px;letter-spacing:.08em">Email address</label>
+        <input id="a-email" type="email" placeholder="you@firm.com" style="flex:1 1 220px;min-height:48px;border:1px solid #D8C297;background:transparent;color:#FFEDBB;padding:0 14px;font-size:16px;font-family:inherit">
+        <button type="button" class="mono" style="min-height:48px;padding:0 22px;background:#FFEDBB;color:#65322C;border:0;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#354A89;color:#E6E2C5">
+    <div style="max-width:1240px;margin:0 auto;padding:36px 24px;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;font-size:13px;line-height:1.6">
+      <span class="serif" style="font-style:italic;font-size:22px">Dirty Paintbrushes</span>
+      <span style="max-width:620px">An independent platform reflecting personal research and views only. All articles remain the property of their original publishers; every item credits its source and links to the original.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { typ: 'all' }; }
+  renderVals() {
+    const A = [
+      { title: 'Regulator fines auction house over gaps in buyer due diligence', summary: 'A national regulator found the house accepted high-value bids without verifying who ultimately paid, and ordered an independent review of its client checks.', pre: 'A national regulator found the house accepted high-value bids ', hl: 'without verifying who ultimately paid', post: ', and ordered an independent review of its client-onboarding checks before its next major sale.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov 2026', time: '09:42' },
+      { title: 'Dealer charged with routing sanctioned funds through private art sales', summary: 'Prosecutors allege a series of private-treaty sales concealed the involvement of a designated person.', c: ['sanctions_evasion','money_laundering'], type: 'News', source: 'National daily', date: '10 Nov 2026', time: '08:15' },
+      { title: 'Investigators trace forged provenance documents across three galleries', summary: 'Reporters matched letterheads and stamps on certificates attached to works sold over five years.', c: ['fraud'], type: 'Investigation', source: 'Trade press', date: '09 Nov 2026', time: '17:30' },
+      { title: 'Antiquities seized at border linked to conflict-zone looting network', summary: 'Customs officers say the objects were shipped with false export papers via two transit countries.', c: ['terror_financing'], type: 'Investigation', source: 'Wire service', date: '09 Nov 2026', time: '14:05' },
+      { title: 'Court upholds forfeiture of paintings bought with laundered proceeds', summary: 'The appeal court rejected the argument that the buyer acted in good faith.', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '08 Nov 2026', time: '11:20' },
+      { title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', summary: 'Draft guidance asks storage operators to identify the beneficial owners of what they hold.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '07 Nov 2026', time: '10:00' },
+      { title: 'Collector admits undeclared artwork transfers in fraud case', summary: 'The plea covers transfers between companies the collector controlled.', c: ['fraud'], type: 'Ruling', source: 'Court filing', date: '06 Nov 2026', time: '16:45' },
+      { title: 'Shell companies used to obscure ownership of high-value works, report finds', summary: 'An NGO review of public filings found layered ownership in a sample of recent sales.', c: ['money_laundering','sanctions_evasion'], type: 'Investigation', source: 'NGO report', date: '05 Nov 2026', time: '09:10' }
+    ];
+    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions evasion', terror_financing: 'Terror financing' };
+    const arts = A.map((a) => ({ ...a, crimes: a.c.map((k) => L[k]), crimeLine: a.c.map((k) => L[k]).join(', '), crime: L[a.c[0]] }));
+    const typ = this.state.typ;
+    const list = typ === 'all' ? arts : arts.filter((a) => a.c.includes(typ));
+    const lead = list[0] ? { ...list[0], pre: list[0].pre || list[0].summary.split(' ').slice(0, 6).join(' ') + ' ', hl: list[0].hl || list[0].summary.split(' ').slice(6, 12).join(' '), post: list[0].post || ' ' + list[0].summary.split(' ').slice(12).join(' ') } : null;
+    const keys = ['all','fraud','money_laundering','sanctions_evasion','terror_financing'];
+    const tabs = keys.map((k) => {
+      const on = k === typ;
+      return { label: k === 'all' ? 'All' : L[k], pressed: on ? 'true' : 'false', pick: () => this.setState({ typ: k }),
+        style: 'font-size:20px;color:' + (on ? '#65322C' : '#1A1A1A') + ';box-shadow:' + (on ? 'inset 0 -3px 0 #65322C' : 'none') + ';font-style:' + (on ? 'italic' : 'normal') };
+    });
+    const desk = (t) => arts.filter((a) => a.type === t).slice(0, 2);
+    return {
+      wire: arts.slice(0, 6), tabs, lead, empty: !lead,
+      seconds: list.slice(1, 3), brief: arts.slice(0, 5),
+      countLabel: list.length + (list.length === 1 ? ' story' : ' stories'),
+      desks: [ { name: 'Regulation', items: desk('Regulation') }, { name: 'Rulings', items: desk('Ruling') }, { name: 'Investigations', items: desk('Investigation') } ],
+      steps: [
+        { n: '1', t: 'Sourced', d: 'Pulled from tiered news, legal and regulatory feeds, plus manual submissions.' },
+        { n: '2', t: 'Screened', d: 'A relevance gate admits only stories about financial crime in the art market.' },
+        { n: '3', t: 'Tagged', d: 'Classified by crime type and by kind of reporting, from regulation to ruling.' },
+        { n: '4', t: 'Reviewed', d: 'Every article is read and approved by hand before it is published.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

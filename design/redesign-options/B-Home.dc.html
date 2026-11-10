@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option B: Investigation desk homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;600&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#11152A}
+a{color:#D8C297}a:hover{color:#FFEDBB}
+.serif{font-family:'Instrument Serif',Georgia,serif}
+.mono{font-family:'Courier Prime','Courier New',monospace}
+.wire-track{display:flex;width:max-content;animation:wire 70s linear infinite}
+.wire:hover .wire-track{animation-play-state:paused}
+@keyframes wire{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.board{background-color:#1E2440;background-image:radial-gradient(rgba(230,226,197,.09) 1px,transparent 1.2px);background-size:22px 22px}
+.clip{position:absolute;width:17%;font:inherit;text-align:left;cursor:pointer;border:0;padding:16px 14px 14px;background:#F4ECD2;color:#1A1A1A;box-shadow:0 10px 18px rgba(0,0,0,.45),0 2px 4px rgba(0,0,0,.3);transition:opacity .35s ease,transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s}
+.clip:hover{box-shadow:0 18px 28px rgba(0,0,0,.5),0 4px 8px rgba(0,0,0,.3);z-index:4}
+.clip:focus-visible,.typ:focus-visible,.btn:focus-visible{outline:3px solid #D8C297;outline-offset:3px}
+.typ{position:absolute;transform:translateX(-50%);font:inherit;cursor:pointer;border:0;padding:10px 16px 8px;min-height:44px;background:#E6E2C5;color:#1A1A1A;box-shadow:0 8px 14px rgba(0,0,0,.4);transition:background .25s,color .25s,transform .25s}
+.typ:hover{transform:translateX(-50%) translateY(-2px)}
+.pin{position:absolute;left:50%;top:-7px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F08A7E,#B23A2E 55%,#6E1F18);box-shadow:0 3px 4px rgba(0,0,0,.5)}
+.string{fill:none;stroke:#C8473B;stroke-width:2.4;stroke-linecap:round;filter:drop-shadow(0 2px 1.5px rgba(0,0,0,.55));stroke-dasharray:100;stroke-dashoffset:100;animation:draw .9s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.stamp{display:inline-block;border:3px solid currentColor;padding:4px 12px;font-family:'Courier Prime',monospace;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transform:rotate(-8deg);animation:thump .55s cubic-bezier(.2,1.5,.4,1) both;animation-delay:.6s}
+@keyframes thump{from{transform:rotate(-8deg) scale(2.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:.9}}
+.btn{transition:background .2s,color .2s}
+.btn:hover{background:#FFEDBB;color:#11152A}
+.folder{position:relative;background:#E3C98E;padding:28px 22px 22px;color:#1A1A1A;box-shadow:0 12px 22px rgba(0,0,0,.45);transition:transform .3s}
+.folder:hover{transform:translateY(-6px) rotate(-.6deg)}
+.folder:before{content:'';position:absolute;left:0;top:-18px;width:42%;height:20px;background:#E3C98E;clip-path:polygon(0 100%,8% 0,92% 0,100% 100%)}
+.folder a{color:#1A1A1A;text-decoration:none}
+.folder:hover a{text-decoration:underline;text-underline-offset:4px}
+@media (prefers-reduced-motion: reduce){.wire-track,.string,.stamp{animation:none;stroke-dashoffset:0}.clip,.folder{transition:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#11152A;color:#E6E2C5;font-family:'Noto Sans',Arial,sans-serif">
+
+  <!-- Teleprinter -->
+  <div class="wire" style="background:#0A0D1C;border-bottom:1px solid rgba(230,226,197,.15);display:flex;overflow:hidden">
+    <span class="mono" style="flex:none;padding:9px 16px;font-size:13px;font-weight:700;letter-spacing:.16em;color:#F08A7E;display:flex;align-items:center;gap:8px;background:#0A0D1C;z-index:1"><span style="width:8px;height:8px;border-radius:50%;background:#F08A7E;display:inline-block"></span>INCOMING</span>
+    <div style="overflow:hidden;flex:1">
+      <div class="wire-track">
+        <sc-for list="{{wire}}" as="w" hint-placeholder-count="6"><span class="mono" style="white-space:nowrap;font-size:13px;padding:9px 0 9px 32px;color:#E6E2C5">[{{w.time}}] {{w.crimeU}} // {{w.title}}</span></sc-for>
+        <sc-for list="{{wire}}" as="w" hint-placeholder-count="6"><span class="mono" aria-hidden="true" style="white-space:nowrap;font-size:13px;padding:9px 0 9px 32px;color:#E6E2C5">[{{w.time}}] {{w.crimeU}} // {{w.title}}</span></sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <header style="max-width:1320px;margin:0 auto;padding:18px 24px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;justify-content:space-between">
+    <a href="#" style="display:flex;align-items:baseline;gap:14px;text-decoration:none;color:#E6E2C5">
+      <span class="serif" style="font-style:italic;font-size:30px;line-height:1">Dirty Paintbrushes</span>
+      <span class="mono" style="font-size:12px;letter-spacing:.16em;color:#D8C297">DESK FILE · ART MARKET FINANCIAL CRIME</span>
+    </a>
+    <nav aria-label="Main" class="mono" style="display:flex;flex-wrap:wrap;gap:4px 26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase">
+      <a href="B-Feed.dc.html" style="text-decoration:none;padding:8px 0">Evidence locker</a>
+      <a href="#" style="text-decoration:none;padding:8px 0">Sources</a>
+      <a href="#" style="text-decoration:none;padding:8px 0">Case files</a>
+      <a href="#" style="text-decoration:none;padding:8px 0">About</a>
+      <a href="#brief" style="text-decoration:none;padding:8px 0;color:#F08A7E">Get the briefing</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section style="max-width:1320px;margin:0 auto;padding:40px 24px 56px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+    <div style="flex:999 1 560px;min-width:0">
+      <p class="mono" style="margin:0 0 18px;font-size:13px;letter-spacing:.18em;color:#D8C297">FILE OPENED 10.11.2026 · STATUS: ACTIVE</p>
+      <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(52px,7.4vw,112px);line-height:.92;letter-spacing:-.015em">Every case starts<br><em style="color:#D8C297">with a clipping.</em></h1>
+      <p style="margin:24px 0 0;font-size:19px;line-height:1.6;max-width:560px;color:rgba(230,226,197,.88)">Curated intelligence and news tracking art market financial crime. Filtered, classified and checked by hand, then pinned to the board.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px">
+        <a class="btn mono" href="#board" style="min-height:48px;display:inline-flex;align-items:center;padding:0 22px;border:1px solid #E6E2C5;color:#E6E2C5;text-decoration:none;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Work the board ↓</a>
+        <a class="btn mono" href="B-Feed.dc.html" style="min-height:48px;display:inline-flex;align-items:center;padding:0 22px;background:#E6E2C5;color:#11152A;text-decoration:none;font-size:13px;letter-spacing:.16em;text-transform:uppercase">Open the evidence locker</a>
+      </div>
+    </div>
+    <div style="flex:1 1 340px;position:relative;display:flex;justify-content:center">
+      <img src="/_blob/76e7cb1ae2a41a1f3fceed6444b1e52d" alt="A manila case folder stuffed with documents" style="width:min(420px,90%);height:auto;transform:rotate(4deg);filter:drop-shadow(0 30px 30px rgba(0,0,0,.6))">
+      <span class="stamp" style="position:absolute;bottom:16%;left:8%;color:#F08A7E;font-size:22px;background:rgba(17,21,42,.15)">Case open</span>
+    </div>
+  </section>
+
+  <!-- Evidence board -->
+  <section id="board" style="max-width:1320px;margin:0 auto;padding:0 24px 64px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:18px">
+      <div>
+        <p class="mono" style="margin:0;font-size:13px;letter-spacing:.18em;color:#D8C297">EXHIBIT WALL · THIS WEEK</p>
+        <h2 class="serif" style="margin:4px 0 0;font-weight:400;font-size:52px;line-height:1">The board</h2>
+      </div>
+      <p style="margin:0;max-width:440px;font-size:15px;line-height:1.6;color:rgba(230,226,197,.8)">Pick a typology and the string shows every story it touches. Click a clipping to open its dossier.</p>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:stretch">
+      <div style="flex:999 1 720px;min-width:0;overflow-x:auto">
+        <div class="board" style="position:relative;min-width:900px;aspect-ratio:16/10;border:10px solid #2C2418;box-shadow:inset 0 0 60px rgba(0,0,0,.6),0 20px 40px rgba(0,0,0,.4)">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;overflow:visible">
+            <path class="string" d="{{s0}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s1}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s2}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s3}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s4}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s5}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s6}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+            <path class="string" d="{{s7}}" vector-effect="non-scaling-stroke" pathLength="100"></path>
+          </svg>
+
+          <sc-for list="{{typs}}" as="t" hint-placeholder-count="4">
+            <button class="typ mono" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}"><span class="pin" aria-hidden="true"></span>{{t.label}} <span style="opacity:.7">({{t.n}})</span></button>
+          </sc-for>
+
+          <sc-for list="{{clips}}" as="c" hint-placeholder-count="8">
+            <button class="clip" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="{{c.style}}">
+              <span class="pin" aria-hidden="true"></span>
+              <span class="mono" style="display:block;font-size:11px;letter-spacing:.14em;color:#65322C;font-weight:700;margin-bottom:6px">EXHIBIT {{c.ex}} · {{c.typeU}}</span>
+              <span class="serif" style="display:block;font-size:19px;line-height:1.12">{{c.title}}</span>
+              <span class="mono" style="display:block;font-size:11px;color:#5C5C5C;margin-top:8px">{{c.date}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Dossier -->
+      <aside aria-live="polite" aria-label="Dossier" style="flex:1 1 300px;min-width:0;background:#E6E2C5;color:#1A1A1A;padding:28px 24px;position:relative;box-shadow:0 20px 40px rgba(0,0,0,.4)">
+        <p class="mono" style="margin:0;font-size:12px;letter-spacing:.18em;color:#65322C;font-weight:700">DOSSIER · EXHIBIT {{sel.ex}}</p>
+        <h3 class="serif" style="margin:10px 0 14px;font-weight:400;font-size:32px;line-height:1.08">{{sel.title}}</h3>
+        <p style="margin:0 0 18px;font-size:15px;line-height:1.65">{{sel.summary}}</p>
+        <dl class="mono" style="margin:0 0 22px;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13px;border-top:1px dashed rgba(26,26,26,.4);padding-top:14px">
+          <dt style="color:#5C5C5C">Typology</dt><dd style="margin:0">{{sel.crimeLine}}</dd>
+          <dt style="color:#5C5C5C">Reporting</dt><dd style="margin:0">{{sel.type}}</dd>
+          <dt style="color:#5C5C5C">Source</dt><dd style="margin:0">{{sel.source}}</dd>
+          <dt style="color:#5C5C5C">Filed</dt><dd style="margin:0">{{sel.date}}</dd>
+        </dl>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a class="mono" href="#" style="min-height:44px;display:inline-flex;align-items:center;padding:0 16px;background:#11152A;color:#E6E2C5;text-decoration:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Read the file</a>
+          <a class="mono" href="#" style="min-height:44px;display:inline-flex;align-items:center;padding:0 16px;border:1px solid #11152A;color:#11152A;text-decoration:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase">Original source ↗</a>
+        </div>
+        <span class="stamp" style="position:absolute;right:18px;bottom:22px;color:#65322C;font-size:13px;animation-delay:0s;opacity:.85">Verified source</span>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Chain of custody -->
+  <section style="background:#0A0D1C;border-top:1px solid rgba(230,226,197,.12);border-bottom:1px solid rgba(230,226,197,.12)">
+    <div style="max-width:1320px;margin:0 auto;padding:56px 24px">
+      <p class="mono" style="margin:0;font-size:13px;letter-spacing:.18em;color:#D8C297">CHAIN OF CUSTODY</p>
+      <h2 class="serif" style="margin:4px 0 32px;font-weight:400;font-size:44px;line-height:1.05;max-width:720px">How a story earns its place on the board</h2>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+        <sc-for list="{{steps}}" as="st" hint-placeholder-count="4">
+          <li style="border-top:2px dashed rgba(240,138,126,.6);padding-top:18px;position:relative">
+            <span style="position:absolute;top:-8px;left:0;width:14px;height:14px;border-radius:50%;background:#C8473B"></span>
+            <span class="mono" style="font-size:13px;color:#F08A7E;font-weight:700;letter-spacing:.16em">STEP {{st.n}}</span>
+            <h3 class="serif" style="margin:6px 0 8px;font-weight:400;font-size:30px">{{st.t}}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(230,226,197,.82)">{{st.d}}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Latest filings -->
+  <section style="max-width:1320px;margin:0 auto;padding:72px 24px 56px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:40px">
+      <h2 class="serif" style="margin:0;font-weight:400;font-size:44px">Latest filings</h2>
+      <a class="mono" href="B-Feed.dc.html" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase">All filings →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:48px 28px">
+      <sc-for list="{{filings}}" as="f" hint-placeholder-count="3">
+        <article class="folder">
+          <p class="mono" style="margin:0 0 10px;font-size:11px;letter-spacing:.16em;color:#65322C;font-weight:700">{{f.typeU}} · {{f.crimeU}}</p>
+          <h3 class="serif" style="margin:0 0 12px;font-weight:400;font-size:26px;line-height:1.1"><a href="#">{{f.title}}</a></h3>
+          <p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:rgba(26,26,26,.82)">{{f.summary}}</p>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="mono" style="font-size:12px;color:#3D3D3D">{{f.source}}</span>
+            <span class="stamp" style="color:#65322C;font-size:11px;padding:2px 8px">Filed {{f.short}}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- Case files + briefing -->
+  <section style="max-width:1320px;margin:0 auto;padding:0 24px 80px;display:flex;flex-wrap:wrap;gap:28px">
+    <div style="flex:1 1 420px;border:1px dashed rgba(230,226,197,.4);padding:32px">
+      <p class="mono" style="margin:0;font-size:13px;letter-spacing:.18em;color:#D8C297">CASE FILES · IN PREPARATION</p>
+      <p class="serif" style="margin:10px 0 0;font-size:30px;line-height:1.15">The board shows this week. Case files will keep every clipping on the same matter in one dossier, for good.</p>
+    </div>
+    <div id="brief" style="flex:1 1 420px;background:#65322C;padding:32px">
+      <p class="mono" style="margin:0;font-size:13px;letter-spacing:.18em;color:#D8C297">THE MONTHLY BRIEFING</p>
+      <p class="serif" style="margin:10px 0 18px;font-size:30px;line-height:1.15">One envelope a month. Everything that made the board.</p>
+      <form style="display:flex;flex-wrap:wrap;gap:10px">
+        <label for="b-email" class="mono" style="flex-basis:100%;font-size:13px">Email address</label>
+        <input id="b-email" type="email" placeholder="you@firm.com" style="flex:1 1 200px;min-height:48px;border:1px solid #D8C297;background:transparent;color:#FFEDBB;padding:0 14px;font-size:16px;font-family:inherit">
+        <button type="button" class="mono" style="min-height:48px;padding:0 20px;background:#FFEDBB;color:#65322C;border:0;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer">Send it</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid rgba(230,226,197,.15)">
+    <div style="max-width:1320px;margin:0 auto;padding:32px 24px;display:flex;flex-wrap:wrap;gap:12px 40px;justify-content:space-between;font-size:13px;line-height:1.6;color:rgba(230,226,197,.8)">
+      <span class="serif" style="font-style:italic;font-size:22px;color:#E6E2C5">Dirty Paintbrushes</span>
+      <span style="max-width:620px">An independent platform reflecting personal research and views only. Every item credits its source and links to the original publication.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  constructor(p){ super(p); this.state = { typ: 'money_laundering', sel: 'c1' }; }
+  renderVals() {
+    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions evasion', terror_financing: 'Terror financing' };
+    const TP = { fraud: [14, 9], money_laundering: [38, 7], sanctions_evasion: [62, 9], terror_financing: [86, 7] };
+    const C = [
+      { id: 'c1', x: 12, y: 30, r: -3, title: 'Regulator fines auction house over gaps in buyer due diligence', summary: 'A national regulator found the house accepted high-value bids without verifying who ultimately paid, and ordered an independent review of its client checks.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov 2026', time: '09:42' },
+      { id: 'c2', x: 35, y: 27, r: 2, title: 'Dealer charged with routing sanctioned funds through private sales', summary: 'Prosecutors allege a series of private-treaty sales concealed the involvement of a designated person.', c: ['sanctions_evasion', 'money_laundering'], type: 'News', source: 'National daily', date: '10 Nov 2026', time: '08:15' },
+      { id: 'c3', x: 60, y: 32, r: -2, title: 'Forged provenance traced across three galleries', summary: 'Reporters matched letterheads and stamps on certificates attached to works sold over five years.', c: ['fraud'], type: 'Investigation', source: 'Trade press', date: '09 Nov 2026', time: '17:30' },
+      { id: 'c4', x: 86, y: 28, r: 3, title: 'Seized antiquities linked to conflict-zone looting network', summary: 'Customs officers say the objects were shipped with false export papers via two transit countries.', c: ['terror_financing'], type: 'Investigation', source: 'Wire service', date: '09 Nov 2026', time: '14:05' },
+      { id: 'c5', x: 20, y: 63, r: 2, title: 'Court upholds forfeiture of paintings bought with laundered proceeds', summary: 'The appeal court rejected the argument that the buyer acted in good faith.', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '08 Nov 2026', time: '11:20' },
+      { id: 'c6', x: 45, y: 66, r: -3, title: 'Freeport storage under scrutiny in new AML guidance', summary: 'Draft guidance asks storage operators to identify the beneficial owners of what they hold.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '07 Nov 2026', time: '10:00' },
+      { id: 'c7', x: 68, y: 62, r: 3, title: 'Collector admits undeclared artwork transfers in fraud case', summary: 'The plea covers transfers between companies the collector controlled.', c: ['fraud'], type: 'Ruling', source: 'Court filing', date: '06 Nov 2026', time: '16:45' },
+      { id: 'c8', x: 88, y: 60, r: -2, title: 'Shell companies obscure ownership of high-value works', summary: 'An NGO review of public filings found layered ownership in a sample of recent sales.', c: ['money_laundering', 'sanctions_evasion'], type: 'Analysis', source: 'NGO report', date: '05 Nov 2026', time: '09:10' }
+    ];
+    const s = this.state;
+    const pad = (i) => (i < 9 ? '0' : '') + (i + 1);
+    const typs = Object.keys(L).map((k) => {
+      const on = s.typ === k;
+      return { label: L[k], n: C.filter((c) => c.c.includes(k)).length, pressed: on ? 'true' : 'false',
+        pick: () => this.setState({ typ: on ? '' : k }),
+        style: 'left:' + TP[k][0] + '%;top:' + TP[k][1] + '%;font-size:13px;letter-spacing:.06em;' + (on ? 'background:#C8473B;color:#FFF6EE' : '') };
+    });
+    const strings = {};
+    C.forEach((c, i) => {
+      let d = '';
+      if (s.typ && c.c.includes(s.typ)) {
+        const [x1, y1] = TP[s.typ]; const x2 = c.x, y2 = c.y;
+        const mx = (x1 + x2) / 2, my = Math.max(y1, y2) + 9;
+        d = 'M' + x1 + ' ' + (y1 + 1) + ' Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2;
+      }
+      strings['s' + i] = d;
+    });
+    const clips = C.map((c, i) => {
+      const lit = !s.typ || c.c.includes(s.typ);
+      const on = s.sel === c.id;
+      return { ...c, ex: pad(i), typeU: c.type.toUpperCase(), pressed: on ? 'true' : 'false', pick: () => this.setState({ sel: c.id }),
+        style: 'left:' + (c.x - 8.5) + '%;top:' + c.y + '%;transform:rotate(' + c.r + 'deg)' + (on ? ' scale(1.04)' : '') + ';opacity:' + (lit ? 1 : 0.3) + ';outline:' + (on ? '3px solid #D8C297' : 'none') + ';outline-offset:4px;z-index:' + (on ? 3 : 1) };
+    });
+    const idx = Math.max(0, C.findIndex((c) => c.id === s.sel));
+    const sc = C[idx];
+    const sel = { ...sc, ex: pad(idx), crimeLine: sc.c.map((k) => L[k]).join(', ') };
+    const withLabels = (c) => ({ ...c, crimeU: L[c.c[0]].toUpperCase(), typeU: c.type.toUpperCase(), short: c.date.slice(0, 6) });
+    return {
+      ...strings, typs, clips, sel,
+      wire: C.slice(0, 6).map(withLabels),
+      filings: C.slice(4, 7).map(withLabels),
+      steps: [
+        { n: '01', t: 'Sourced', d: 'Pulled from tiered news, legal and regulatory feeds, plus manual submissions.' },
+        { n: '02', t: 'Screened', d: 'A relevance gate admits only stories about financial crime in the art market.' },
+        { n: '03', t: 'Tagged', d: 'Classified by crime type and by kind of reporting.' },
+        { n: '04', t: 'Reviewed by hand', d: 'A person reads and approves every article before it reaches the board.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
