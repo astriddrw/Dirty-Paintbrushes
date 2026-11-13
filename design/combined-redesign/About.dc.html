@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>About</title>
+<title>About: The Paper</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -18,102 +18,154 @@ a{color:#253B59}a:hover{color:#65322C}
 .nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
 .nav a:hover{opacity:.7}
 .nav a.on{font-weight:500;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
-.typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;animation:type 2.2s steps(23) .3s forwards}
+.burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;color:#354A89;cursor:pointer}
+.menu{position:absolute;left:0;right:0;top:0;z-index:30;background:#FFEDBB;display:flex;flex-direction:column;padding:8px 12px 28px 24px;box-shadow:0 24px 40px rgba(26,26,26,.3);animation:menu .28s cubic-bezier(.3,0,.2,1) both}
+@keyframes menu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.menu a.big{font-family:'Instrument Serif',serif;font-style:italic;font-size:42px;line-height:1.1;color:#354A89;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(26,26,26,.15)}
+.progress{position:sticky;top:0;z-index:10;height:4px;background:rgba(101,50,44,.12)}
+.progress span{display:block;height:100%;background:#65322C;transform-origin:0 50%;transform:scaleX(.08)}
+@supports (animation-timeline: scroll()){.progress span{animation:read linear both;animation-timeline:scroll(root)}}
+@keyframes read{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;animation:type 2s steps(23) .3s forwards}
 @keyframes type{to{width:23ch}}
 .cursor{display:inline-block;margin-left:2px;animation:blink .9s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.para{animation:fade .9s cubic-bezier(.4,0,.2,1) both}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .8s cubic-bezier(.4,0,.2,1) 3s both}
+.hl{background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.6) 2%,rgba(214,180,100,.48) 6%,rgba(187,149,73,.42) 92%,rgba(187,149,73,.62) 97%,rgba(187,149,73,0) 99.5%);background-repeat:no-repeat;background-size:100% 64%;background-position:0 80%;padding:0 3px;margin:0 -3px;border-radius:3px 8px 4px 9px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@supports (animation-timeline: view()){.hl{animation:sweep linear both;animation-timeline:view();animation-range:entry 30% cover 45%}.rise{animation:rise linear both;animation-timeline:view();animation-range:entry 0% cover 20%}}
 @keyframes sweep{from{background-size:0% 64%}to{background-size:100% 64%}}
-.sig{font-family:'Caveat',cursive;font-weight:600;font-size:40px;line-height:1;color:#22346B;text-decoration:none;text-shadow:0 0 .7px rgba(34,52,107,.55);filter:url(#pen);display:inline-block;transform:rotate(-3deg)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.toc a{display:grid;grid-template-columns:34px 1fr;align-items:baseline;gap:6px;padding:10px 0;border-top:1px solid rgba(26,26,26,.15);text-decoration:none;color:#1A1A1A;transition:color .2s,padding .2s}
+.toc a:hover{color:#65322C;padding-left:4px}
+.toc a.on{color:#65322C}
+.toc a.on .num{color:#65322C}
+.sec{scroll-margin-top:24px}
+.dropcap::first-letter{float:left;font-family:'Instrument Serif',serif;font-size:84px;line-height:.8;padding:8px 10px 0 0;color:#65322C}
+.sig{font-family:'Caveat',cursive;font-weight:600;font-size:38px;line-height:1;color:#22346B;text-decoration:none;text-shadow:0 0 .7px rgba(34,52,107,.55);display:inline-block;transform:rotate(-3deg);padding:4px 0}
 .sig:hover{color:#65322C}
-.draw{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s ease-out 4.2s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
+.slipform{position:relative;background:#FBF6E8;padding:28px 26px 24px;box-shadow:0 1px 2px rgba(60,40,10,.12),0 18px 26px -12px rgba(60,40,10,.4)}
+.slipform::before{content:'';position:absolute;left:0;right:0;top:-1px;border-top:2px dashed rgba(26,26,26,.35)}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #253B59;outline-offset:3px}
-.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible,.dark textarea:focus-visible{outline-color:#E6E2C5}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible{outline-color:#E6E2C5}
 .btn{transition:opacity .2s}.btn:hover{opacity:.82}
-@media (max-width:700px){.paper{margin-left:0 !important;margin-right:0 !important;padding:36px 20px 26px !important}.paper h1{font-size:22px !important}.paper .mono{font-size:14.5px}}
-@media (prefers-reduced-motion: reduce){.typed{animation:none;width:auto}.cursor,.para,.hl,.draw{animation:none;stroke-dashoffset:0}}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px}
+.toc{position:sticky;top:28px;align-self:start}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr);gap:24px}.toc{position:static}}
+@media (max-width:700px){.links{display:none !important}.burger{display:inline-flex}.dropcap::first-letter{font-size:64px}}
+@media (prefers-reduced-motion: reduce){.typed{animation:none;width:auto}.cursor,.hl,.rise,.menu,.progress span{animation:none}}
 </style>
 </helmet>
 
-<svg width="0" height="0" aria-hidden="true" style="position:absolute">
-  <filter id="pen" x="-2%" y="-5%" width="104%" height="110%">
-    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="2" result="n"></feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.3" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
-  </filter>
-</svg>
-
-<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif">
-  <header style="background:#FFEDBB">
-    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
-      <a href="Main.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:20px">Dirty Paintbrushes</a>
-      <div style="display:flex;flex-wrap:wrap;gap:4px 32px">
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif;overflow-x:clip">
+  <header style="background:#FFEDBB;border-bottom:1px solid rgba(26,26,26,.12)">
+    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 12px 0 24px;min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:8px 24px">
+      <a href="Main.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:21px">Dirty Paintbrushes</a>
+      <div class="links" style="display:flex;flex-wrap:wrap;gap:4px 32px;padding-right:12px">
         <a href="Feed.dc.html">Feed</a>
         <a href="Sources.dc.html">Sources</a>
         <a href="About.dc.html" class="on" aria-current="page">About</a>
         <a href="Login.dc.html">Login</a>
       </div>
+      <button class="burger" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
     </nav>
   </header>
-
-  <main style="padding:48px 24px 80px">
-    <div style="max-width:1040px;margin:0 auto">
-      <div>
-        <!-- Paper in the typewriter: edges line up with the photo's sheet -->
-        <div class="paper" style="margin-left:19%;margin-right:14%;padding:52px 6% 30px;background:#F7F3EA;background-image:linear-gradient(rgba(0,0,0,.035),rgba(0,0,0,0) 40px),radial-gradient(rgba(120,100,60,.06) 1px,transparent 1.2px);background-size:100% 100%,5px 5px;box-shadow:inset 1px 0 0 rgba(0,0,0,.05),inset -1px 0 0 rgba(0,0,0,.05)">
-          <h1 class="mono" aria-label="Why Dirty Paintbrushes?" style="margin:0 0 40px;font-weight:700;font-size:clamp(28px,3.6vw,44px);line-height:1.1;color:#65322C;letter-spacing:-.01em"><span aria-hidden="true"><span class="typed">Why Dirty Paintbrushes?</span><span class="cursor">|</span></span></h1>
-          <div class="mono" style="font-size:15.5px;line-height:1.75;display:flex;flex-direction:column;gap:22px">
-            <p class="para" style="margin:0;animation-delay:2.5s">The art market is a sector that has long been overlooked from a regulatory perspective. It is <span class="hl">highly opaque and inherently cross-border</span>, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.</p>
-            <p class="para" style="margin:0;animation-delay:2.65s">Dirty Paintbrushes started as a research question. How can something as cultural and subjective as art be used to move and obscure illicit finance?</p>
-            <p class="para" style="margin:0;animation-delay:2.8s">While studying International Relations at King's College London, I focused on financial crime and non-traditional assets. During my exchange at Georgetown University, I developed a research paper titled “Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity”, looking at recent case studies in the UK and US, from NFTs to antiquities.</p>
-            <p class="para" style="margin:0;animation-delay:2.95s">That work led me to focus more closely on the art market as a financial crime risk area, and made it clear how fragmented this space is. Information is difficult to track, often reactive, and rarely brought together in one place.</p>
-            <p class="para" style="margin:0;animation-delay:3.1s">This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.</p>
-          </div>
-          <div class="para" style="margin-top:30px;animation-delay:3.6s">
-            <a class="sig" href="https://www.linkedin.com/in/astrid-de-rohan-willner/">Astrid de Rohan Willner</a>
-            <svg width="240" height="16" viewBox="0 0 240 16" aria-hidden="true" style="display:block;margin-top:2px"><path class="draw" pathLength="100" d="M4 10 C 50 4, 120 14, 236 6" fill="none" stroke="#22346B" stroke-width="1.6" stroke-linecap="round"></path></svg>
-          </div>
-        </div>
-        <img src="/_blob/c8ac341c80dec18103fbd84fee02cb96" alt="" style="display:block;width:100%;height:auto">
+  <sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+    <nav class="menu" aria-label="Main menu">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <span class="serif" style="font-style:italic;font-size:21px;color:#354A89">Dirty Paintbrushes</span>
+        <button class="burger" style="display:inline-flex" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       </div>
+      <a class="big" href="Main.dc.html">Home</a>
+      <a class="big" href="Feed.dc.html">Feed</a>
+      <a class="big" href="Sources.dc.html">Sources</a>
+      <a class="big" href="About.dc.html" aria-current="page" style="color:#65322C">About</a>
+      <a class="big" href="Newsletter.dc.html">Newsletter</a>
+      <a class="big" href="Saved.dc.html">Saved</a>
+      <a href="Login.dc.html" style="margin:28px 12px 0 0;display:flex;align-items:center;justify-content:center;min-height:52px;background:#354A89;color:#FFEDBB;text-decoration:none;text-transform:uppercase;font-size:15px;font-weight:300">Login</a>
+    </nav>
+  </sc-if>
+  <div class="progress" aria-hidden="true"><span></span></div>
 
-      <!-- Feedback box (unchanged content) -->
-      <section class="dark" style="max-width:672px;margin:40px auto 0;background:#354A89;color:#E6E2C5;padding:28px">
-        <h2 style="margin:0 0 4px;font-size:14px;font-weight:700">Have feedback?</h2>
-        <p style="margin:0 0 16px;font-size:13px">Submit anonymously. No name or account required.</p>
-        <label for="fb" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feedback message</label>
-        <textarea id="fb" rows="4" placeholder="Share your thoughts..." style="width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;padding:12px 14px;font-size:14px;font-family:inherit;resize:none"></textarea>
-        <button type="button" class="btn" style="margin-top:12px;min-height:44px;padding:0 22px;background:#fff;color:#354A89;border:0;font-weight:500;font-family:inherit;cursor:pointer">Send</button>
-      </section>
+  <main style="max-width:1080px;margin:0 auto;padding:48px 20px 80px">
+    <!-- Title page -->
+    <section style="background:#FDFBF6;padding:clamp(32px,6vw,72px) clamp(22px,6vw,80px);text-align:center;box-shadow:0 1px 2px rgba(60,40,10,.1),0 24px 34px -16px rgba(60,40,10,.35);margin-bottom:56px">
+      <p class="mono" style="margin:0 0 20px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#5C5C5C">About this platform</p>
+      <h1 class="mono" aria-label="Why Dirty Paintbrushes?" style="margin:0;font-weight:700;font-size:clamp(24px,4.2vw,48px);line-height:1.1;color:#65322C"><span aria-hidden="true"><span class="typed">Why Dirty Paintbrushes?</span><span class="cursor">|</span></span></h1>
+      <div style="width:64px;height:1px;background:#1A1A1A;margin:28px auto"></div>
+      <p style="margin:0 0 6px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#5C5C5C">Named after the research paper</p>
+      <p class="serif" style="margin:0 auto;max-width:620px;font-style:italic;font-size:clamp(22px,2.6vw,30px);line-height:1.25;color:#354A89">“Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity”</p>
+      <p style="margin:14px 0 0;font-size:14px;color:#5C5C5C">Georgetown University</p>
+    </section>
+
+    <div class="layout">
+      <nav class="toc" aria-label="Sections">
+        <p class="mono" style="margin:0 0 6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5C5C5C">Contents</p>
+        <sc-for list="{{toc}}" as="t" hint-placeholder-count="5">
+          <a href="{{t.href}}" class="{{t.cls}}" onClick="{{t.pick}}"><span class="num serif" style="font-size:20px;font-style:italic;color:#BB9549">{{t.n}}</span><span style="font-size:14px">{{t.label}}</span></a>
+        </sc-for>
+      </nav>
+
+      <article style="max-width:660px;font-size:17px;line-height:1.8">
+        <section id="s1" class="sec rise" style="margin-bottom:40px">
+          <h2 class="mono" style="margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#65322C">I. The gap</h2>
+          <p class="dropcap" style="margin:0">The art market is a sector that has long been overlooked from a regulatory perspective. It is <span class="hl">highly opaque and inherently cross-border</span>, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.</p>
+        </section>
+        <section id="s2" class="sec rise" style="margin-bottom:40px">
+          <h2 class="mono" style="margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#65322C">II. The question</h2>
+          <p style="margin:0">Dirty Paintbrushes started as a research question. <span class="serif" style="display:block;margin:22px 0 4px;padding:18px 0;border-top:1px solid #1A1A1A;border-bottom:1px solid #1A1A1A;font-style:italic;font-size:clamp(28px,3.2vw,38px);line-height:1.2;color:#354A89">How can something as cultural and subjective as art be used to move and obscure illicit finance?</span></p>
+        </section>
+        <section id="s3" class="sec rise" style="margin-bottom:40px">
+          <h2 class="mono" style="margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#65322C">III. The research</h2>
+          <p style="margin:0">While studying International Relations at King's College London, I focused on financial crime and non-traditional assets. During my exchange at Georgetown University, I developed a research paper titled “Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity”, looking at recent case studies in the UK and US, from NFTs to antiquities.</p>
+        </section>
+        <section id="s4" class="sec rise" style="margin-bottom:40px">
+          <h2 class="mono" style="margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#65322C">IV. The fragmentation</h2>
+          <p style="margin:0">That work led me to focus more closely on the art market as a financial crime risk area, and made it clear how fragmented this space is. <span class="hl">Information is difficult to track, often reactive, and rarely brought together in one place.</span></p>
+        </section>
+        <section id="s5" class="sec rise" style="margin-bottom:44px">
+          <h2 class="mono" style="margin:0 0 12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#65322C">V. The platform</h2>
+          <p style="margin:0">This platform is a way to collate and follow developments at the intersection of the art market and financial crime. It is designed for anyone interested in this space who wants a clearer, more efficient way to stay informed. You can also use the comment feature to add analysis, flag connections, and interact with others following this area.</p>
+        </section>
+        <div style="border-top:1px solid rgba(26,26,26,.25);padding-top:18px">
+          <a class="sig" href="https://www.linkedin.com/in/astrid-de-rohan-willner/">Astrid de Rohan Willner</a>
+        </div>
+
+        <!-- Feedback as a tear-off reply slip -->
+        <section class="slipform rise" aria-labelledby="fbh" style="margin-top:56px">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute;top:-12px;left:18px;background:#FFEDBB" fill="none" stroke="#5C5C5C" stroke-width="1.6" stroke-linecap="round"><circle cx="6" cy="7" r="3"></circle><circle cx="6" cy="17" r="3"></circle><path d="M8.5 8.5L20 18M8.5 15.5L20 6"></path></svg>
+          <h2 id="fbh" class="serif" style="margin:0 0 4px;font-weight:400;font-size:30px">Have feedback?</h2>
+          <p style="margin:0 0 16px;font-size:14px;color:#5C5C5C">Submit anonymously. No name or account required.</p>
+          <label for="fb" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feedback message</label>
+          <textarea id="fb" rows="4" placeholder="Share your thoughts..." style="width:100%;box-sizing:border-box;border:0;border-bottom:1px solid rgba(26,26,26,.35);background:repeating-linear-gradient(transparent 0 31px,rgba(53,74,137,.18) 31px 32px);padding:6px 2px;font-size:16px;line-height:32px;font-family:inherit;resize:none;color:#1A1A1A"></textarea>
+          <button type="button" class="btn" style="margin-top:14px;min-height:46px;padding:0 24px;background:#354A89;color:#FFEDBB;border:0;font-family:'Noto Sans';text-transform:uppercase;font-size:14px;font-weight:300;cursor:pointer">Send</button>
+        </section>
+      </article>
     </div>
   </main>
 
   <section class="dark" style="background:#65322C;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:44px 24px;display:flex;flex-wrap:wrap;gap:28px 48px;align-items:center">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px;display:flex;flex-wrap:wrap;gap:20px 48px;align-items:center">
       <div style="flex:1 1 260px">
         <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
-        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:40px">Stay briefed</h2>
+        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:38px">Stay briefed</h2>
       </div>
-      <form style="flex:1 1 380px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+      <form style="flex:1 1 320px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
         <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
-        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:46px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:15px;font-family:inherit">
-        <button type="button" class="btn" style="min-height:46px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
+        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 200px;min-height:48px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:16px;font-family:inherit">
+        <button type="button" class="btn" style="flex:1 1 auto;min-height:48px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
         <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
       </form>
     </div>
   </section>
   <footer class="dark" style="background:#354A89;color:#E6E2C5">
-    <div style="max-width:1280px;margin:0 auto;padding:48px 24px 32px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px;margin-bottom:32px">
+    <div style="max-width:1280px;margin:0 auto;padding:44px 24px 30px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-bottom:28px">
         <div style="font-size:14px;line-height:1.6">
           <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
           <p style="margin:0">Tracking financial crime in the art world</p>
           <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
           <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
         </div>
-        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:300">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;font-weight:300">
           <a href="Main.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
           <a href="Feed.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
           <a href="About.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
@@ -122,7 +174,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
           <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
         </div>
       </div>
-      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:28px;font-size:12px;line-height:1.7;max-width:900px">
+      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:24px;font-size:12px;line-height:1.7;max-width:900px">
         <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
         <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
         <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
@@ -131,9 +183,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2500}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2700}}'>
 class Component extends DCLogic {
-  renderVals() { return {}; }
+  constructor(p){ super(p); this.state = { sec: 's1', menu: false }; }
+  renderVals() {
+    const S = [['s1', 'I', 'The gap'], ['s2', 'II', 'The question'], ['s3', 'III', 'The research'], ['s4', 'IV', 'The fragmentation'], ['s5', 'V', 'The platform']];
+    const toc = S.map(([id, n, label]) => ({ n, label, href: '#' + id, cls: this.state.sec === id ? 'on' : '', pick: () => this.setState({ sec: id }) }));
+    const m = this.state.menu;
+    return { toc, menu: m, menuStr: m ? 'true' : 'false', openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false }) };
+  }
 }
 </script>
 </body>

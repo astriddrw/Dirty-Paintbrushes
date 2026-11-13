@@ -2,40 +2,62 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Feed (mobile)</title>
+<title>Feed: The Index</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Noto+Sans:wght@300;400;500;700&amp;family=Courier+Prime:wght@400;700&amp;family=Caveat:wght@500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#354A89}
-a{color:#253B59}
+body{margin:0;background:#FFEDBB}
+a{color:#253B59}a:hover{color:#65322C}
 .serif{font-family:'Instrument Serif',Georgia,serif}
 .mono{font-family:'Courier Prime','Courier New',monospace}
-.mh{position:sticky;top:0;z-index:20;background:rgba(255,237,187,.96);backdrop-filter:blur(6px);border-bottom:1px solid rgba(26,26,26,.12)}
-.iconbtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;color:#354A89;cursor:pointer}
-.menu{position:absolute;left:0;right:0;top:0;z-index:30;background:#FFEDBB;display:flex;flex-direction:column;padding:6px 8px 28px 20px;box-shadow:0 24px 40px rgba(26,26,26,.3);animation:menu .28s cubic-bezier(.3,0,.2,1) both}
+.nav a{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;color:#354A89;text-decoration:none;padding:10px 0;transition:opacity .2s}
+.nav a:hover{opacity:.7}
+.nav a.on{font-weight:500;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;color:#354A89;cursor:pointer}
+.menu{position:absolute;left:0;right:0;top:0;z-index:30;background:#FFEDBB;display:flex;flex-direction:column;padding:8px 12px 28px 24px;box-shadow:0 24px 40px rgba(26,26,26,.3);animation:menu .28s cubic-bezier(.3,0,.2,1) both}
 @keyframes menu{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
-.menu a.big{font-family:'Instrument Serif',serif;font-style:italic;font-size:44px;line-height:1.1;color:#354A89;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(26,26,26,.15)}
-.scrollx{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px;-webkit-overflow-scrolling:touch}
-.scrollx::-webkit-scrollbar{display:none}
-.ftab{flex:none;font:inherit;cursor:pointer;border:0;min-height:46px;padding:12px 18px 8px;font-size:14px;color:#1A1A1A;clip-path:polygon(0 100%,8% 0,92% 0,100% 100%);transition:transform .2s}
-.chip{flex:none;font:inherit;font-style:italic;font-size:14px;font-weight:500;cursor:pointer;min-height:40px;padding:0 14px;border-radius:20px;border:1px solid rgba(216,194,151,.6);background:transparent;color:#D8C297}
+.menu a.big{font-family:'Instrument Serif',serif;font-style:italic;font-size:42px;line-height:1.1;color:#354A89;text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(26,26,26,.15)}
 mark.q{color:inherit;background-image:linear-gradient(100deg,rgba(187,149,73,0) .5%,rgba(187,149,73,.62) 3%,rgba(214,180,100,.5) 8%,rgba(187,149,73,.45) 90%,rgba(187,149,73,.65) 96%,rgba(187,149,73,0) 99.5%);background-color:transparent;background-repeat:no-repeat;background-size:100% 66%;background-position:0 82%;padding:0 2px;margin:0 -2px;border-radius:3px 8px 4px 9px}
-.sheet{position:relative;background-color:#FBF3E4;background-image:radial-gradient(circle at 18px 50%,#354A89 6px,rgba(0,0,0,.18) 6.5px,transparent 8px);background-size:36px 88px;background-repeat:repeat-y;box-shadow:0 20px 30px rgba(0,0,0,.35);padding:8px 16px 24px 44px}
-.ib{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:#5C5C5C;cursor:pointer}
+.seg{height:100%;border:0;padding:0;cursor:pointer;transition:flex-grow .45s cubic-bezier(.3,0,.2,1),opacity .25s,transform .2s;transform-origin:bottom}
+.seg:hover{transform:scaleY(1.18)}
+.legend{font:inherit;cursor:pointer;background:none;border:0;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 10px 0 0;font-size:14px;color:#1A1A1A}
+.legend .sw{width:12px;height:12px;flex:none}
+.legend .n{font-family:'Courier Prime',monospace;font-size:12px;color:#5C5C5C}
+.chip{font:inherit;font-style:italic;font-size:14px;font-weight:500;cursor:pointer;min-height:40px;padding:0 14px;border:1px solid rgba(119,94,44,.45);background:transparent;color:#775E2C;transition:background .2s,color .2s}
+.row{border-bottom:1px solid rgba(26,26,26,.15);transition:background .2s}
+.row:hover{background:rgba(255,255,255,.35)}
+.row .t{color:#1A1A1A;text-decoration:none;transition:color .2s}
+.row .t:hover{color:#65322C}
+.exp{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;color:#5C5C5C}
+.exp svg{transition:transform .25s}
+.ib{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;color:#5C5C5C}
 .ib.on{color:#253B59;background:rgba(37,59,89,.1)}
-.stamp{position:relative;display:inline-flex;flex-direction:column;align-items:center;padding:5px 10px 4px;border:2.5px solid currentColor;border-radius:6px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-9deg);animation:press .5s cubic-bezier(.3,1.4,.5,1) both}
+.drawer{animation:open .35s cubic-bezier(.3,0,.2,1) both}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.slip{position:relative;background:#FFFBEA;background-image:repeating-linear-gradient(transparent 0 25px,rgba(53,74,137,.2) 25px 26px);background-position:0 16px;padding:22px 18px 14px;box-shadow:0 1px 1px rgba(60,40,10,.1),0 14px 20px -10px rgba(60,40,10,.45);transform:rotate(1.5deg)}
+.slip::before{content:'';position:absolute;top:-12px;left:50%;width:90px;height:26px;margin-left:-45px;background:rgba(232,222,186,.8);box-shadow:0 1px 2px rgba(0,0,0,.14);transform:rotate(-4deg);clip-path:polygon(2% 10%,9% 0,20% 8%,33% 1%,48% 7%,62% 0,76% 7%,89% 1%,100% 10%,98% 90%,89% 100%,75% 93%,61% 100%,47% 92%,33% 100%,19% 93%,7% 100%,0 88%)}
+.ink{color:#22346B;font-family:'Caveat',cursive;font-weight:500;font-size:23px;line-height:26px;text-shadow:0 0 .7px rgba(34,52,107,.55);filter:url(#pen)}
+.stamp{position:relative;display:inline-flex;align-items:center;padding:5px 10px 4px;border:2.5px solid currentColor;border-radius:6px;color:#7D2B22;font-family:'Courier Prime',monospace;font-weight:700;text-transform:uppercase;letter-spacing:.16em;line-height:1;mix-blend-mode:multiply;filter:url(#ink);opacity:.9;transform:rotate(-8deg);animation:press .5s cubic-bezier(.3,1.4,.5,1) both}
 .stamp::before{content:'';position:absolute;inset:2.5px;border:1px solid currentColor;border-radius:3px}
-@keyframes press{0%{transform:rotate(-9deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.9}}
-details summary{cursor:pointer;list-style:none;min-height:44px;display:flex;align-items:center;justify-content:space-between}
-details summary::-webkit-details-marker{display:none}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #E6E2C5;outline-offset:2px}
-.sheet a:focus-visible,.sheet button:focus-visible,.mh button:focus-visible,.mh a:focus-visible,.menu a:focus-visible,.menu button:focus-visible{outline-color:#253B59}
-@media (prefers-reduced-motion: reduce){.stamp,.menu{animation:none}}
+@keyframes press{0%{transform:rotate(-8deg) scale(1.9);opacity:0}65%{opacity:.95}100%{transform:rotate(-8deg) scale(1);opacity:.9}}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #253B59;outline-offset:2px}
+.dark a:focus-visible,.dark button:focus-visible,.dark input:focus-visible{outline-color:#E6E2C5}
+.btn{transition:opacity .2s}.btn:hover{opacity:.82}
+.ledger-head{display:grid;grid-template-columns:92px minmax(0,1fr) 170px 96px;gap:16px}
+.ledger-row{display:grid;grid-template-columns:92px minmax(0,1fr) 170px 96px;gap:16px;align-items:start;padding:16px 8px}
+@media (max-width:700px){
+.links{display:none !important}.burger{display:inline-flex}
+.ledger-head{display:none}
+.ledger-row{grid-template-columns:minmax(0,1fr) auto;gap:6px 8px;padding:16px 0}
+.ledger-row .c-date{grid-column:1 / -1;order:-1}
+.ledger-row .c-src{display:none}
+}
+@media (prefers-reduced-motion: reduce){.seg,.drawer,.stamp,.menu{animation:none;transition:none}}
 </style>
 </helmet>
 
@@ -47,20 +69,30 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
     <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="9" result="d"></feTurbulence>
     <feDisplacementMap in="w" in2="d" scale="2.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
   </filter>
+  <filter id="pen" x="-2%" y="-5%" width="104%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="2" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
 </svg>
 
-<div style="min-height:100vh;background:#354A89;color:#E6E2C5;font-family:'Noto Sans',Arial,sans-serif;overflow-x:hidden">
-  <header class="mh">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px 6px 20px">
-      <a href="Main-mobile.dc.html" class="serif" style="font-style:italic;font-size:21px;color:#354A89;text-decoration:none">Dirty Paintbrushes</a>
-      <button class="iconbtn" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
-    </div>
+<div style="min-height:100vh;background:#FFEDBB;color:#1A1A1A;font-family:'Noto Sans',Arial,sans-serif;overflow-x:hidden">
+  <header style="background:#FFEDBB;border-bottom:1px solid rgba(26,26,26,.12)">
+    <nav class="nav" aria-label="Main" style="max-width:1280px;margin:0 auto;padding:0 12px 0 24px;min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:8px 24px">
+      <a href="Main-mobile.dc.html" class="serif" style="font-family:'Instrument Serif',serif;text-transform:none;font-style:italic;font-size:21px">Dirty Paintbrushes</a>
+      <div class="links" style="display:flex;flex-wrap:wrap;gap:4px 32px;padding-right:12px">
+        <a href="Feed-mobile.dc.html" class="on" aria-current="page">Feed</a>
+        <a href="Sources-mobile.dc.html">Sources</a>
+        <a href="About-mobile.dc.html">About</a>
+        <a href="Login-mobile.dc.html">Login</a>
+      </div>
+      <button class="burger" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+    </nav>
   </header>
   <sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
-    <nav class="menu" aria-label="Main">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px">
+    <nav class="menu" aria-label="Main menu">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
         <span class="serif" style="font-style:italic;font-size:21px;color:#354A89">Dirty Paintbrushes</span>
-        <button class="iconbtn" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <button class="burger" style="display:inline-flex" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       </div>
       <a class="big" href="Main-mobile.dc.html">Home</a>
       <a class="big" href="Feed-mobile.dc.html" aria-current="page" style="color:#65322C">Feed</a>
@@ -72,144 +104,203 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,su
     </nav>
   </sc-if>
 
-  <main style="padding:28px 20px 48px">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:4px double rgba(230,226,197,.7);padding-bottom:8px;margin-bottom:18px">
-      <h1 class="serif" style="margin:0;font-weight:400;font-size:46px;line-height:1">Latest News</h1>
-      <span class="mono" style="font-size:12px;color:#D8C297">10 Nov</span>
+  <main style="max-width:1120px;margin:0 auto;padding:44px 20px 72px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #1A1A1A;border-bottom:4px double #1A1A1A;padding:12px 0;margin-bottom:26px">
+      <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(44px,6vw,68px);line-height:1;color:#354A89">Latest News</h1>
+      <span class="mono" style="font-size:13px;color:#5C5C5C">Tuesday 10 November 2026</span>
     </div>
 
-    <div style="display:flex;gap:8px;margin-bottom:14px">
-      <div style="position:relative;flex:1">
-        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute;left:12px;top:50%;margin-top:-8px" fill="none" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+    <!-- Typology at a glance: the bar is the filter -->
+    <section aria-label="Filter by typology" style="margin-bottom:28px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap">
+        <h2 class="mono" style="margin:0;font-size:12px;letter-spacing:.18em;text-transform:uppercase">Typology</h2>
+        <span style="font-size:13px;color:#5C5C5C">{{barHint}}</span>
+      </div>
+      <div style="display:flex;height:22px;gap:2px;align-items:flex-end">
+        <sc-for list="{{segs}}" as="g" hint-placeholder-count="5">
+          <button class="seg" onClick="{{g.pick}}" aria-label="{{g.aria}}" aria-pressed="{{g.pressed}}" style="{{g.style}}"></button>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0 18px;margin-top:8px">
+        <button class="legend" onClick="{{clearTyp}}" aria-pressed="{{allPressed}}" style="{{allStyle}}">All <span class="n">{{total}}</span></button>
+        <sc-for list="{{segs}}" as="g" hint-placeholder-count="5">
+          <button class="legend" onClick="{{g.pick}}" aria-pressed="{{g.pressed}}" style="{{g.legendStyle}}"><span class="sw" style="background:{{g.color}}"></span>{{g.label}} <span class="n">{{g.n}}</span></button>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div style="position:relative;flex:1 1 280px">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="position:absolute;left:14px;top:50%;margin-top:-8px" fill="none" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
         <label for="fq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search articles</label>
-        <input id="fq" type="search" value="{{query}}" onChange="{{onQuery}}" placeholder="Search articles..." style="width:100%;box-sizing:border-box;min-height:48px;padding:0 12px 0 38px;background:#fff;border:0;border-radius:10px;font-size:16px;font-family:inherit;color:#1A1A1A">
+        <input id="fq" type="search" value="{{query}}" onChange="{{onQuery}}" placeholder="Search articles..." style="width:100%;box-sizing:border-box;min-height:48px;padding:0 14px 0 42px;background:#FFF8E2;border:1px solid #1A1A1A;font-size:16px;font-family:inherit;color:#1A1A1A">
       </div>
       <label for="fs" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Sort articles by</label>
-      <select id="fs" style="min-height:48px;padding:0 10px;background:#fff;border:0;border-radius:10px;font-size:14px;font-family:inherit;color:#1A1A1A">
-        <option>Newest</option>
-        <option>Oldest</option>
+      <select id="fs" style="min-height:48px;padding:0 14px;background:#FFF8E2;border:1px solid #1A1A1A;font-size:15px;font-family:inherit;color:#1A1A1A">
+        <option>Newest first</option>
+        <option>Oldest first</option>
       </select>
     </div>
-
-    <p style="margin:0 0 6px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(230,226,197,.8)">Article Type</p>
-    <div class="scrollx" role="group" aria-label="Article type" style="margin-bottom:22px">
+    <div role="group" aria-label="Article type" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:34px">
       <sc-for list="{{types}}" as="t" hint-placeholder-count="6">
         <button class="chip" aria-pressed="{{t.pressed}}" onClick="{{t.toggle}}" style="{{t.style}}">{{t.label}}</button>
       </sc-for>
     </div>
 
-    <!-- Typology tabs as manila folder tabs sitting on the sheet -->
-    <div class="scrollx" role="group" aria-label="Filter by typology" style="align-items:flex-end">
-      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
-        <button class="ftab" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
-      </sc-for>
+    <!-- The ledger -->
+    <div class="ledger-head mono" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#5C5C5C;border-bottom:2px solid #1A1A1A;padding:0 8px 8px">
+      <span>Published</span><span>Headline</span><span>Source</span><span style="text-align:right">Actions</span>
     </div>
-
-    <div class="sheet" style="color:#1A1A1A">
-      <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
-        <div style="padding:18px 0;border-bottom:1px solid rgba(26,26,26,.14)">
-          <div style="display:flex;gap:8px;align-items:flex-start">
-            <a class="serif" href="Article-mobile.dc.html" style="flex:1;font-size:21px;line-height:1.2;color:#1A1A1A;text-decoration:none"><sc-for list="{{a.parts}}" as="p" hint-placeholder-count="1"><sc-if value="{{p.hl}}" hint-placeholder-val="{{false}}"><mark class="q">{{p.t}}</mark></sc-if><sc-if value="{{p.plain}}" hint-placeholder-val="{{true}}"><span>{{p.t}}</span></sc-if></sc-for></a>
-            <button class="{{a.cls}}" onClick="{{a.toggle}}" aria-label="{{a.aria}}" aria-pressed="{{a.savedStr}}" style="margin:-8px -8px 0 0"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="{{a.fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg></button>
+    <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
+      <div class="row">
+        <div class="ledger-row">
+          <span class="mono c-date" style="font-size:13px;font-weight:700;color:#65322C;padding-top:4px">{{a.date}}</span>
+          <div style="min-width:0">
+            <a class="t serif" href="Article-mobile.dc.html" style="display:block;font-size:23px;line-height:1.18"><sc-for list="{{a.parts}}" as="p" hint-placeholder-count="1"><sc-if value="{{p.hl}}" hint-placeholder-val="{{false}}"><mark class="q">{{p.t}}</mark></sc-if><sc-if value="{{p.plain}}" hint-placeholder-val="{{true}}"><span>{{p.t}}</span></sc-if></sc-for></a>
+            <div style="display:flex;flex-wrap:wrap;gap:2px 12px;margin-top:8px;font-size:13px;align-items:center">
+              <sc-for list="{{a.tags}}" as="c" hint-placeholder-count="1"><span style="display:inline-flex;align-items:center;gap:6px;font-style:italic;font-weight:500;color:#354A89"><span style="width:8px;height:8px;background:{{c.color}}"></span>{{c.label}}</span></sc-for>
+              <span style="font-style:italic;font-weight:500;color:#775E2C">{{a.type}}</span>
+              <sc-if value="{{a.saved}}" hint-placeholder-val="{{false}}"><span class="stamp" style="font-size:10px">Saved</span></sc-if>
+            </div>
           </div>
-          <div style="display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center;margin-top:8px;font-size:12.5px">
-            <sc-for list="{{a.crimes}}" as="c" hint-placeholder-count="1"><span style="font-style:italic;font-weight:500;color:#354A89">{{c}}</span></sc-for>
-            <span style="font-style:italic;font-weight:500;color:#775E2C">{{a.type}}</span>
-            <span style="color:#5C5C5C">{{a.source}} · {{a.date}}</span>
-            <sc-if value="{{a.saved}}" hint-placeholder-val="{{false}}"><span class="stamp" style="font-size:10px;margin-left:auto">Saved</span></sc-if>
+          <span class="c-src" style="font-size:13px;color:#5C5C5C;padding-top:5px">{{a.source}}</span>
+          <div style="display:flex;justify-content:flex-end">
+            <button class="{{a.cls}}" onClick="{{a.toggle}}" aria-label="{{a.aria}}" aria-pressed="{{a.savedStr}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="{{a.fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg></button>
+            <button class="exp" onClick="{{a.expand}}" aria-expanded="{{a.openStr}}" aria-label="{{a.expAria}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="{{a.chev}}"><path d="M6 9l6 6 6-6"></path></svg></button>
           </div>
         </div>
-      </sc-for>
-      <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
-        <div style="padding:48px 0;text-align:center">
-          <p style="margin:0;color:#5C5C5C">No articles found matching your criteria.</p>
-          <button onClick="{{clear}}" style="margin-top:10px;font:inherit;color:#253B59;background:none;border:0;min-height:44px;text-decoration:underline">Clear filters</button>
-        </div>
-      </sc-if>
-      <p style="margin:20px 0 0;font-size:13px;color:#5C5C5C">{{countLabel}}</p>
-    </div>
+        <sc-if value="{{a.open}}" hint-placeholder-val="{{false}}">
+          <div class="drawer" style="display:flex;flex-wrap:wrap;gap:24px 36px;padding:0 8px 26px;align-items:flex-start">
+            <div style="flex:1 1 360px;max-width:620px">
+              <p style="margin:0 0 14px;font-size:15px;line-height:1.7;color:rgba(26,26,26,.86)">{{a.summary}}</p>
+              <a href="Article-mobile.dc.html" style="font-size:14px;font-weight:500;text-underline-offset:4px">Open the article →</a>
+            </div>
+            <sc-if value="{{a.note}}" hint-placeholder-val="{{false}}">
+              <aside class="slip" aria-label="Editor's note" style="flex:0 1 260px">
+                <p class="mono" style="margin:0 0 2px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#65322C">Editor's note</p>
+                <p class="ink" style="margin:0">{{a.note}}</p>
+              </aside>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+    <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+      <div style="padding:56px 0;text-align:center">
+        <p style="margin:0;color:#5C5C5C">No articles found matching your criteria.</p>
+        <button onClick="{{clear}}" style="margin-top:10px;font:inherit;color:#253B59;background:none;border:0;min-height:44px;text-decoration:underline;cursor:pointer">Clear filters</button>
+      </div>
+    </sc-if>
+    <p style="margin:24px 0 0;font-size:14px;color:#5C5C5C">{{countLabel}}</p>
   </main>
 
-  <section style="background:#65322C;color:#E6E2C5;padding:32px 20px">
-    <p style="margin:0 0 4px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
-    <h2 class="serif" style="margin:0 0 18px;font-weight:400;font-style:italic;font-size:36px">Stay briefed</h2>
-    <form style="display:flex;flex-direction:column;gap:10px">
-      <label for="nl" style="font-size:12px">Email address</label>
-      <input id="nl" type="email" placeholder="you@example.com" style="min-height:48px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:16px;font-family:inherit">
-      <button type="button" style="min-height:48px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;font-size:15px;font-family:inherit">Subscribe</button>
-      <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
-    </form>
-  </section>
-  <footer style="background:#354A89;color:#E6E2C5;padding:32px 20px 28px;font-size:14px;border-top:1px solid rgba(230,226,197,.15)">
-    <p class="serif" style="margin:0 0 4px;font-size:22px;font-style:italic">Dirty Paintbrushes</p>
-    <p style="margin:0 0 22px">Tracking financial crime in the art world</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.2)">
-      <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Home</a>
-      <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Feed</a>
-      <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">About</a>
-      <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Sources</a>
-      <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Newsletter</a>
-      <a href="#" style="color:#E6E2C5;text-decoration:none;font-weight:300;padding:12px 0">Privacy</a>
+  <section class="dark" style="background:#65322C;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px;display:flex;flex-wrap:wrap;gap:20px 48px;align-items:center">
+      <div style="flex:1 1 260px">
+        <p style="margin:0 0 6px;text-transform:uppercase;font-size:12px;font-weight:300;letter-spacing:.06em;color:#D8C297">Monthly digest</p>
+        <h2 class="serif" style="margin:0;font-weight:400;font-style:italic;font-size:38px">Stay briefed</h2>
+      </div>
+      <form style="flex:1 1 320px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+        <label for="nl" style="flex-basis:100%;font-size:12px">Email address</label>
+        <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 200px;min-height:48px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 14px;font-size:16px;font-family:inherit">
+        <button type="button" class="btn" style="flex:1 1 auto;min-height:48px;padding:0 22px;background:#E6E2C5;color:#65322C;border:0;font-weight:500;cursor:pointer;font-family:inherit">Subscribe</button>
+        <a href="#" style="flex-basis:100%;font-size:12px;color:#E6E2C5;text-underline-offset:4px">Privacy notice</a>
+      </form>
     </div>
-    <details style="border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2);margin-top:8px">
-      <summary style="font-size:13px;font-weight:700">Disclaimer <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg></summary>
-      <div style="font-size:12px;line-height:1.7;padding-bottom:16px">
-        <p style="margin:0 0 12px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
+  </section>
+  <footer class="dark" style="background:#354A89;color:#E6E2C5">
+    <div style="max-width:1280px;margin:0 auto;padding:44px 24px 30px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-bottom:28px">
+        <div style="font-size:14px;line-height:1.6">
+          <p class="serif" style="margin:0 0 6px;font-size:20px;font-style:italic">Dirty Paintbrushes</p>
+          <p style="margin:0">Tracking financial crime in the art world</p>
+          <p style="margin:16px 0 0;font-size:12px">© 2026 All rights reserved.</p>
+          <a href="#" style="font-size:12px;color:#E6E2C5;text-underline-offset:4px">Contact</a>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:14px;font-weight:300">
+          <a href="Main-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Home</a>
+          <a href="Feed-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Feed</a>
+          <a href="About-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">About</a>
+          <a href="Sources-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Sources</a>
+          <a href="Newsletter-mobile.dc.html" style="color:#E6E2C5;text-decoration:none">Newsletter</a>
+          <a href="#" style="color:#E6E2C5;text-decoration:none">Privacy</a>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.2);padding-top:24px;font-size:12px;line-height:1.7;max-width:900px">
+        <p style="margin:0 0 6px;font-weight:700">Disclaimer</p>
+        <p style="margin:0 0 14px">Comments reflect individual views and do not constitute verified intelligence. Users are responsible for the accuracy and legality of their contributions.</p>
         <p style="margin:0">Dirty Paintbrushes is an independent platform reflecting personal research and views only, and is not affiliated with any employer or organisation. All articles remain the property of their original publishers and authors. This site aggregates links and short summaries, credits the source of every item, and directs readers to the original publication.</p>
       </div>
-    </details>
-    <p style="margin:18px 0 0;font-size:12px">© 2026 All rights reserved. · <a href="#" style="color:#E6E2C5">Contact</a></p>
+    </div>
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":3200}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":3400}}'>
 class Component extends DCLogic {
-  constructor(p){ super(p); this.state = { query: '', typ: '', types: [], saved: ['a3'], menu: false }; }
+  constructor(p){ super(p); this.state = { query: '', typ: '', types: [], saved: ['a3'], open: 'a1', menu: false }; }
   renderVals() {
-    const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions', terror_financing: 'Terror financing', forgery: 'Forgery', looting: 'Looting', tax_evasion: 'Tax evasion' };
+    const K = [
+      { k: 'fraud', label: 'Fraud', color: '#BB9549' },
+      { k: 'money_laundering', label: 'Money laundering', color: '#354A89' },
+      { k: 'sanctions_evasion', label: 'Sanctions', color: '#8FA6C9' },
+      { k: 'terror_financing', label: 'Terror financing', color: '#65322C' },
+      { k: 'other', label: 'Other typologies', color: '#C9B99A' }
+    ];
+    const main = ['fraud', 'money_laundering', 'sanctions_evasion', 'terror_financing'];
+    const OTHER = { forgery: 'Forgery', looting: 'Looting', tax_evasion: 'Tax evasion' };
     const A = [
-      { id: 'a1', title: 'Regulator fines auction house over gaps in buyer due diligence', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov' },
-      { id: 'a2', title: 'Dealer charged with routing sanctioned funds through private art sales', c: ['sanctions_evasion','money_laundering'], type: 'News', source: 'National daily', date: '10 Nov' },
-      { id: 'a3', title: 'Investigators trace forged provenance documents across three galleries', c: ['forgery','fraud'], type: 'Investigation', source: 'Trade press', date: '9 Nov' },
-      { id: 'a4', title: 'Antiquities seized at border linked to conflict-zone looting network', c: ['looting','terror_financing'], type: 'Investigation', source: 'Wire service', date: '9 Nov' },
-      { id: 'a5', title: 'Court upholds forfeiture of paintings bought with laundered proceeds', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '8 Nov' },
-      { id: 'a6', title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '7 Nov' },
-      { id: 'a7', title: 'Opinion: why art-market due diligence still lags behind banking', c: ['money_laundering'], type: 'Opinion', source: 'Trade press', date: '7 Nov' },
-      { id: 'a8', title: 'Shell companies used to obscure ownership of high-value works, report finds', c: ['money_laundering','sanctions_evasion'], type: 'Analysis', source: 'NGO report', date: '5 Nov' }
+      { id: 'a1', title: 'Regulator fines auction house over gaps in buyer due diligence', summary: 'A national regulator found the house accepted high-value bids without verifying who ultimately paid, and ordered an independent review of its client checks.', note: 'Worth reading alongside last spring’s guidance on beneficial ownership checks.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '10 Nov 2026' },
+      { id: 'a2', title: 'Dealer charged with routing sanctioned funds through private art sales', summary: 'Prosecutors allege a series of private-treaty sales concealed the involvement of a designated person.', c: ['sanctions_evasion','money_laundering'], type: 'News', source: 'National daily', date: '10 Nov 2026' },
+      { id: 'a3', title: 'Investigators trace forged provenance documents across three galleries', summary: 'Reporters matched letterheads and stamps on certificates attached to works sold over five years.', c: ['forgery','fraud'], type: 'Investigation', source: 'Trade press', date: '9 Nov 2026' },
+      { id: 'a4', title: 'Antiquities seized at border linked to conflict-zone looting network', summary: 'Customs officers say the objects were shipped with false export papers via two transit countries.', c: ['looting','terror_financing'], type: 'Investigation', source: 'Wire service', date: '9 Nov 2026' },
+      { id: 'a5', title: 'Court upholds forfeiture of paintings bought with laundered proceeds', summary: 'The appeal court rejected the argument that the buyer acted in good faith.', c: ['money_laundering'], type: 'Ruling', source: 'Court filing', date: '8 Nov 2026' },
+      { id: 'a6', title: 'Freeport storage under scrutiny in new anti-money-laundering guidance', summary: 'Draft guidance asks storage operators to identify the beneficial owners of what they hold.', c: ['money_laundering'], type: 'Regulation', source: 'Regulator release', date: '7 Nov 2026' },
+      { id: 'a7', title: 'Opinion: why art-market due diligence still lags behind banking', summary: 'A former compliance officer argues the gap is cultural, not technical.', c: ['money_laundering'], type: 'Opinion', source: 'Trade press', date: '7 Nov 2026' },
+      { id: 'a8', title: 'Shell companies used to obscure ownership of high-value works, report finds', summary: 'A review of public filings found layered ownership in a sample of recent sales.', c: ['money_laundering','sanctions_evasion'], type: 'Analysis', source: 'NGO report', date: '5 Nov 2026' },
+      { id: 'a9', title: 'Collector admits undeclared artwork transfers in fraud case', summary: 'The plea covers transfers between companies the collector controlled.', c: ['tax_evasion','fraud'], type: 'Ruling', source: 'Court filing', date: '4 Nov 2026' }
     ];
     const s = this.state;
     const q = s.query.trim().toLowerCase();
+    const bucket = (k) => (main.includes(k) ? k : 'other');
+    const pre = A.filter((a) => (!q || a.title.toLowerCase().includes(q)) && (s.types.length === 0 || s.types.includes(a.type)));
+    const res = pre.filter((a) => !s.typ || a.c.some((k) => bucket(k) === s.typ));
     const split = (t) => {
       if (!q) return [{ t, hl: false, plain: true }];
       const out = []; const lo = t.toLowerCase(); let i = 0;
       while (i < t.length) { const j = lo.indexOf(q, i); if (j < 0) { out.push({ t: t.slice(i), hl: false, plain: true }); break; } if (j > i) out.push({ t: t.slice(i, j), hl: false, plain: true }); out.push({ t: t.slice(j, j + q.length), hl: true, plain: false }); i = j + q.length; }
       return out;
     };
-    const res = A.filter((a) => (!q || a.title.toLowerCase().includes(q)) && (!s.typ || a.c.includes(s.typ)) && (s.types.length === 0 || s.types.includes(a.type)));
+    const color = (k) => K.find((x) => x.k === bucket(k)).color;
     const items = res.map((a) => {
-      const saved = s.saved.includes(a.id);
-      return { ...a, parts: split(a.title), crimes: a.c.map((k) => L[k]), saved, savedStr: saved ? 'true' : 'false', cls: saved ? 'ib on' : 'ib', fill: saved ? 'currentColor' : 'none', aria: saved ? 'Remove bookmark' : 'Add bookmark',
-        toggle: () => this.setState({ saved: saved ? s.saved.filter((x) => x !== a.id) : s.saved.concat(a.id) }) };
+      const saved = s.saved.includes(a.id); const open = s.open === a.id;
+      return { ...a, parts: split(a.title), tags: a.c.map((k) => ({ label: OTHER[k] || K.find((x) => x.k === k).label, color: color(k) })),
+        saved, savedStr: saved ? 'true' : 'false', cls: saved ? 'ib on' : 'ib', fill: saved ? 'currentColor' : 'none', aria: saved ? 'Remove bookmark' : 'Add bookmark',
+        toggle: () => this.setState({ saved: saved ? s.saved.filter((x) => x !== a.id) : s.saved.concat(a.id) }),
+        open, openStr: open ? 'true' : 'false', expAria: open ? 'Hide summary' : 'Show summary', chev: open ? 'transform:rotate(180deg)' : '',
+        expand: () => this.setState({ open: open ? '' : a.id }), note: a.note || '' };
     });
-    const TV = ['', 'fraud', 'money_laundering', 'sanctions_evasion', 'terror_financing'];
-    const TL = ['All', 'Fraud', 'Money laundering', 'Sanctions', 'Terror financing'];
-    const shades = ['#F1E2C6', '#E9D7B4', '#E2CDA5', '#DAC396', '#D3BA89'];
-    const tabs = TV.map((v, i) => {
-      const on = s.typ === v;
-      return { label: TL[i], pressed: on ? 'true' : 'false', pick: () => this.setState({ typ: v }),
-        style: 'background:' + (on ? '#FBF3E4' : shades[i]) + ';font-weight:' + (on ? 700 : 400) + ';color:' + (on ? '#65322C' : '#1A1A1A') + ';transform:translateY(' + (on ? '1px' : '5px') + ')' };
+    const counts = K.map((g) => pre.filter((a) => a.c.some((k) => bucket(k) === g.k)).length);
+    const segs = K.map((g, i) => {
+      const on = s.typ === g.k; const dim = s.typ && !on;
+      return { ...g, n: counts[i], pressed: on ? 'true' : 'false', aria: g.label + ', ' + counts[i] + ' articles',
+        pick: () => this.setState({ typ: on ? '' : g.k }),
+        style: 'background:' + g.color + ';flex-grow:' + Math.max(counts[i], 0.0001) + ';flex-basis:0;opacity:' + (dim ? .25 : 1) + (counts[i] ? '' : ';display:none'),
+        legendStyle: on ? 'font-weight:700;color:#65322C' : (dim ? 'opacity:.6' : '') };
     });
     const types = ['News', 'Opinion', 'Regulation', 'Investigation', 'Ruling', 'Analysis'].map((t) => {
       const on = s.types.includes(t);
       return { label: t, pressed: on ? 'true' : 'false', toggle: () => this.setState({ types: on ? s.types.filter((x) => x !== t) : s.types.concat(t) }),
-        style: on ? 'background:#D8C297;color:#253B59;border-color:#D8C297' : '' };
+        style: on ? 'background:#775E2C;color:#FFEDBB;border-color:#775E2C' : '' };
     });
-    const n = res.length;
-    const m = s.menu;
+    const n = res.length; const m = s.menu;
+    const active = K.find((g) => g.k === s.typ);
     return {
       query: s.query, onQuery: (e) => this.setState({ query: e.target.value }),
-      items, tabs, types, none: n === 0, clear: () => this.setState({ query: '', typ: '', types: [] }),
-      countLabel: n ? 'Showing 1–' + n + ' of ' + n + ' articles' : '',
+      segs, types, items, none: n === 0, total: pre.length,
+      allPressed: s.typ ? 'false' : 'true', allStyle: s.typ ? '' : 'font-weight:700;color:#65322C',
+      clearTyp: () => this.setState({ typ: '' }), clear: () => this.setState({ query: '', typ: '', types: [] }),
+      barHint: active ? 'Showing ' + active.label.toLowerCase() + '. Click it again to show all.' : 'Click a band to filter. Articles can carry more than one typology.',
+      countLabel: n ? 'Showing 1–' + n + ' of ' + n + (n === 1 ? ' article' : ' articles') : '',
       menu: m, menuStr: m ? 'true' : 'false', openMenu: () => this.setState({ menu: true }), closeMenu: () => this.setState({ menu: false })
     };
   }
