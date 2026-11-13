@@ -32,10 +32,11 @@ mark.q{color:inherit;background-image:linear-gradient(100deg,rgba(187,149,73,0) 
 .ib:hover{color:#1A1A1A;background:rgba(26,26,26,.06)}
 .ib.on{color:#253B59;background:rgba(37,59,89,.1)}
 .atype{font:inherit;cursor:pointer;background:none;border:0;padding:8px 4px;font-style:italic;font-size:14px;font-weight:500;color:#D8C297;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;transition:text-decoration-color .2s}
-.tab{position:absolute;display:flex;align-items:center;justify-content:center;border:0;background:transparent;padding:0;cursor:pointer;transition:transform .18s cubic-bezier(.3,0,.2,1)}
-.tab:hover,.tab:focus-visible{transform:translateX(7%)}
-.tab span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:15px;font-weight:500;color:rgba(26,26,26,.6);transition:color .2s}
-.tab:hover span{color:rgba(26,26,26,.82)}
+.tabs{position:sticky;top:0;z-index:3;background:#F0DFD1;display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px;padding-top:14px;margin-bottom:4px;border-bottom:2px solid #65322C}
+.ftab{font:inherit;cursor:pointer;border:0;min-height:44px;padding:10px 18px 8px;font-size:15px;color:#1A1A1A;background:rgba(187,149,73,.24);clip-path:polygon(0 100%,7% 0,93% 0,100% 100%);display:inline-flex;align-items:center;gap:7px;transition:background .2s,color .2s}
+.ftab:hover{background:rgba(187,149,73,.4)}
+.ftab .n{font-family:'Courier Prime',monospace;font-size:12px;opacity:.75}
+.ftab[aria-pressed="true"]{background:#65322C;color:#FFEDBB}
 .panel{scrollbar-width:thin;scrollbar-color:rgba(26,26,26,.25) transparent}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #E6E2C5;outline-offset:3px}
 .paper a:focus-visible,.paper button:focus-visible{outline-color:#65322C}
@@ -46,9 +47,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .binder > img{display:none}
 .panel{position:static !important;overflow:visible !important}
 .panel > div{padding-right:0 !important}
-.tabs{order:-1;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-.tabs .tab{position:static !important;height:auto !important;transform:none !important;min-height:40px;padding:0 12px;background:#F1E2C6;border-radius:0 0 8px 8px;box-shadow:0 2px 3px rgba(60,40,10,.15)}
-.tabs .tab span{writing-mode:horizontal-tb;transform:none;font-size:14px}
+.tabs{background:#FBF3E4}
 }
 @media (prefers-reduced-motion: reduce){mark.q,.stamp{animation:none}}
 </style>
@@ -116,6 +115,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 
         <div class="panel" style="position:absolute;left:23.4%;right:18%;top:8.2%;bottom:7.5%;overflow-y:auto;overflow-x:hidden;color:#1A1A1A">
           <div style="padding-right:8%">
+            <!-- Typology tabs: a divider strip across the top of the page, pinned while the list scrolls -->
+            <div class="tabs" role="group" aria-label="Filter by typology">
+              <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+                <button class="ftab" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}">{{t.label}} <span class="n">{{t.n}}</span></button>
+              </sc-for>
+            </div>
             <sc-for list="{{items}}" as="a" hint-placeholder-count="6">
               <div class="row" style="display:flex;gap:16px;align-items:flex-start;padding:20px 8px;margin:0 -8px;border-bottom:1px solid rgba(26,26,26,.14)">
                 <div style="flex:1;min-width:0">
@@ -153,11 +158,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
           </div>
         </div>
 
-        <div class="tabs" role="group" aria-label="Filter by typology">
-          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
-            <button class="tab" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}"><span style="{{t.labelStyle}}">{{t.label}}</span></button>
-          </sc-for>
-        </div>
       </div>
     </div>
   </main>
@@ -236,12 +236,11 @@ class Component extends DCLogic {
     });
     const BANDS = [[6.85, 24.09], [24.09, 41.33], [41.33, 58.57], [58.57, 75.8], [75.8, 93.04]];
     const TV = ['', 'fraud', 'money_laundering', 'sanctions_evasion', 'terror_financing'];
-    const TL = ['all', 'fraud', 'money laundering', 'sanctions', 'terror financing'];
+    const TL = ['All', 'Fraud', 'Money laundering', 'Sanctions', 'Terror financing'];
     const tabs = TV.map((v, i) => {
       const on = s.typ === v;
-      return { label: TL[i], pressed: on ? 'true' : 'false', pick: () => this.setState({ typ: on && v ? '' : v }),
-        style: 'left:87.5%;right:6.5%;top:' + BANDS[i][0] + '%;height:' + (BANDS[i][1] - BANDS[i][0]) + '%;transform:translateX(' + (on ? '4%' : '0') + ')',
-        labelStyle: on ? 'color:#65322C;font-weight:700' : '' };
+      return { label: TL[i], n: v ? A.filter((a) => a.c.includes(v)).length : A.length, pressed: on ? 'true' : 'false',
+        pick: () => this.setState({ typ: on && v ? '' : v }) };
     });
     const types = ['News', 'Opinion', 'Regulation', 'Investigation', 'Ruling', 'Analysis'].map((t) => {
       const on = s.types.includes(t);
