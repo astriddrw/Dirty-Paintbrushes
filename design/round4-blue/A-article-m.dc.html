@@ -14,27 +14,34 @@
 body{margin:0;background:#F7F9FC}
 a{color:#354A89}a:hover{color:#1E2C4F}
 .serif{font-family:'Instrument Serif',Georgia,serif}
+.it{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400}
+.head{font-family:Arial,Helvetica,sans-serif;font-weight:600;letter-spacing:-.02em;color:#334EAC}
+.ns{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-weight:300}
+.mq{display:flex;width:max-content;animation:mq 42s linear infinite}
+.mqwrap:hover .mq{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
 .muted{color:#5B6B85}
 .num{font-variant-numeric:tabular-nums}
 .hl{background-image:linear-gradient(100deg,rgba(143,179,224,0) .5%,rgba(143,179,224,.6) 2.5%,rgba(160,196,232,.5) 8%,rgba(143,179,224,.45) 92%,rgba(143,179,224,.62) 97%,rgba(143,179,224,0) 99.5%);background-repeat:no-repeat;background-size:100% 58%;background-position:0 85%;padding:0 3px;margin:0 -3px;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:sweep .9s cubic-bezier(.4,0,.2,1) .4s both}
 @keyframes sweep{from{background-size:0% 58%}}
 mark.q{color:inherit;background:rgba(143,179,224,.55);padding:0 2px}
 .link{font:inherit;background:none;border:0;padding:0;cursor:pointer;color:inherit;text-align:left}
-.nl{font:inherit;background:none;border:0;cursor:pointer;padding:10px 2px;font-size:15px;color:#33415C;background-image:linear-gradient(rgba(143,179,224,.6),rgba(143,179,224,.6));background-repeat:no-repeat;background-size:0% 8px;background-position:0 72%;transition:background-size .3s,color .2s}
-.nl:hover,.nl.on{background-size:100% 8px;color:#101828}
+.nl{font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-weight:300;font-size:15px;background:none;border:0;cursor:pointer;padding:10px 0;color:#354A89;transition:opacity .2s}
+.nl:hover{opacity:.7}
+.nl.on{font-weight:500;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
 .burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;background:none;border:0;color:#253B59;cursor:pointer}
 .menu{position:absolute;left:0;right:0;top:0;z-index:40;background:#F7F9FC;display:flex;flex-direction:column;padding:10px 12px 32px 24px;box-shadow:0 30px 50px rgba(16,24,40,.18);animation:menu .25s cubic-bezier(.3,0,.2,1) both}
 @keyframes menu{from{opacity:0;transform:translateY(-10px)}}
-.menu .big{font:inherit;text-align:left;background:none;border:0;cursor:pointer;font-family:'Instrument Serif',serif;font-size:40px;color:#253B59;padding:6px 0}
-.hd{color:#101828;transition:color .2s}
-.hd:hover{color:#354A89}
+.menu .big{font:inherit;text-align:left;background:none;border:0;cursor:pointer;font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;color:#253B59;padding:6px 0}
+.hd{color:#354A89;font-style:italic;transition:opacity .2s}
+.hd:hover{opacity:.7}
 .pick{font:inherit;cursor:pointer;background:none;border:0;padding:8px 2px;font-size:15px;color:#5B6B85;background-image:linear-gradient(rgba(143,179,224,.6),rgba(143,179,224,.6));background-repeat:no-repeat;background-size:0% 9px;background-position:0 75%;transition:background-size .3s,color .2s;min-height:40px}
 .pick:hover{color:#101828}
 .pick[aria-pressed="true"]{background-size:100% 9px;color:#101828}
 .pick .n{font-size:12px;margin-left:5px;color:#8392AB}
-.btn{font:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;font-size:15px;font-weight:500;text-decoration:none;border:0;border-radius:24px;background:#253B59;color:#FFFFFF;transition:background .2s}
+.btn{font:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:15px;font-weight:300;text-decoration:none;border:0;border-radius:0;background:#354A89;color:#FFFFFF;transition:background .2s}
 .btn:hover{background:#1E2C4F;color:#FFFFFF}
-.arrow{font:inherit;cursor:pointer;background:none;border:0;padding:12px 0;font-size:15px;font-weight:500;color:#253B59;display:inline-flex;gap:8px;align-items:center}
+.arrow{font:inherit;cursor:pointer;background:none;border:0;padding:12px 0;font-family:'Noto Sans',sans-serif;text-transform:uppercase;font-size:14px;font-weight:300;color:#354A89;display:inline-flex;gap:8px;align-items:center}
 .arrow span{transition:transform .2s}
 .arrow:hover span{transform:translateX(4px)}
 .ib{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:none;border:0;cursor:pointer;color:#8392AB;border-radius:50%;transition:color .2s,background .2s}
@@ -59,25 +66,31 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </style>
 </helmet>
 
-<div style="min-height:100vh;background:#F7F9FC;color:#101828;font-family:'Noto Sans',Arial,sans-serif;overflow-x:clip">
+<div style="min-height:100vh;background:#F7F9FC;color:#101828;font-family:Arial,Helvetica,sans-serif;overflow-x:clip">
 
   <header style="background:rgba(247,249,252,.92);backdrop-filter:blur(8px);position:sticky;top:0;z-index:20">
     <nav aria-label="Main" style="max-width:1200px;margin:0 auto;padding:0 12px 0 24px;min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px">
       <button class="link" onClick="{{goHome}}" style="display:flex;align-items:center;gap:10px;padding:6px 0">
         <img src="/_blob/88e5264076e934f87d8ad32b73e2ccb0" alt="" style="height:28px;width:auto">
-        <span class="serif" style="font-size:24px;color:#253B59">Dirty Paintbrushes</span>
+        <span class="it" style="font-size:24px;color:#354A89">Dirty Paintbrushes</span>
       </button>
       <div class="links" style="display:flex;align-items:center;gap:30px">
         <sc-for list="{{nav}}" as="n" hint-placeholder-count="5"><button class="{{n.cls}}" onClick="{{n.go}}" aria-current="{{n.cur}}">{{n.label}}</button></sc-for>
-        <a href="Login.dc.html" style="font-size:15px;font-weight:500;color:#253B59;text-decoration:none;padding:10px 0">Log in</a>
+        <a class="nl" href="Login.dc.html" style="text-decoration:none">Login</a>
       </div>
       <button class="burger" onClick="{{openMenu}}" aria-label="Open menu" aria-expanded="{{menuStr}}"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h12"></path></svg></button>
     </nav>
   </header>
+  <div class="mqwrap" aria-label="Latest headlines" style="overflow:hidden;background:#354A89;color:#FFFFFF">
+    <div class="mq">
+      <sc-for list="{{ticker}}" as="k" hint-placeholder-count="6"><button class="link" onClick="{{k.go}}" style="white-space:nowrap;padding:9px 0 9px 30px;color:#FFFFFF"><span class="ns" style="font-size:12px;color:#CFE6F0;margin-right:10px">{{k.short}}</span><span class="it" style="font-size:18px">{{k.title}}</span><span aria-hidden="true" style="margin-left:30px;color:#CFE6F0">*</span></button></sc-for>
+      <sc-for list="{{ticker}}" as="k" hint-placeholder-count="6"><span aria-hidden="true" style="white-space:nowrap;padding:9px 0 9px 30px"><span class="ns" style="font-size:12px;color:#CFE6F0;margin-right:10px">{{k.short}}</span><span class="it" style="font-size:18px">{{k.title}}</span><span style="margin-left:30px;color:#CFE6F0">*</span></span></sc-for>
+    </div>
+  </div>
   <sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
     <nav class="menu" aria-label="Main menu">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-        <span class="serif" style="font-size:24px;color:#253B59">Dirty Paintbrushes</span>
+        <span class="it" style="font-size:24px;color:#354A89">Dirty Paintbrushes</span>
         <button class="burger" style="display:inline-flex" onClick="{{closeMenu}}" aria-label="Close menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       </div>
       <button class="big" onClick="{{goHome}}">Home</button>
@@ -89,17 +102,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <!-- HOME -->
   <sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
     <main class="fade">
-      <section style="max-width:1200px;margin:0 auto;padding:72px 24px 88px">
-        <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(46px,7vw,96px);line-height:.98;letter-spacing:-.015em;max-width:1000px">Curated intelligence and news tracking art market <span class="hl">financial crime.</span></h1>
-        <div style="display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;margin-top:40px">
+      <section style="max-width:1200px;margin:0 auto;padding:64px 24px 80px">
+        <h1 class="it" style="margin:0;font-size:clamp(64px,10vw,140px);line-height:.92;letter-spacing:-.01em;color:#354A89">Dirty Paintbrushes</h1>
+        <p style="margin:22px 0 0;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(15px,1.5vw,19px);line-height:1.5;color:#253B59;max-width:760px">Curated intelligence and news tracking art market <span class="hl">financial crime.</span></p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px 32px;align-items:center;margin-top:36px">
           <button class="btn" onClick="{{goFeed}}">Explore Feed</button>
-          <button class="arrow" onClick="{{goSources}}">Browse Sources <span aria-hidden="true">→</span></button>
+          <button class="link it" onClick="{{goSources}}" style="font-size:22px;color:#354A89;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px">Browse Sources</button>
         </div>
       </section>
 
       <section style="max-width:1200px;margin:0 auto;padding:0 24px 96px">
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px">
-          <h2 class="serif" style="margin:0;font-weight:400;font-size:44px;line-height:1.05">Latest Intelligence</h2>
+          <h2 class="head" style="margin:0;font-size:40px;line-height:1.05">Latest Intelligence</h2>
           <div role="group" aria-label="Filter by typology" style="display:flex;flex-wrap:wrap;gap:0 18px">
             <sc-for list="{{homeTyps}}" as="t" hint-placeholder-count="5"><button class="pick" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
           </div>
@@ -142,7 +156,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <sc-if value="{{isFeed}}" hint-placeholder-val="{{false}}">
     <main class="fade" style="max-width:960px;margin:0 auto;padding:56px 24px 96px">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:32px">
-        <h1 class="serif" style="margin:0;font-weight:400;font-size:clamp(48px,6vw,76px);line-height:1">Latest News</h1>
+        <h1 class="head" style="margin:0;font-size:clamp(38px,4.6vw,54px);line-height:1">Latest News</h1>
         <span class="muted num" style="font-size:14px">{{countLabel}}</span>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">
@@ -186,7 +200,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <main class="fade" style="max-width:760px;margin:0 auto;padding:40px 24px 96px">
       <button class="arrow" onClick="{{goFeed}}" style="color:#5B6B85;margin-bottom:28px"><span aria-hidden="true">←</span> Back to feed</button>
       <p class="muted" style="margin:0 0 14px;font-size:14px"><sc-for list="{{cur.tags}}" as="g" hint-placeholder-count="1"><span style="margin-right:14px"><i class="dot" style="background:{{g.color}}"></i>{{g.label}}</span></sc-for></p>
-      <h1 class="serif" style="margin:0 0 18px;font-weight:400;font-size:clamp(38px,5vw,60px);line-height:1.04">{{cur.title}}</h1>
+      <h1 class="it" style="margin:0 0 18px;font-size:clamp(40px,5vw,62px);line-height:1.04;color:#354A89">{{cur.title}}</h1>
       <p class="muted" style="margin:0 0 36px;font-size:15px">{{cur.source}} · {{cur.date}} · {{cur.type}}</p>
       <p style="margin:0 0 40px;font-size:20px;line-height:1.75;color:#24324D">{{cur.summary}}</p>
       <sc-if value="{{cur.note}}" hint-placeholder-val="{{false}}">
@@ -200,7 +214,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <button class="arrow" onClick="{{cur.toggle}}" aria-pressed="{{cur.savedStr}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="{{cur.fill}}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"></path></svg>{{cur.saveLabel}}</button>
       </div>
       <section aria-labelledby="ch">
-        <h2 id="ch" class="serif" style="margin:0 0 8px;font-weight:400;font-size:34px">Comments</h2>
+        <h2 id="ch" class="head" style="margin:0 0 8px;font-size:34px">Comments</h2>
         <p class="muted" style="margin:0 0 24px;font-size:14px;max-width:560px">Comments reflect individual views and do not constitute verified intelligence. New comments are reviewed before they appear publicly.</p>
         <form style="display:flex;flex-direction:column;gap:10px">
           <label for="dn" style="font-size:14px;font-weight:500">Display name</label>
@@ -216,7 +230,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <!-- SOURCES -->
   <sc-if value="{{isSources}}" hint-placeholder-val="{{false}}">
     <main class="fade" style="max-width:960px;margin:0 auto;padding:56px 24px 96px">
-      <h1 class="serif" style="margin:0 0 28px;font-weight:400;font-size:clamp(48px,6vw,76px);line-height:1">How we source and filter</h1>
+      <h1 class="head" style="margin:0 0 28px;font-size:clamp(38px,4.6vw,54px);line-height:1">How we source and filter</h1>
       <p style="margin:0 0 56px;font-size:18px;line-height:1.75;color:#33415C">Dirty Paintbrushes aggregates articles from approximately 30 curated RSS feeds across five editorial tiers: Investigative &amp; Research, Art Industry, News &amp; Investigations, Legal &amp; Regulatory, and Google Alerts. The feed refreshes daily. Each article is filtered through a relevance classifier to identify coverage of financial crime in the art market: fraud, money laundering, sanctions evasion, terrorist financing, antiquities trafficking, and regulatory enforcement. <span class="hl" style="color:#101828">Articles are then manually reviewed before publication.</span> This approach prioritises precision over volume: we reject a high proportion of submissions to maintain editorial quality and avoid signal loss in noise.</p>
       <div role="group" aria-label="Editorial tier" style="display:flex;flex-wrap:wrap;gap:0 24px;margin-bottom:28px">
         <sc-for list="{{tiers}}" as="t" hint-placeholder-count="5"><button class="pick" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="font-size:17px">{{t.label}}<span class="n">{{t.n}}</span></button></sc-for>
@@ -232,7 +246,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <!-- ABOUT -->
   <sc-if value="{{isAbout}}" hint-placeholder-val="{{false}}">
     <main class="fade" style="max-width:720px;margin:0 auto;padding:64px 24px 96px">
-      <h1 class="serif" style="margin:0 0 20px;font-weight:400;font-size:clamp(48px,6vw,76px);line-height:1">Why Dirty Paintbrushes?</h1>
+      <h1 class="head" style="margin:0 0 20px;font-size:clamp(38px,4.6vw,54px);line-height:1">Why Dirty Paintbrushes?</h1>
       <p class="serif" style="margin:0 0 48px;font-style:italic;font-size:24px;line-height:1.3;color:#354A89">Named after the research paper “Dirty Paintbrushes: The Use of the Art Market in Financing Terrorist Activity”, Georgetown University.</p>
       <div style="font-size:18px;line-height:1.8;color:#24324D;display:flex;flex-direction:column;gap:24px">
         <p style="margin:0">The art market is a sector that has long been overlooked from a regulatory perspective. It is <span class="hl" style="color:#101828">highly opaque and inherently cross-border</span>, which makes it particularly vulnerable to fraud, tax evasion, sanctions circumvention, and in some cases, the financing of criminal networks.</p>
@@ -244,7 +258,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
       <p style="margin:32px 0 0"><a href="https://www.linkedin.com/in/astrid-de-rohan-willner/" style="font-size:16px;font-weight:500;text-underline-offset:5px">Astrid de Rohan Willner</a></p>
       <section aria-labelledby="fh" style="margin-top:72px">
-        <h2 id="fh" class="serif" style="margin:0 0 6px;font-weight:400;font-size:34px">Have feedback?</h2>
+        <h2 id="fh" class="head" style="margin:0 0 6px;font-size:34px">Have feedback?</h2>
         <p class="muted" style="margin:0 0 18px;font-size:15px">Submit anonymously. No name or account required.</p>
         <label for="fb" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feedback message</label>
         <textarea id="fb" class="area" rows="4" placeholder="Share your thoughts..."></textarea>
@@ -256,7 +270,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <!-- NEWSLETTER -->
   <sc-if value="{{isNews}}" hint-placeholder-val="{{false}}">
     <main class="fade" style="max-width:720px;margin:0 auto;padding:88px 24px 120px">
-      <h1 class="serif" style="margin:0 0 24px;font-weight:400;font-size:clamp(52px,7vw,88px);line-height:.98">Monthly digest</h1>
+      <h1 class="head" style="margin:0 0 24px;font-size:clamp(40px,5vw,60px);line-height:.98">Monthly digest</h1>
       <p style="margin:0 0 12px;font-size:20px;line-height:1.65;color:#24324D">Once a month, a roundup of what mattered in art market financial crime, grouped by case type, <span class="hl" style="color:#101828">reviewed by hand before it goes out.</span></p>
       <p class="muted" style="margin:0 0 36px;font-size:15px">No spam, unsubscribe any time.</p>
       <sc-if value="{{notSubbed}}" hint-placeholder-val="{{true}}">
@@ -274,7 +288,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <!-- SAVED -->
   <sc-if value="{{isSaved}}" hint-placeholder-val="{{false}}">
     <main class="fade" style="max-width:960px;margin:0 auto;padding:56px 24px 96px">
-      <h1 class="serif" style="margin:0 0 14px;font-weight:400;font-size:clamp(48px,6vw,76px);line-height:1">Saved Articles</h1>
+      <h1 class="head" style="margin:0 0 14px;font-size:clamp(38px,4.6vw,54px);line-height:1">Saved Articles</h1>
       <p class="muted" style="margin:0 0 40px;font-size:17px">Your bookmarked articles for easy reference. <a href="Login.dc.html">Log in</a> to sync them across devices.</p>
       <sc-if value="{{hasSaved}}" hint-placeholder-val="{{true}}">
         <sc-for list="{{savedItems}}" as="a" hint-placeholder-count="3">
@@ -290,7 +304,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </sc-if>
       <sc-if value="{{noSaved}}" hint-placeholder-val="{{false}}">
         <div style="padding:48px 0">
-          <h2 class="serif" style="margin:0 0 10px;font-weight:400;font-size:34px">No saved articles yet</h2>
+          <h2 class="head" style="margin:0 0 10px;font-size:34px">No saved articles yet</h2>
           <p class="muted" style="margin:0 0 24px;max-width:440px">Browse the feed and click the bookmark icon on any article to save it here for later.</p>
           <button class="btn" onClick="{{goFeed}}">Browse the feed</button>
         </div>
@@ -298,14 +312,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </main>
   </sc-if>
 
+  <div aria-hidden="true" style="overflow:hidden;padding:10px 0;background:#F7F9FC">
+    <div class="mq it" style="font-size:20px;color:#354A89;white-space:nowrap"><span style="padding-right:8px">Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * </span><span style="padding-right:8px">Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * Monthly Digest * Stay Briefed * </span></div>
+  </div>
   <sc-if value="{{showBand}}" hint-placeholder-val="{{true}}">
     <section class="dark" style="background:#354A89;color:#FFFFFF">
-      <div style="max-width:1200px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center;justify-content:space-between">
-        <h2 class="serif" style="margin:0;font-weight:400;font-size:clamp(34px,4vw,48px);line-height:1.05">Stay briefed. <span style="color:#CFE6F0">The monthly digest.</span></h2>
+      <div style="max-width:1200px;margin:0 auto;padding:48px 24px;display:flex;flex-wrap:wrap;gap:24px 48px;align-items:flex-end;justify-content:space-between">
+        <div><p class="ns" style="margin:0 0 6px;font-size:12px;letter-spacing:.06em;color:#CFE6F0">Monthly digest</p><h2 class="it" style="margin:0;font-size:clamp(36px,4vw,48px);line-height:1">Stay briefed</h2></div>
         <form style="flex:0 1 460px;display:flex;flex-wrap:wrap;gap:8px">
           <label for="nl" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
-          <input id="nl" type="email" placeholder="Email address" style="flex:1 1 220px;min-height:50px;border:0;border-radius:25px;background:rgba(255,255,255,.14);color:#fff;padding:0 18px;font-size:16px;font-family:inherit">
-          <button type="button" class="btn" style="background:#FFFFFF;color:#253B59">Subscribe</button>
+          <input id="nl" type="email" placeholder="you@example.com" style="flex:1 1 220px;min-height:48px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:0 16px;font-size:16px;font-family:inherit">
+          <button type="button" class="btn" style="background:#FFFFFF;color:#354A89">Subscribe</button>
         </form>
       </div>
     </section>
@@ -313,7 +330,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <footer class="dark" style="background:#1E2C4F;color:#C9D5E8">
     <div style="max-width:1200px;margin:0 auto;padding:48px 24px 36px">
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;margin-bottom:32px">
-        <div style="display:flex;align-items:center;gap:10px"><img src="/_blob/88e5264076e934f87d8ad32b73e2ccb0" alt="" style="height:26px;width:auto"><span class="serif" style="font-size:22px;color:#FFFFFF">Dirty Paintbrushes</span></div>
+        <div style="display:flex;align-items:center;gap:10px"><img src="/_blob/88e5264076e934f87d8ad32b73e2ccb0" alt="" style="height:26px;width:auto"><span class="it" style="font-size:22px;color:#FFFFFF">Dirty Paintbrushes</span></div>
         <div style="display:flex;flex-wrap:wrap;gap:4px 26px;font-size:14px">
           <sc-for list="{{nav}}" as="n" hint-placeholder-count="5"><button class="link" onClick="{{n.go}}" style="color:#C9D5E8;padding:6px 0">{{n.label}}</button></sc-for>
           <a href="#" style="color:#C9D5E8;text-decoration:none;padding:6px 0">Privacy</a>
@@ -329,12 +346,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"page":{"editor":"enum","options":["home","feed","article","sources","about","newsletter","saved"],"default":"home"},"$preview":{"width":390,"height":2700}}'>
+<script type="text/x-dc" data-dc-script data-props='{"page":{"editor":"enum","options":["home","feed","article","sources","about","newsletter","saved"],"default":"article"},"$preview":{"width":390,"height":2800}}'>
 class Component extends DCLogic {
-  constructor(p){ super(p); this.state = { page: null, art: 'a1', query: '', typ: '', homeTyp: '', types: [], saved: ['a3', 'a5'], open: '', menu: false, tier: 0, subbed: false }; }
+  constructor(p){ super(p); this.state = { page: 'article', art: 'a1', query: '', typ: '', homeTyp: '', types: [], saved: ['a3', 'a5'], open: '', menu: false, tier: 0, subbed: false }; }
   renderVals() {
     const s = this.state;
-    const page = s.page || this.props.page || 'article';
+    const page = s.page || this.props.page || 'home';
     const go = (p, extra) => () => this.setState(Object.assign({ page: p, menu: false }, extra || {}));
     const COL = { fraud: '#9DB7DF', money_laundering: '#354A89', sanctions_evasion: '#5E7FC0', terror_financing: '#1E2C4F', other: '#B8C6DC' };
     const L = { fraud: 'Fraud', money_laundering: 'Money laundering', sanctions_evasion: 'Sanctions', terror_financing: 'Terror financing', forgery: 'Forgery', looting: 'Looting', tax_evasion: 'Tax evasion' };
@@ -389,7 +406,7 @@ class Component extends DCLogic {
     return {
       nav, isHome: page === 'home', isFeed: page === 'feed', isArticle: page === 'article', isSources: page === 'sources', isAbout: page === 'about', isNews: page === 'newsletter', isSaved: page === 'saved',
       showBand: page !== 'newsletter', goHome: go('home'), goFeed: go('feed'), goSources: go('sources'),
-      homeTyps, homeLead: hl[0] || null, homeRest: hl.slice(1, 4), brief: A.slice(4, 9).map(enrich),
+      homeTyps, ticker: A.slice(0, 6).map(enrich), homeLead: hl[0] || null, homeRest: hl.slice(1, 4), brief: A.slice(4, 9).map(enrich),
       query: s.query, onQuery: (e) => this.setState({ query: e.target.value }), typs, types, items, none: n === 0,
       clear: () => this.setState({ query: '', typ: '', types: [] }), countLabel: n + (n === 1 ? ' article' : ' articles'),
       cur, tiers, tierSources: T[s.tier][1],

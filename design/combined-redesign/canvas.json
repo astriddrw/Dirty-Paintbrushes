@@ -152,7 +152,7 @@
   },
   "Login.dc.html": {
    "x": 0,
-   "y": 13680,
+   "y": 7240,
    "w": 1440,
    "h": 1600,
    "title": "Login",
@@ -162,7 +162,7 @@
   },
   "NotFound.dc.html": {
    "x": 1520,
-   "y": 13680,
+   "y": 7240,
    "w": 1440,
    "h": 1300,
    "title": "404",
@@ -222,7 +222,7 @@
   },
   "Login-mobile.dc.html": {
    "x": 3040,
-   "y": 13680,
+   "y": 7240,
    "w": 390,
    "h": 1600,
    "title": "Login \u00b7 mobile",
@@ -232,7 +232,7 @@
   },
   "NotFound-mobile.dc.html": {
    "x": 3510,
-   "y": 13680,
+   "y": 7240,
    "w": 390,
    "h": 1400,
    "title": "404 \u00b7 mobile",
@@ -244,7 +244,7 @@
    "x": 0,
    "y": 0,
    "w": 1440,
-   "h": 2300,
+   "h": 2500,
    "title": "A \u00b7 Home",
    "expand": "fill",
    "is_interactive": true,
@@ -252,9 +252,9 @@
   },
   "A-home-m.dc.html": {
    "x": 0,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 3600,
+   "h": 3700,
    "title": "A \u00b7 Home \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -264,7 +264,7 @@
    "x": 1520,
    "y": 0,
    "w": 1440,
-   "h": 2100,
+   "h": 2300,
    "title": "A \u00b7 Feed",
    "expand": "fill",
    "is_interactive": true,
@@ -272,9 +272,9 @@
   },
   "A-feed-m.dc.html": {
    "x": 470,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 3400,
+   "h": 3500,
    "title": "A \u00b7 Feed \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -284,7 +284,7 @@
    "x": 3040,
    "y": 0,
    "w": 1440,
-   "h": 1900,
+   "h": 2000,
    "title": "A \u00b7 Article",
    "expand": "fill",
    "is_interactive": true,
@@ -292,9 +292,9 @@
   },
   "A-article-m.dc.html": {
    "x": 940,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 2700,
+   "h": 2800,
    "title": "A \u00b7 Article \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -304,7 +304,7 @@
    "x": 4560,
    "y": 0,
    "w": 1440,
-   "h": 1500,
+   "h": 1700,
    "title": "A \u00b7 Sources",
    "expand": "fill",
    "is_interactive": true,
@@ -312,9 +312,9 @@
   },
   "A-sources-m.dc.html": {
    "x": 1410,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 2600,
+   "h": 2700,
    "title": "A \u00b7 Sources \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -324,7 +324,7 @@
    "x": 6080,
    "y": 0,
    "w": 1440,
-   "h": 2300,
+   "h": 2500,
    "title": "A \u00b7 About",
    "expand": "fill",
    "is_interactive": true,
@@ -332,9 +332,9 @@
   },
   "A-about-m.dc.html": {
    "x": 1880,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 3700,
+   "h": 3800,
    "title": "A \u00b7 About \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -344,7 +344,7 @@
    "x": 7600,
    "y": 0,
    "w": 1440,
-   "h": 1200,
+   "h": 1400,
    "title": "A \u00b7 Newsletter",
    "expand": "fill",
    "is_interactive": true,
@@ -352,9 +352,9 @@
   },
   "A-newsletter-m.dc.html": {
    "x": 2350,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 1500,
+   "h": 1700,
    "title": "A \u00b7 Newsletter \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -364,7 +364,7 @@
    "x": 9120,
    "y": 0,
    "w": 1440,
-   "h": 1300,
+   "h": 1500,
    "title": "A \u00b7 Saved",
    "expand": "fill",
    "is_interactive": true,
@@ -372,9 +372,9 @@
   },
   "A-saved-m.dc.html": {
    "x": 2820,
-   "y": 2720,
+   "y": 2920,
    "w": 390,
-   "h": 1800,
+   "h": 1900,
    "title": "A \u00b7 Saved \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
@@ -382,143 +382,143 @@
   },
   "B.dc.html": {
    "x": 0,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 2300,
    "title": "B \u00b7 Home",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-home-m.dc.html": {
    "x": 0,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 3600,
    "title": "B \u00b7 Home \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-feed.dc.html": {
    "x": 1520,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 2000,
    "title": "B \u00b7 Feed",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-feed-m.dc.html": {
    "x": 470,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 3400,
    "title": "B \u00b7 Feed \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-article.dc.html": {
    "x": 3040,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 1900,
    "title": "B \u00b7 Article",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-article-m.dc.html": {
    "x": 940,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 2700,
    "title": "B \u00b7 Article \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-sources.dc.html": {
    "x": 4560,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 1500,
    "title": "B \u00b7 Sources",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-sources-m.dc.html": {
    "x": 1410,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 2600,
    "title": "B \u00b7 Sources \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-about.dc.html": {
    "x": 6080,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 1900,
    "title": "B \u00b7 About",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-about-m.dc.html": {
    "x": 1880,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 3700,
    "title": "B \u00b7 About \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-newsletter.dc.html": {
    "x": 7600,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 1200,
    "title": "B \u00b7 Newsletter",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-newsletter-m.dc.html": {
    "x": 2350,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 1500,
    "title": "B \u00b7 Newsletter \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   },
   "B-saved.dc.html": {
    "x": 9120,
-   "y": 6840,
+   "y": 28840,
    "w": 1440,
    "h": 1200,
    "title": "B \u00b7 Saved",
    "expand": "fill",
    "is_interactive": true,
-   "page": "r4"
+   "page": "r3"
   },
   "B-saved-m.dc.html": {
    "x": 2820,
-   "y": 9560,
+   "y": 31560,
    "w": 390,
    "h": 1800,
    "title": "B \u00b7 Saved \u00b7 mobile",
    "is_interactive": true,
    "radius": 28,
-   "page": "r4"
+   "page": "r3"
   }
  },
  "order": [
@@ -635,14 +635,14 @@
   "tA": {
    "x": 0,
    "y": -300,
-   "text": "Rendition A \u00b7 Light: desktop",
+   "text": "Rendition A: desktop (each artboard opens on its own page)",
    "kind": "title1",
    "maxW": 10560,
    "page": "r4"
   },
   "tAm": {
    "x": 0,
-   "y": 2420,
+   "y": 2620,
    "text": "Rendition A \u00b7 Light: phone",
    "kind": "title1",
    "maxW": 3200,
@@ -650,23 +650,23 @@
   },
   "tB": {
    "x": 0,
-   "y": 6540,
+   "y": 28540,
    "text": "Rendition B \u00b7 Night: desktop",
    "kind": "title1",
    "maxW": 10560,
-   "page": "r4"
+   "page": "r3"
   },
   "tBm": {
    "x": 0,
-   "y": 9260,
+   "y": 31260,
    "text": "Rendition B \u00b7 Night: phone",
    "kind": "title1",
    "maxW": 3200,
-   "page": "r4"
+   "page": "r3"
   },
   "tK": {
    "x": 0,
-   "y": 13380,
+   "y": 6940,
    "text": "Kept as they were: Login and 404",
    "kind": "title1",
    "maxW": 3900,
@@ -679,7 +679,7 @@
    "fill": "blue",
    "size": "m",
    "page": "r4",
-   "text": "ROUND 4\n\nTwo renditions in blue only: no yellow, no brown, no stamps, no outlined boxes or decorative rules, no typewriter font.\n\nThe investigation feel comes from the blue highlighter: it sweeps across key phrases, marks the active filter and lights up search matches.\n\nEach rendition is one prototype: press Play on any artboard and the nav moves between pages. Photos: only the paintbrush pot as a small logo, and the archive box on Login.\n\nHeadlines and dates are placeholder samples."
+   "text": "ROUND 5 (white rendition)\n\n- Your original fonts: Instrument Serif italic for the name and every headline, Noto Sans light uppercase for the nav and buttons, Arial for headings and body. No typewriter font.\n- The running banners are back: latest headlines scroll across the top; Monthly Digest * Stay Briefed runs above the footer.\n- Blue palette only, no stamps, no outlined boxes.\n- Each artboard now opens on its own page. Press Play to click through.\n\nRendition B (dark) moved to Earlier rounds.\nHeadlines and dates are placeholder samples."
   }
  },
  "designSystems": []
